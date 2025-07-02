@@ -56,17 +56,32 @@ int main()
                             break;
                         }
                     }
+
+                    bool todosIguales = true;
+                    for (int i = 1; i < identification.length(); i++)
+                    {
+                        if (identification[i] != identification[0])
+                        {
+                            todosIguales = false;
+                            break;
+                        }
+                    }
+                    if (todosIguales)
+                    {
+                        verification = false;
+                    }
                 }
+
                 if (!verification)
                 {
-                    cout << "Error: debe ingresar exactamente 10 números." << endl;
+                    cout << "Error: debe ingresar 10 números y que no se repitan." << endl;
                 }
             }
             while (!verification);
 
             cin.ignore();
 
-            // Nombre completo
+            // Nombre completo.
 
             string completeName;
 
@@ -108,21 +123,61 @@ int main()
             cout << "- Distrito:";
             getline(cin,distrite);
 
-//Edad
+            // Edad.
+
             int age;
-            do{
-            verification = true;
-            cout << "Ingrese la edad (18-100):";
-            cin >> age;
+            do
+            {
+                verification = true;
+                cout << "Ingrese la edad (18-100):";
+                cin >> age;
+
+                if (cin.fail())
+                {
+                    cin.clear();
+                    cin.ignore();
+                    cout << "Error: debe ingresar un número válido." << endl;
+                    verification = false;
+                }
 
                 if(age < 18 || age > 100)
                 {
-                    cout << "Error: la edad debe estar dentro del rango (18-100). Vuelva a intentarlo.";
+                    cout << "Error: la edad debe estar dentro del rango (18-100). Vuelva a intentarlo." << endl;
                     verification = false;
                 }
 
             }
             while(age < 18 || age > 100);
+
+            // Género.
+
+            int select;
+
+            cout << "Seleccione un género:" << endl;
+            cout << "1. Masculino:" << endl;
+            cout << "2. Femenino:" << endl;
+            cout << "3. Otro:" << endl;
+            cin >> select;
+
+            cout << "Género seleccionado: "<< endl;
+
+            switch (select)
+            {
+            case 1:
+                cout << "Masculino" << endl;
+                break;
+            case 2:
+                cout << "Femenino" << endl;
+                break;
+            case 3:
+                cout << "Otro" << endl;
+                break;
+            default:
+                cout << "Opción inválida" << endl;
+                break;
+            }
+
+            cout << "Estudiante registrado con éxito en " "ESTUDIANTES.txt" << endl;
 
             getch();
             cout << endl;
