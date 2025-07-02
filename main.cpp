@@ -1,12 +1,36 @@
 #include <iostream>
+#include <vector>
 #include <string>
 #include <conio.h>
 
 using namespace std;
 
+// Función
+
+struct Student
+{
+    string identification;
+    string completeName;
+    string province;
+    string canton;
+    string distrite;
+    int age;
+    int select;
+};
+
+// Función de estudiantes.
+
+void RegistrarEstudiante (vector<Student>&student);
+void IngresarCalificaciones (vector<Student>&student);
+void ModificardatosEstudiante (vector<Student>&student);
+void modificarregistroEstudiante (vector<Student>&student);
+void EliminarRegistroEstudiante (vector<Student>&student);
+void ReporteEstudiante (vector<Student>&student);
+
 int main()
 {
     setlocale(LC_CTYPE,"Spanish"); //Idioma y carácteres especiales.
+    vector <Student>student;
     int option;
     do
     {
@@ -31,166 +55,10 @@ int main()
         {
         case 1:
         {
-            cout << "Registrar estudiante."<< endl;
+            // Registrar función.
 
-            // Indentificación.
-
-            string identification;
-            bool verification;
-            do
-            {
-                verification = true;
-                cout << "Ingrese la identificación del estudiante (10 dígitos):";
-                cin >> identification;
-                if (identification.length() != 10)
-                {
-                    verification = false;
-                }
-                else
-                {
-                    for (int i = 0; i < identification.length(); i++)
-                    {
-                        if (identification[i] < '0' || identification[i] > '9')
-                        {
-                            verification = false;
-                            break;
-                        }
-                    }
-
-                    bool todosIguales = true;
-                    for (int i = 1; i < identification.length(); i++)
-                    {
-                        if (identification[i] != identification[0])
-                        {
-                            todosIguales = false;
-                            break;
-                        }
-                    }
-                    if (todosIguales)
-                    {
-                        verification = false;
-                    }
-                }
-
-                if (!verification)
-                {
-                    cout << "Error: debe ingresar 10 números y que no se repitan." << endl;
-                }
-            }
-            while (!verification);
-
-            cin.ignore();
-            getch();
-            cout << endl;
-
-            // Nombre completo.
-
-            string completeName;
-
-            do
-            {
-                verification = true;
-                cout << "Ingrese el nombre completo (nombre y apellidos):";
-                getline (cin,completeName);
-
-                for (int i = 0; i < completeName.length(); i++)
-                {
-                    if (!((completeName[i] >= 'A' && completeName[i] <= 'Z') ||(completeName[i] >= 'a' && completeName[i] <= 'z') || completeName[i] == ' '))
-                    {
-                        verification = false;
-                        break;
-                    }
-                }
-
-                if (!verification || completeName.length() == 0)
-                {
-                    cout << "Error: solo debe ingresar letras y espacios." << endl;
-                }
-
-            }
-            while (!verification || completeName.length() == 0);
-            getch();
-            cout << endl;
-
-            // Residencia.
-            string province;
-            string canton;
-            string distrite;
-
-            cout << "Ingrese el lugar de residencia" << endl;
-            cout << "- Provincia:";
-            getline(cin,province);
-
-            cout << "- Cantón:";
-            getline(cin,canton);
-
-            cout << "- Distrito:";
-            getline(cin,distrite);
-            getch();
-            cout << endl;
-
-            // Edad.
-
-            int age;
-            do
-            {
-                verification = true;
-                cout << "Ingrese la edad (18-100):";
-                cin >> age;
-
-                if (cin.fail())
-                {
-                    cin.clear();
-                    cin.ignore();
-                    cout << "Error: debe ingresar un número válido." << endl;
-                    verification = false;
-                }
-
-                if(age < 18 || age > 100)
-                {
-                    cout << "Error: la edad debe estar dentro del rango (18-100). Vuelva a intentarlo." << endl;
-                    verification = false;
-                }
-
-            }
-            while(age < 18 || age > 100);
-            getch();
-            cout << endl;
-
-            // Género.
-
-            int select;
-
-            cout << "Seleccione un género:" << endl;
-            cout << "1. Masculino:" << endl;
-            cout << "2. Femenino:" << endl;
-            cout << "3. Otro:" << endl;
-            cin >> select;
-
-            cout << "Género seleccionado: "<< endl;
-
-            switch (select)
-            {
-            case 1:
-                cout << "Masculino" << endl;
-                break;
-            case 2:
-                cout << "Femenino" << endl;
-                break;
-            case 3:
-                cout << "Otro" << endl;
-                break;
-            default:
-                cout << "Opción inválida" << endl;
-                break;
-            }
-
-            cout << "Estudiante registrado con éxito en " "ESTUDIANTES.txt" << endl;
-
-            getch();
-            cout << endl;
+            RegistrarEstudiante(student);
             break;
-        }
 
         case 2:
         {
@@ -239,6 +107,150 @@ int main()
 
         }
     }
-    while(option != 7);
+    }while(option != 7);
     return 0;
+
+}
+
+// Función Registrar Estudiante.
+void RegistrarEstudiante(vector<Student>& student)
+{
+    cout << "Registrar estudiante." << endl;
+
+    Student add;
+
+    // Identificación
+    bool verification;
+    do
+    {
+        verification = true;
+        cout << "Ingrese la identificación del estudiante (10 dígitos): ";
+        cin >> add.identification;
+
+        if (add.identification.length() != 10)
+        {
+            verification = false;
+        }
+        else
+        {
+            for (int i = 0; i < add.identification.length(); i++)
+            {
+                if (add.identification[i] < '0' || add.identification[i] > '9')
+                {
+                    verification = false;
+                    break;
+                }
+            }
+
+            bool todosIguales = true;
+            for (int i = 1; i < add.identification.length(); i++)
+            {
+                if (add.identification[i] != add.identification[0])
+                {
+                    todosIguales = false;
+                    break;
+                }
+            }
+            if (todosIguales)
+            {
+                verification = false;
+            }
+        }
+
+        if (!verification)
+        {
+            cout << "Error: debe ingresar 10 números y que no se repitan." << endl;
+        }
+
+    } while (!verification);
+
+    cin.ignore();
+    getch();
+    cout << endl;
+
+    // Nombre completo
+    do
+    {
+        verification = true;
+        cout << "Ingrese el nombre completo (nombre y apellidos): ";
+        getline(cin, add.completeName);
+
+        for (int i = 0; i < add.completeName.length(); i++)
+        {
+            if (!isalpha(add.completeName[i]) && add.completeName[i] != ' ')
+            {
+                verification = false;
+                break;
+            }
+        }
+
+        if (!verification || add.completeName.length() == 0)
+        {
+            cout << "Error: solo debe ingresar letras y espacios." << endl;
+        }
+
+    } while (!verification || add.completeName.length() == 0);
+
+    getch();
+    cout << endl;
+
+    // Residencia
+    cout << "Ingrese el lugar de residencia" << endl;
+    cout << "- Provincia: ";
+    getline(cin, add.province);
+    cout << "- Cantón: ";
+    getline(cin, add.canton);
+    cout << "- Distrito: ";
+    getline(cin, add.distrite);
+
+    getch();
+    cout << endl;
+
+    // Edad
+    do
+    {
+        verification = true;
+        cout << "Ingrese la edad (18-100): ";
+        cin >> add.age;
+
+        if (cin.fail())
+        {
+            cin.clear();
+            cin.ignore();
+            cout << "Error: debe ingresar un número válido." << endl;
+            verification = false;
+        }
+
+        if (add.age < 18 || add.age > 100)
+        {
+            cout << "Error: la edad debe estar dentro del rango (18-100)." << endl;
+            verification = false;
+        }
+
+    } while (!verification || add.age < 18 || add.age > 100);
+
+    getch();
+    cout << endl;
+
+    // Género
+    cout << "Seleccione un género:" << endl;
+    cout << "1. Masculino" << endl;
+    cout << "2. Femenino" << endl;
+    cout << "3. Otro" << endl;
+    cin >> add.select;
+
+    cout << "Género seleccionado: ";
+    switch (add.select)
+    {
+    case 1: cout << "Masculino" << endl; break;
+    case 2: cout << "Femenino" << endl; break;
+    case 3: cout << "Otro" << endl; break;
+    default: cout << "Opción inválida" << endl; break;
+    }
+
+    student.push_back(add);
+
+    cout << "Estudiante registrado con éxito en ESTUDIANTES.txt" << endl;
+    getch();
+    cout << endl;
 }
