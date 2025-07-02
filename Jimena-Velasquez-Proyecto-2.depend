@@ -1,5 +1,6 @@
 # depslib dependency file v1.0
-1751394473 source:c:\gitjvg\jimena-velasquez-proyecto-2\main.cpp
+1751426085 source:c:\gitjvg\jimena-velasquez-proyecto-2\main.cpp
 	<iostream>
+	<string>
 	<conio.h>
 

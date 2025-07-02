@@ -1,4 +1,5 @@
 #include <iostream>
+#include <string>
 #include <conio.h>
 
 using namespace std;
@@ -24,17 +25,110 @@ int main()
             cin.clear();
             while (cin.get() != '\n');
         }
-            cout << endl;
+        cout << endl;
 
         switch(option)
         {
         case 1:
         {
             cout << "Registrar estudiante."<< endl;
+
+            // Indentificación.
+
+            string identification;
+            bool verification;
+            do
+            {
+                verification = true;
+                cout << "Ingrese la identificación del estudiante (10 dígitos):";
+                cin >> identification;
+                if (identification.length() != 10)
+                {
+                    verification = false;
+                }
+                else
+                {
+                    for (int i = 0; i < identification.length(); i++)
+                    {
+                        if (identification[i] < '0' || identification[i] > '9')
+                        {
+                            verification = false;
+                            break;
+                        }
+                    }
+                }
+                if (!verification)
+                {
+                    cout << "Error: debe ingresar exactamente 10 números." << endl;
+                }
+            }
+            while (!verification);
+
+            cin.ignore();
+
+            // Nombre completo
+
+            string completeName;
+
+            do
+            {
+                verification = true;
+                cout << "Ingrese el nombre completo (nombre y apellidos):";
+                getline (cin,completeName);
+
+                for (int i = 0; i < completeName.length(); i++)
+                {
+                    if (!((completeName[i] >= 'A' && completeName[i] <= 'Z') ||(completeName[i] >= 'a' && completeName[i] <= 'z') || completeName[i] == ' '))
+                    {
+                        verification = false;
+                        break;
+                    }
+                }
+
+                if (!verification || completeName.length() == 0)
+                {
+                    cout << "Error: solo debe ingresar letras y espacios." << endl;
+                }
+
+            }
+            while (!verification || completeName.length() == 0);
+
+            // Residencia.
+            string province;
+            string canton;
+            string distrite;
+
+            cout << "Ingrese el lugar de residencia" << endl;
+            cout << "- Provincia:";
+            getline(cin,province);
+
+            cout << "- Cantón:";
+            getline(cin,canton);
+
+            cout << "- Distrito:";
+            getline(cin,distrite);
+
+//Edad
+            int age;
+            do{
+            verification = true;
+            cout << "Ingrese la edad (18-100):";
+            cin >> age;
+
+                if(age < 18 || age > 100)
+                {
+                    cout << "Error: la edad debe estar dentro del rango (18-100). Vuelva a intentarlo.";
+                    verification = false;
+                }
+
+            }
+            while(age < 18 || age > 100);
+
             getch();
             cout << endl;
             break;
         }
+
         case 2:
         {
             cout << "Ingresar calificaciones en distintas materias." << endl;
