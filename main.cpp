@@ -247,7 +247,8 @@ void RegistrarEstudiante(vector<Student>& student)
     case 1: cout << "Masculino" << endl; break;
     case 2: cout << "Femenino" << endl; break;
     case 3: cout << "Otro" << endl; break;
-    default: cout << "Opción inválida" << endl; break;
+    default: cout << "Opción inválida" << endl;
+    break;
     }
 
     student.push_back(add);
