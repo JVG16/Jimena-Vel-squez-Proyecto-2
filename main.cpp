@@ -1,6 +1,7 @@
 #include <iostream>
-#include <vector>
+#include <vector> // Funciones.
 #include <string>
+#include <fstream> // Archivos.
 #include <conio.h>
 
 using namespace std;
@@ -113,6 +114,7 @@ int main()
 }
 
 // Función Registrar Estudiante.
+
 void RegistrarEstudiante(vector<Student>& student)
 {
     cout << "Registrar estudiante." << endl;
@@ -195,7 +197,7 @@ void RegistrarEstudiante(vector<Student>& student)
     cout << endl;
 
     // Residencia
-    cout << "Ingrese el lugar de residencia" << endl;
+    cout << "Ingrese el lugar de residencia:" << endl;
     cout << "- Provincia: ";
     getline(cin, add.province);
     cout << "- Cantón: ";
@@ -250,7 +252,30 @@ void RegistrarEstudiante(vector<Student>& student)
 
     student.push_back(add);
 
-    cout << "Estudiante registrado con éxito en ESTUDIANTES.txt" << endl;
+     // Almacenar el archivo.
+
+    ofstream archivo("ESTUDIANTES.txt", ios::app);
+    if (archivo.is_open()) {
+        archivo << "Identificación: " << add.identification << endl;
+        archivo << "Nombre completo: " << add.completeName << endl;
+        archivo << "Provincia: " << add.province << endl;
+        archivo << "Cantón: " << add.canton << endl;
+        archivo << "Distrito: " << add.distrite << endl;
+        archivo << "Edad: " << add.age << endl;
+        archivo << "Género: ";
+        switch (add.select) {
+            case 1: archivo << "Masculino"; break;
+            case 2: archivo << "Femenino"; break;
+            case 3: archivo << "Otro"; break;
+        }
+        archivo << endl;
+        archivo << "-------------------------------" << endl;
+        archivo.close();
+
+        cout << "Estudiante registrado con éxito en 'ESTUDIANTES.txt'" << endl;
+    } else {
+        cout << "Error al abrir el archivo para guardar el estudiante." << endl;
+    }
     getch();
     cout << endl;
 }

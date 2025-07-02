@@ -1,0 +1,16 @@
+IdentificaciÃ³n: 1234123412
+Nombre completo: Jimena Velasquez
+Provincia: San Jos‚
+CantÃ³n: Escaz£
+Distrito: Centro
+Edad: 20
+GÃ©nero: Otro
+-------------------------------
+Identificación: 1234561234
+Nombre completo: Jimena
+Provincia: San Jos‚
+Cantón: cENTRO
+Distrito: SDSF
+Edad: 20
+Género: Masculino
+-------------------------------
