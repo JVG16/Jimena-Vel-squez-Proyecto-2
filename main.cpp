@@ -80,6 +80,8 @@ int main()
             while (!verification);
 
             cin.ignore();
+            getch();
+            cout << endl;
 
             // Nombre completo.
 
@@ -107,6 +109,8 @@ int main()
 
             }
             while (!verification || completeName.length() == 0);
+            getch();
+            cout << endl;
 
             // Residencia.
             string province;
@@ -122,6 +126,8 @@ int main()
 
             cout << "- Distrito:";
             getline(cin,distrite);
+            getch();
+            cout << endl;
 
             // Edad.
 
@@ -148,6 +154,8 @@ int main()
 
             }
             while(age < 18 || age > 100);
+            getch();
+            cout << endl;
 
             // Género.
 
