@@ -14,3 +14,11 @@ Distrito: SDSF
 Edad: 20
 Género: Masculino
 -------------------------------
+Identificación: 1234512345
+Nombre completo: dndgf
+Provincia: ghfh
+Cantón: fhgjgfjh
+Distrito: jhgfghj
+Edad: 18
+Género: Masculino
+-------------------------------

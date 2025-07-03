@@ -19,19 +19,35 @@ struct Student
     int select;
 };
 
+struct Califications
+{
+    string identification;
+    string subject;
+    float firstProyect;
+    float secondProyect;
+    float ensayo;
+    float foro;
+    float defense;
+};
+
 // Función de estudiantes.
 
 void RegistrarEstudiante (vector<Student>&student);
-void IngresarCalificaciones (vector<Student>&student);
 void ModificardatosEstudiante (vector<Student>&student);
 void modificarregistroEstudiante (vector<Student>&student);
 void EliminarRegistroEstudiante (vector<Student>&student);
 void ReporteEstudiante (vector<Student>&student);
 
+// Función para las calificaciones.
+
+void IngresarCalificaciones (vector<Califications>&califications);
+
+
 int main()
 {
     setlocale(LC_CTYPE,"Spanish"); //Idioma y carácteres especiales.
     vector <Student>student;
+    vector <Califications>califications;
     int option;
     do
     {
@@ -63,9 +79,7 @@ int main()
 
         case 2:
         {
-            cout << "Ingresar calificaciones en distintas materias." << endl;
-            getch();
-            cout << endl;
+            IngresarCalificaciones(califications);
             break;
         }
         case 3:
@@ -280,3 +294,60 @@ void RegistrarEstudiante(vector<Student>& student)
     getch();
     cout << endl;
 }
+
+// Función para las calificaciones.
+
+// Verificar identificación del estudiante.
+
+void IngresarCalificaciones(vector<Califications>& califications)
+{
+    string cedula;
+    char respuesta;
+    bool VoF = false;
+
+    do
+    {
+        cout << "Ingrese la identificación del estudiante (10 dígitos): ";
+        cin >> cedula;
+
+        // Buscar en el archivo ESTUDIANTES.txt
+        ifstream archivo("ESTUDIANTES.txt");
+        string palabra;
+
+        VoF = false;
+        while (archivo >> palabra)
+        {
+            if (palabra == "Identificación:")
+            {
+                archivo >> palabra; // Leer la cédula
+                if (palabra == cedula)
+                {
+                    VoF = true;
+                    break;
+                }
+            }
+        }
+
+        archivo.close();
+
+        if (!VoF)
+        {
+            cout << " Estudiante no registrado";
+            cout << "¿Desea ingresar otra identificación? (S/N): ";
+            cin >> respuesta;
+            respuesta = toupper(respuesta);
+        }
+
+    } while (!VoF && respuesta == 'S');
+
+    if (!VoF)
+    {
+        cout << "Volver al menú principal"<< endl;
+        getch();
+    cout << endl;
+}
+        return;
+
+        // Registro de materias.
+    }
+
