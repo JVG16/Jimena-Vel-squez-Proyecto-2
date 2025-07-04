@@ -360,6 +360,8 @@ void IngresarCalificaciones(vector<Califications>& califications)
                     archivo >> etiqueta; // Lee "completo:"
                     getline(archivo, nombre); // El resto es el nombre
                     cout << "Nombre del estudiante:" << nombre << endl;
+                    getch();
+                    cout << endl;
                     break;
                 }
             }
@@ -509,6 +511,46 @@ void IngresarCalificaciones(vector<Califications>& califications)
             }
         }
         while (reg.foro < 0 || reg.foro > 10);
+
+        // Calcular el promedio y su estado.
+
+        float prom;
+
+        prom= (firstProject + secondProject + ensayo + defense + foro)/ 5.0 ;
+        cout << "Promedio calculado:" << prom << endl;
+
+        if (prom>=7)
+        {
+            cout << "Estado: Aprobado" << endl;
+        }
+        else
+        {
+            cout << "Estado: Reprobado" << endl;
+        }
+
+        // Archivo.
+
+ofstream archivoNotas("CALIFICACIONES.txt", ios::app); // abrís en modo agregar
+
+if (archivoNotas.is_open())
+{
+    archivoNotas << "Identificación: " << reg.identification << endl;
+    archivoNotas << "Materia: " << reg.subject << endl;
+    archivoNotas << "Proyecto 1: " << reg.firstProject << endl;
+    archivoNotas << "Proyecto 2: " << reg.secondProject << endl;
+    archivoNotas << "Ensayo: " << reg.ensayo << endl;
+    archivoNotas << "Defensa: " << reg.defense << endl;
+    archivoNotas << "Foro: " << reg.foro << endl;
+    archivoNotas << "Promedio: " << prom << endl;
+    archivoNotas << "Estado: " << (prom >= 7.0 ? "Aprobado" : "Reprobado") << endl;
+    archivoNotas << "------------------------------------" << endl;
+
+    archivoNotas.close();
+}
+else
+{
+    cout << "Error al abrir el archivo de notas." << endl;
+}
 
     }
 }
