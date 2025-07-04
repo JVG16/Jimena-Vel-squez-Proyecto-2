@@ -10,18 +10,18 @@ using namespace std;
 
 struct Student
 {
-    string identification;
-    string completeName;
+    string id;
+    string fullName;
     string province;
     string canton;
-    string distrite;
+    string district;
     int age;
-    int select;
+    int gender;
 };
 
 struct Califications
 {
-    string identification;
+    string id;
     int cantSubject;
     string subject;
     float firstProject;
@@ -143,17 +143,17 @@ void RegistrarEstudiante(vector<Student>& student)
     {
         verification = true;
         cout << "Ingrese la identificación del estudiante (10 dígitos): ";
-        cin >> add.identification;
+        cin >> add.id;
 
-        if (add.identification.length() != 10)
+        if (add.id.length() != 10)
         {
             verification = false;
         }
         else
         {
-            for (int i = 0; i < add.identification.length(); i++)
+            for (int i = 0; i < add.id.length(); i++)
             {
-                if (add.identification[i] < '0' || add.identification[i] > '9')
+                if (add.id[i] < '0' || add.id[i] > '9')
                 {
                     verification = false;
                     break;
@@ -161,9 +161,9 @@ void RegistrarEstudiante(vector<Student>& student)
             }
 
             bool todosIguales = true;
-            for (int i = 1; i < add.identification.length(); i++)
+            for (int i = 1; i < add.id.length(); i++)
             {
-                if (add.identification[i] != add.identification[0])
+                if (add.id[i] != add.id[0])
                 {
                     todosIguales = false;
                     break;
@@ -192,24 +192,24 @@ void RegistrarEstudiante(vector<Student>& student)
     {
         verification = true;
         cout << "Ingrese el nombre completo (nombre y apellidos): ";
-        getline(cin, add.completeName);
+        getline(cin, add.fullName);
 
-        for (int i = 0; i < add.completeName.length(); i++)
+        for (int i = 0; i < add.fullName.length(); i++)
         {
-            if (!isalpha(add.completeName[i]) && add.completeName[i] != ' ')
+            if (!isalpha(add.fullName[i]) && add.fullName[i] != ' ')
             {
                 verification = false;
                 break;
             }
         }
 
-        if (!verification || add.completeName.length() == 0)
+        if (!verification || add.fullName.length() == 0)
         {
             cout << "Error: solo debe ingresar letras y espacios." << endl;
         }
 
     }
-    while (!verification || add.completeName.length() == 0);
+    while (!verification || add.fullName.length() == 0);
 
     getch();
     cout << endl;
@@ -221,7 +221,7 @@ void RegistrarEstudiante(vector<Student>& student)
     cout << "- Cantón: ";
     getline(cin, add.canton);
     cout << "- Distrito: ";
-    getline(cin, add.distrite);
+    getline(cin, add.district);
 
     getch();
     cout << endl;
@@ -258,10 +258,10 @@ void RegistrarEstudiante(vector<Student>& student)
     cout << "1. Masculino" << endl;
     cout << "2. Femenino" << endl;
     cout << "3. Otro" << endl;
-    cin >> add.select;
+    cin >> add.gender;
 
     cout << "Género seleccionado: ";
-    switch (add.select)
+    switch (add.gender)
     {
     case 1:
         cout << "Masculino" << endl;
@@ -284,14 +284,14 @@ void RegistrarEstudiante(vector<Student>& student)
     ofstream archivo("ESTUDIANTES.txt", ios::app);
     if (archivo.is_open())
     {
-        archivo << "Identificación: " << add.identification << endl;
-        archivo << "Nombre completo: " << add.completeName << endl;
+        archivo << "Identificación: " << add.id << endl;
+        archivo << "Nombre completo: " << add.fullName << endl;
         archivo << "Provincia: " << add.province << endl;
         archivo << "Cantón: " << add.canton << endl;
-        archivo << "Distrito: " << add.distrite << endl;
+        archivo << "Distrito: " << add.district << endl;
         archivo << "Edad: " << add.age << endl;
         archivo << "Género: ";
-        switch (add.select)
+        switch (add.gender)
         {
         case 1:
             archivo << "Masculino";
@@ -420,7 +420,7 @@ void IngresarCalificaciones(vector<Califications>& califications)
     {
 
         Califications reg;
-        reg.identification = cedula;
+        reg.id = cedula;
         do
         {
             cout << "Ingrese el nombre de la materia:";
@@ -519,7 +519,7 @@ void IngresarCalificaciones(vector<Califications>& califications)
 
         float prom;
 
-        prom= (firstProject + secondProject + ensayo + defense + foro)/ 5.0 ;
+        prom= (reg.firstProject * 0.1 + reg.secondProject * 0.2 + reg.ensayo * 0.3 + reg.defense * 0.1+ reg.foro * 0.3)/ 5.0 ;
         cout << "Promedio calculado:" << prom << endl;
 
         if (prom>=7)
@@ -539,7 +539,7 @@ void IngresarCalificaciones(vector<Califications>& califications)
 
         if (archivoNotas.is_open())
         {
-            archivoNotas << "Identificación: " << reg.identification << endl;
+            archivoNotas << "Identificación: " << reg.id << endl;
             archivoNotas << "Materia: " << reg.subject << endl;
             archivoNotas << "Proyecto 1: " << reg.firstProject << endl;
             archivoNotas << "Proyecto 2: " << reg.secondProject << endl;
