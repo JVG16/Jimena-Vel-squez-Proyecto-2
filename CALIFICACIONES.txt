@@ -1,0 +1,20 @@
+Identificación: 0119190417
+Materia: Mate
+Proyecto 1: 1
+Proyecto 2: 0
+Ensayo: 1.4013e-45
+Defensa: 0
+Foro: 0
+Promedio: 4.70201e-39
+Estado: Reprobado
+------------------------------------
+Identificación: 0119190417
+Materia:  Jaidd
+Proyecto 1: 1
+Proyecto 2: 1.5
+Ensayo: 2.5
+Defensa: 2
+Foro: 0.5
+Promedio: 3.36312e-44
+Estado: Reprobado
+------------------------------------

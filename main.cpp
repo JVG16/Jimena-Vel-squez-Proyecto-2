@@ -424,6 +424,7 @@ void IngresarCalificaciones(vector<Califications>& califications)
         do
         {
             cout << "Ingrese el nombre de la materia:";
+            cin.ignore();
             getline (cin,reg.subject);
 
             if (reg.subject.empty())
@@ -511,6 +512,8 @@ void IngresarCalificaciones(vector<Califications>& califications)
             }
         }
         while (reg.foro < 0 || reg.foro > 10);
+        getch();
+        cout << endl;
 
         // Calcular el promedio y su estado.
 
@@ -527,30 +530,32 @@ void IngresarCalificaciones(vector<Califications>& califications)
         {
             cout << "Estado: Reprobado" << endl;
         }
+        getch();
+        cout << endl;
 
         // Archivo.
 
-ofstream archivoNotas("CALIFICACIONES.txt", ios::app); // abrís en modo agregar
+        ofstream archivoNotas("CALIFICACIONES.txt", ios::app);
 
-if (archivoNotas.is_open())
-{
-    archivoNotas << "Identificación: " << reg.identification << endl;
-    archivoNotas << "Materia: " << reg.subject << endl;
-    archivoNotas << "Proyecto 1: " << reg.firstProject << endl;
-    archivoNotas << "Proyecto 2: " << reg.secondProject << endl;
-    archivoNotas << "Ensayo: " << reg.ensayo << endl;
-    archivoNotas << "Defensa: " << reg.defense << endl;
-    archivoNotas << "Foro: " << reg.foro << endl;
-    archivoNotas << "Promedio: " << prom << endl;
-    archivoNotas << "Estado: " << (prom >= 7.0 ? "Aprobado" : "Reprobado") << endl;
-    archivoNotas << "------------------------------------" << endl;
+        if (archivoNotas.is_open())
+        {
+            archivoNotas << "Identificación: " << reg.identification << endl;
+            archivoNotas << "Materia: " << reg.subject << endl;
+            archivoNotas << "Proyecto 1: " << reg.firstProject << endl;
+            archivoNotas << "Proyecto 2: " << reg.secondProject << endl;
+            archivoNotas << "Ensayo: " << reg.ensayo << endl;
+            archivoNotas << "Defensa: " << reg.defense << endl;
+            archivoNotas << "Foro: " << reg.foro << endl;
+            archivoNotas << "Promedio: " << prom << endl;
+            archivoNotas << "Estado: " << (prom >= 7.0 ? "Aprobado" : "Reprobado") << endl;
+            archivoNotas << "------------------------------------" << endl;
 
-    archivoNotas.close();
-}
-else
-{
-    cout << "Error al abrir el archivo de notas." << endl;
-}
+            archivoNotas.close();
+        }
+        else
+        {
+            cout << "Error al abrir el archivo para guardar las calificaciones." << endl;
+        }
 
     }
 }
