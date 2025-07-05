@@ -44,6 +44,7 @@ void ReporteEstudiante (vector<Student>&student);
 void IngresarCalificaciones (vector<Califications>&califications);
 
 
+
 int main()
 {
     setlocale(LC_CTYPE,"Spanish"); //Idioma y carácteres especiales.
@@ -85,9 +86,7 @@ int main()
             }
             case 3:
             {
-                cout << "Modificar datos estudiantes." << endl;
-                getch();
-                cout << endl;
+                ModificardatosEstudiante(student);
                 break;
             }
             case 4:
@@ -133,9 +132,13 @@ int main()
 
 void RegistrarEstudiante(vector<Student>& student)
 {
-    cout << "Registrar estudiante." << endl;
+    cout << "-------------------------------------------------------------------"<<endl;
+    cout << "|                  REGISTRO DE UN ESTUDIANTE                      |"<< endl;
+    cout << "-------------------------------------------------------------------"<<endl;
+    getch();
+    cout << endl
 
-    Student add;
+         Student add;
 
     // Identificación
     bool verification;
@@ -323,7 +326,7 @@ void RegistrarEstudiante(vector<Student>& student)
 
 void IngresarCalificaciones(vector<Califications>& califications)
 {
-    string cedula;
+    string id;
     char respuesta;
     bool VoF = false;
 
@@ -336,7 +339,7 @@ void IngresarCalificaciones(vector<Califications>& califications)
     do
     {
         cout << "Ingrese la identificación del estudiante (10 dígitos): ";
-        cin >> cedula;
+        cin >> id;
         cin.ignore();
 
         // Buscar en el archivo ESTUDIANTES.txt
@@ -350,7 +353,7 @@ void IngresarCalificaciones(vector<Califications>& califications)
             if (palabra == "Identificación:")
             {
                 archivo >> palabra; // Leer la cédula
-                if (palabra == cedula)
+                if (palabra == id)
                 {
                     VoF = true;
 
@@ -420,7 +423,7 @@ void IngresarCalificaciones(vector<Califications>& califications)
     {
 
         Califications reg;
-        reg.id = cedula;
+        reg.id = id;
         do
         {
             cout << "Ingrese el nombre de la materia:";
@@ -560,3 +563,113 @@ void IngresarCalificaciones(vector<Califications>& califications)
     }
 }
 
+void ModificardatosEstudiante (vector<Student>&student)
+{
+    string id;
+    string line;
+    char respuesta;
+    bool encontrado= false;
+
+    cout << "Modificar datos del estudiante.";
+    getch();
+    cout << endl;
+    do
+    {
+        cout << "Digite la identificación de la persona (10 dígitos).";
+        cin >> id;
+        cin.ignore();
+        ifstream archivoEntrada("ESTUDIANTES.txt");
+        ofstream archivoTemp("TEMP.txt");
+
+        if (!archivoEntrada.is_open() || !archivoTemp.is_open())
+        {
+            cout << "Error al abrir los archivos." << endl;
+            return;
+        }
+
+        while (getline(archivoEntrada, line))
+        {
+            if (line == "Identificación: " + id)
+            {
+                encontrado = true;
+                archivoTemp << line << endl; // Identificación
+
+                // Leer y copiar nombre
+                getline(archivoEntrada, line);
+                archivoTemp << line << endl;
+
+                // Modificar residencia
+                cout << "Ingrese la nueva provincia: ";
+                string provincia;
+                getline(cin, provincia);
+                archivoTemp << "Provincia: " << provincia << endl;
+
+                cout << "Ingrese el nuevo cantón: ";
+                string canton;
+                getline(cin, canton);
+                archivoTemp << "Cantón: " << canton << endl;
+
+                cout << "Ingrese el nuevo distrito: ";
+                string distrito;
+                getline(cin, distrito);
+                archivoTemp << "Distrito: " << distrito << endl;
+
+                // Modificar edad
+                int nuevaEdad;
+                bool valida;
+                do
+                {
+                    valida = true;
+                    cout << "Ingrese la nueva edad (18-100): ";
+                    cin >> nuevaEdad;
+                    if (cin.fail() || nuevaEdad < 18 || nuevaEdad > 100)
+                    {
+                        cin.clear();
+                        cin.ignore();
+                        cout << "Edad inválida. Intente de nuevo." << endl;
+                        valida = false;
+                    }
+                }
+                while (!valida);
+                archivoTemp << "Edad: " << nuevaEdad << endl;
+
+                cin.ignore(); // Limpiar buffer
+
+                // Género (no se modifica, se copia)
+                getline(archivoEntrada, line); // Género
+                archivoTemp << line << endl;
+
+                // Línea separadora
+                getline(archivoEntrada, line);
+                archivoTemp << line << endl;
+
+                cout << "Datos actualizados correctamente." << endl;
+                return;
+            }
+            else
+            {
+                archivoTemp << line << endl;
+            }
+        }
+
+        archivoEntrada.close();
+        archivoTemp.close();
+
+        if (encontrado)
+        {
+            remove("ESTUDIANTES.txt");
+            rename("TEMP.txt", "ESTUDIANTES.txt");
+        }
+        else
+        {
+            remove("TEMP.txt");
+            cout << "Estudiante no registrado." << endl;
+            cout << "¿Desea intentar con otra cédula? (S/N): ";
+            cin >> respuesta;
+            respuesta = toupper(respuesta);
+            cin.ignore();
+        }
+    }
+    while (!encontrado && respuesta == 'S');
+
+}

@@ -38,3 +38,23 @@ Foro: 1
 Promedio: 2.9
 Estado: Reprobado
 ------------------------------------
+Identificación: 0119190417
+Materia: Orga
+Proyecto 1: 1
+Proyecto 2: 0
+Ensayo: 0
+Defensa: 1.4013e-45
+Foro: 0
+Promedio: 0.02
+Estado: Reprobado
+------------------------------------
+Identificación: 0119190417
+Materia: sd
+Proyecto 1: 1
+Proyecto 2: 1.3
+Ensayo: 8
+Defensa: 8
+Foro: 8
+Promedio: 1.192
+Estado: Reprobado
+------------------------------------
