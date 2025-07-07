@@ -46,3 +46,19 @@ Distrito: Centro
 Edad: 22
 Provincia: Heredia
 Cantón: San Isidro
+Identificación: 0119194554
+Nombre completo: Uned
+Provincia: edkewd
+Cantón: ewfdewrf
+Distrito: erfwerfw
+Edad: 44
+Género: Otro
+-------------------------------
+Identificación: 0119190417
+Nombre completo: Jimena V
+Provincia: San Jos‚
+Cantón: Ciudad Col¢n 
+Distrito: Centro
+Edad: 20
+Género: Otro
+-------------------------------

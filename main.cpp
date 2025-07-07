@@ -22,7 +22,6 @@ struct Student
 struct Califications
 {
     string id;
-    int cantSubject;
     string subject;
     float firstProject;
     float secondProject;
@@ -519,16 +518,20 @@ void IngresarCalificaciones(vector<Califications>& califications)
 
         float prom;
 
-        prom= (reg.firstProject * 0.1 + reg.secondProject * 0.2 + reg.ensayo * 0.3 + reg.defense * 0.1+ reg.foro * 0.3)/ 5.0 ;
+        prom= (reg.firstProject * 0.1 + reg.secondProject * 0.2 + reg.ensayo * 0.3 + reg.defense * 0.1+ reg.foro * 0.3);
         cout << "Promedio calculado:" << prom << endl;
 
-        if (prom>=7)
+        if (prom >= 70 && prom <= 100)
         {
-            cout << "Estado: Aprobado" << endl;
+            cout << "Estado: Aprobó" << endl;
         }
-        else
+        else if (prom >= 50 && prom <= 69)
         {
-            cout << "Estado: Reprobado" << endl;
+            cout << "Estado: Reposición" << endl;
+        }
+        else if (prom < 50)
+        {
+            cout << "Estado: Reprobó" << endl;
         }
         getch();
         cout << endl;
@@ -566,7 +569,9 @@ void ModificardatosEstudiante(vector<Student>& student)
     char respuesta = 'S';
     bool encontrado = false;
 
-    cout << "Modificar datos del estudiante.";
+    cout << "-------------------------------------------------------------------"<<endl;
+    cout << "|                       MODIFICAR ESTUDIANTE                       |"<< endl;
+    cout << "-------------------------------------------------------------------"<<endl;
     getch();
     cout << endl;
 
@@ -575,6 +580,25 @@ void ModificardatosEstudiante(vector<Student>& student)
         cout << "Digite la identificación de la persona (10 dígitos): ";
         cin >> id;
         cin.ignore();
+
+        bool verificationID = true;
+    if (id.length() != 10) {
+        verificationID = false;
+    } else {
+        for (int i = 0; i < id.length(); i++) {
+            if (id[i] < '0' || id[i] > '9') {
+                verificationID = false;
+                break;
+            }
+        }
+    }
+
+    if (!verificationID) {
+        cout << "Error: la identificación debe tener 10 dígitos numéricos." << endl;
+        getch();
+        cout << endl;
+        continue;
+    }
         getch();
         cout << endl;
 
@@ -600,10 +624,12 @@ void ModificardatosEstudiante(vector<Student>& student)
                     archivoTemp << line << endl; // Línea de Identificación
 
                     // Leer y copiar nombre
+
                     getline(archivoEntrada, line);
                     archivoTemp << line << endl;
 
-                    // Solicitar y guardar nueva residencia
+                    // Solicitar y guardar nueva residencia.
+
                     cout << "Ingrese la nueva provincia: ";
                     string provincia;
                     getline(cin, provincia);
@@ -619,29 +645,32 @@ void ModificardatosEstudiante(vector<Student>& student)
                     getline(cin, distrito);
                     archivoTemp << "Distrito: " << distrito << endl;
 
-                    // Edad
-                    int nuevaEdad;
+                    // Edad.
+
+                    int newAge;
                     bool valida;
                     do
                     {
                         valida = true;
                         cout << "Ingrese la nueva edad (18-100): ";
-                        cin >> nuevaEdad;
-                        if (cin.fail() || nuevaEdad < 18 || nuevaEdad > 100)
+                        cin >> newAge;
+                        if (cin.fail() || newAge < 18 || newAge > 100)
                         {
                             cin.clear();
                             cin.ignore(100, '\n');
                             cout << "Edad inválida. Intente de nuevo." << endl;
                             valida = false;
                         }
-                    } while (!valida);
-                    archivoTemp << "Edad: " << nuevaEdad << endl;
+                    }
+                    while (!valida);
+                    archivoTemp << "Edad: " << newAge << endl;
                     cin.ignore();
 
-                    // Copiar género y separador
-                    getline(archivoEntrada, line); // Género
+                    // Copiar género y separador.
+
+                    getline(archivoEntrada, line);
                     archivoTemp << line << endl;
-                    getline(archivoEntrada, line); // Línea separadora
+                    getline(archivoEntrada, line);
                     archivoTemp << line << endl;
 
                     cout << "Datos actualizados correctamente." << endl;
@@ -678,7 +707,8 @@ void ModificardatosEstudiante(vector<Student>& student)
             cin.ignore();
         }
 
-    } while (!encontrado && respuesta == 'S');
+    }
+    while (!encontrado && respuesta == 'S');
 
     getch();
     cout << endl;

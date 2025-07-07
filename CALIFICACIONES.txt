@@ -158,3 +158,23 @@ Foro: 8.8
 Promedio: 0.904
 Estado: Reprobado
 ------------------------------------
+Identificación: 0119190417
+Materia:  Estructura de datos
+Proyecto 1: 7
+Proyecto 2: 7.5
+Ensayo: 5.6
+Defensa: 9.8
+Foro: 9.9
+Promedio: 1.566
+Estado: Reprobado
+------------------------------------
+Identificación: 0119190417
+Materia: Historia de CR
+Proyecto 1: 4
+Proyecto 2: 4
+Ensayo: 4
+Defensa: 4
+Foro: 4
+Promedio: 0.8
+Estado: Reprobado
+------------------------------------
