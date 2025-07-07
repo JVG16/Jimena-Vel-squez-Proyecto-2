@@ -43,62 +43,6 @@ Nombre completo: Jimena V
 Provincia: Heredia
 Cantón: San Isidro
 Distrito: Centro
-Edad: 20
-Género: Femenino
--------------------------------
-Identificación: 0119190417
-Nombre completo: Jimena V
-Provincia: San Jos‚
-Cantón: Santa Ana
-Distrito: Centro
-Edad: 20
-Género: Femenino
--------------------------------
-Identificación: 0119190417
-Nombre completo: Jimena V
-Provincia: San Jos‚
-Cantón: Santa Ana
-Distrito: Centro
-Edad: 20
-Género: Femenino
--------------------------------
-Identificación: 0119190417
-Nombre completo: Jimena V
-Provincia: San Jos‚
-Cantón: Santa Ana
-Distrito: Centro
-Edad: 20
-Género: Femenino
--------------------------------
-Identificación: 0119190417
-Nombre completo: Jimena V
-Provincia: San Jos‚
-Cantón: Santa ANa
-Distrito: ddf
-Edad: 20
-Género: Femenino
--------------------------------
-Identificación: 0119190417
-Nombre completo: Jimena V
-Provincia: San Jos‚
-Cantón: Santa Ana
-Distrito: Centro
-Edad: 20
-Género: Femenino
--------------------------------
-Identificación: 0119190417
-Nombre completo: Jimena Velasquez 
-Provincia: San Jos‚
-Cantón: Santa Ana
-Distrito: Centro
-Edad: 20
-Género: Femenino
--------------------------------
-Identificación: 0119190417
-Nombre completo: Jimena V 
-Provincia: SaN Jos‚
-Cantón: Santa ANa
-Distrito: Centro
-Edad: 20
-Género: Femenino
--------------------------------
+Edad: 22
+Provincia: Heredia
+Cantón: San Isidro

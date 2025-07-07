@@ -74,58 +74,54 @@ int main()
         {
         case 1:
         {
-            // Registrar función.
-
             RegistrarEstudiante(student);
             break;
+        }
+        case 2:
+        {
+            IngresarCalificaciones(califications);
+            break;
+        }
+        case 3:
+        {
+            ModificardatosEstudiante(student);
+            break;
+        }
+        case 4:
+        {
+            cout << "Modificar registo de notas por estudiante." << endl;
+            getch();
+            cout << endl;
+            break;
+        }
+        case 5:
+        {
+            cout << "Eliminar registro de estudiante." << endl;
+            getch();
+            cout << endl;
+            break;
+        }
+        case 6:
+        {
+            cout << "Reporte de estudiantes, promedios y estado." << endl;
+            getch();
+            cout << endl;
+            break;
+        }
+        case 7:
+        {
+            cout << "Salir del programa." << endl;
+            getch();
+            cout << endl;
+            break;
+            default:
+                cout << "Opción no válida" << endl;
+            }
 
-            case 2:
-            {
-                IngresarCalificaciones(califications);
-                break;
-            }
-            case 3:
-            {
-                ModificardatosEstudiante(student);
-                break;
-            }
-            case 4:
-            {
-                cout << "Modificar registo de notas por estudiante." << endl;
-                getch();
-                cout << endl;
-                break;
-            }
-            case 5:
-            {
-                cout << "Eliminar registro de estudiante." << endl;
-                getch();
-                cout << endl;
-                break;
-            }
-            case 6:
-            {
-                cout << "Reporte de estudiantes, promedios y estado." << endl;
-                getch();
-                cout << endl;
-                break;
-            }
-            case 7:
-            {
-                cout << "Salir del programa." << endl;
-                getch();
-                cout << endl;
-                break;
-                default:
-                    cout << "Opción no válida" << endl;
-                }
-
-            }
         }
     }
     while(option != 7);
     return 0;
-
 }
 
 // Función Registrar Estudiante.
@@ -136,11 +132,12 @@ void RegistrarEstudiante(vector<Student>& student)
     cout << "|                  REGISTRO DE UN ESTUDIANTE                      |"<< endl;
     cout << "-------------------------------------------------------------------"<<endl;
     getch();
-    cout << endl
+    cout << endl;
 
-         Student add;
+    Student add;
 
-    // Identificación
+    // Identificación.
+
     bool verification;
     do
     {
@@ -562,22 +559,25 @@ void IngresarCalificaciones(vector<Califications>& califications)
 
     }
 }
-
-void ModificardatosEstudiante (vector<Student>&student)
+void ModificardatosEstudiante(vector<Student>& student)
 {
     string id;
     string line;
-    char respuesta;
-    bool encontrado= false;
+    char respuesta = 'S';
+    bool encontrado = false;
 
     cout << "Modificar datos del estudiante.";
     getch();
     cout << endl;
+
     do
     {
-        cout << "Digite la identificación de la persona (10 dígitos).";
+        cout << "Digite la identificación de la persona (10 dígitos): ";
         cin >> id;
         cin.ignore();
+        getch();
+        cout << endl;
+
         ifstream archivoEntrada("ESTUDIANTES.txt");
         ofstream archivoTemp("TEMP.txt");
 
@@ -589,62 +589,70 @@ void ModificardatosEstudiante (vector<Student>&student)
 
         while (getline(archivoEntrada, line))
         {
-            if (line == "Identificación: " + id)
+            if (line.find("Identificación: ") == 0)
             {
-                encontrado = true;
-                archivoTemp << line << endl; // Identificación
+                string idEnArchivo = line.substr(line.find(":") + 2);
 
-                // Leer y copiar nombre
-                getline(archivoEntrada, line);
-                archivoTemp << line << endl;
-
-                // Modificar residencia
-                cout << "Ingrese la nueva provincia: ";
-                string provincia;
-                getline(cin, provincia);
-                archivoTemp << "Provincia: " << provincia << endl;
-
-                cout << "Ingrese el nuevo cantón: ";
-                string canton;
-                getline(cin, canton);
-                archivoTemp << "Cantón: " << canton << endl;
-
-                cout << "Ingrese el nuevo distrito: ";
-                string distrito;
-                getline(cin, distrito);
-                archivoTemp << "Distrito: " << distrito << endl;
-
-                // Modificar edad
-                int nuevaEdad;
-                bool valida;
-                do
+                if (idEnArchivo == id)
                 {
-                    valida = true;
-                    cout << "Ingrese la nueva edad (18-100): ";
-                    cin >> nuevaEdad;
-                    if (cin.fail() || nuevaEdad < 18 || nuevaEdad > 100)
+                    encontrado = true;
+
+                    archivoTemp << line << endl; // Línea de Identificación
+
+                    // Leer y copiar nombre
+                    getline(archivoEntrada, line);
+                    archivoTemp << line << endl;
+
+                    // Solicitar y guardar nueva residencia
+                    cout << "Ingrese la nueva provincia: ";
+                    string provincia;
+                    getline(cin, provincia);
+                    archivoTemp << "Provincia: " << provincia << endl;
+
+                    cout << "Ingrese el nuevo cantón: ";
+                    string canton;
+                    getline(cin, canton);
+                    archivoTemp << "Cantón: " << canton << endl;
+
+                    cout << "Ingrese el nuevo distrito: ";
+                    string distrito;
+                    getline(cin, distrito);
+                    archivoTemp << "Distrito: " << distrito << endl;
+
+                    // Edad
+                    int nuevaEdad;
+                    bool valida;
+                    do
                     {
-                        cin.clear();
-                        cin.ignore();
-                        cout << "Edad inválida. Intente de nuevo." << endl;
-                        valida = false;
-                    }
+                        valida = true;
+                        cout << "Ingrese la nueva edad (18-100): ";
+                        cin >> nuevaEdad;
+                        if (cin.fail() || nuevaEdad < 18 || nuevaEdad > 100)
+                        {
+                            cin.clear();
+                            cin.ignore(100, '\n');
+                            cout << "Edad inválida. Intente de nuevo." << endl;
+                            valida = false;
+                        }
+                    } while (!valida);
+                    archivoTemp << "Edad: " << nuevaEdad << endl;
+                    cin.ignore();
+
+                    // Copiar género y separador
+                    getline(archivoEntrada, line); // Género
+                    archivoTemp << line << endl;
+                    getline(archivoEntrada, line); // Línea separadora
+                    archivoTemp << line << endl;
+
+                    cout << "Datos actualizados correctamente." << endl;
+                    getch();
+                    cout << endl;
+                    break;
                 }
-                while (!valida);
-                archivoTemp << "Edad: " << nuevaEdad << endl;
-
-                cin.ignore(); // Limpiar buffer
-
-                // Género (no se modifica, se copia)
-                getline(archivoEntrada, line); // Género
-                archivoTemp << line << endl;
-
-                // Línea separadora
-                getline(archivoEntrada, line);
-                archivoTemp << line << endl;
-
-                cout << "Datos actualizados correctamente." << endl;
-                return;
+                else
+                {
+                    archivoTemp << line << endl;
+                }
             }
             else
             {
@@ -669,7 +677,9 @@ void ModificardatosEstudiante (vector<Student>&student)
             respuesta = toupper(respuesta);
             cin.ignore();
         }
-    }
-    while (!encontrado && respuesta == 'S');
 
+    } while (!encontrado && respuesta == 'S');
+
+    getch();
+    cout << endl;
 }
