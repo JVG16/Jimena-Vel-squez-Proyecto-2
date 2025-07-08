@@ -565,7 +565,6 @@ void IngresarCalificaciones(vector<Califications>& califications)
 void ModificardatosEstudiante(vector<Student>& student)
 {
     string id;
-    string line;
     char respuesta = 'S';
     bool encontrado = false;
 
@@ -582,129 +581,128 @@ void ModificardatosEstudiante(vector<Student>& student)
         cin.ignore();
 
         bool verificationID = true;
-    if (id.length() != 10) {
-        verificationID = false;
-    } else {
-        for (int i = 0; i < id.length(); i++) {
-            if (id[i] < '0' || id[i] > '9') {
-                verificationID = false;
-                break;
-            }
-        }
-    }
-
-    if (!verificationID) {
-        cout << "Error: la identificación debe tener 10 dígitos numéricos." << endl;
-        getch();
-        cout << endl;
-        continue;
-    }
-        getch();
-        cout << endl;
-
-        ifstream archivoEntrada("ESTUDIANTES.txt");
-        ofstream archivoTemp("TEMP.txt");
-
-        if (!archivoEntrada.is_open() || !archivoTemp.is_open())
+        if (id.length() != 10)
         {
-            cout << "Error al abrir los archivos." << endl;
-            return;
-        }
-
-        while (getline(archivoEntrada, line))
-        {
-            if (line.find("Identificación: ") == 0)
-            {
-                string idEnArchivo = line.substr(line.find(":") + 2);
-
-                if (idEnArchivo == id)
-                {
-                    encontrado = true;
-
-                    archivoTemp << line << endl; // Línea de Identificación
-
-                    // Leer y copiar nombre
-
-                    getline(archivoEntrada, line);
-                    archivoTemp << line << endl;
-
-                    // Solicitar y guardar nueva residencia.
-
-                    cout << "Ingrese la nueva provincia: ";
-                    string provincia;
-                    getline(cin, provincia);
-                    archivoTemp << "Provincia: " << provincia << endl;
-
-                    cout << "Ingrese el nuevo cantón: ";
-                    string canton;
-                    getline(cin, canton);
-                    archivoTemp << "Cantón: " << canton << endl;
-
-                    cout << "Ingrese el nuevo distrito: ";
-                    string distrito;
-                    getline(cin, distrito);
-                    archivoTemp << "Distrito: " << distrito << endl;
-
-                    // Edad.
-
-                    int newAge;
-                    bool valida;
-                    do
-                    {
-                        valida = true;
-                        cout << "Ingrese la nueva edad (18-100): ";
-                        cin >> newAge;
-                        if (cin.fail() || newAge < 18 || newAge > 100)
-                        {
-                            cin.clear();
-                            cin.ignore(100, '\n');
-                            cout << "Edad inválida. Intente de nuevo." << endl;
-                            valida = false;
-                        }
-                    }
-                    while (!valida);
-                    archivoTemp << "Edad: " << newAge << endl;
-                    cin.ignore();
-
-                    // Copiar género y separador.
-
-                    getline(archivoEntrada, line);
-                    archivoTemp << line << endl;
-                    getline(archivoEntrada, line);
-                    archivoTemp << line << endl;
-
-                    cout << "Datos actualizados correctamente." << endl;
-                    getch();
-                    cout << endl;
-                    break;
-                }
-                else
-                {
-                    archivoTemp << line << endl;
-                }
-            }
-            else
-            {
-                archivoTemp << line << endl;
-            }
-        }
-
-        archivoEntrada.close();
-        archivoTemp.close();
-
-        if (encontrado)
-        {
-            remove("ESTUDIANTES.txt");
-            rename("TEMP.txt", "ESTUDIANTES.txt");
+            verificationID = false;
         }
         else
         {
-            remove("TEMP.txt");
-            cout << "Estudiante no registrado." << endl;
-            cout << "¿Desea intentar con otra cédula? (S/N): ";
-            cin >> respuesta;
-            respuesta = toupper(respuesta);
-            cin.ignore();
+            for (int i = 0; i < id.length(); i++)
+            {
+                if (id[i] < '0' || id[i] > '9')
+                {
+                    verificationID = false;
+                    break;
+                }
+            }
+        }
+
+        if (!verificationID)
+        {
+            cout << "Error: la identificación debe tener 10 dígitos numéricos." << endl;
+            getch();
+            cout << endl;
+            continue;
+        }
+        getch();
+        cout << endl;
+
+        // Modificar lugar de residencia.
+
+        cout << "Ingrese la nueva provincia: ";
+        string newProvince;
+        getline(cin, newProvince);
+
+        cout << "Ingrese el nuevo cantón: ";
+        string newCanton;
+        getline(cin, newCanton);
+
+        cout << "Ingrese el nuevo distrito: ";
+        string newDistrict;
+        getline(cin, newDistrict);
+
+        // Modificar edad.
+
+        int newAge;
+        bool newAgeValida = false;
+        do
+        {
+            cout << "Ingrese la nueva edad (18-100): ";
+            cin >> newAge;
+            if (cin.fail() || newAge < 18 || newAge > 100)
+            {
+                cin.clear();
+                cin.ignore(1000, '\n');
+                cout << "Nueva edad inválida. Intente de nuevo." << endl;
+            }
+            else
+            {
+                newAgeValida = true;
+            }
+        }
+        while (!newAgeValida);
+        cin.ignore();
+
+        fstream archivo("ESTUDIANTE.txt", ios::in | ios::out);
+        if (!archivo)
+        {
+            cerr << "Error al abrir el archivo" << endl;
+            return;
+        }
+
+        vector <Student>student;
+        Student temp;
+        bool hh = false;
+
+        while (archivo >> temp.id >> temp.fullName >> temp.province >> temp.canton >> temp.district >> temp.age >> temp.gender)
+        {
+            if (temp.id == id)
+            {
+                temp.province = newProvince;
+                temp.canton = newCanton;
+                temp.district = newDistrict;
+                temp.age = newAge;
+                encontrado = true;
+            }
+            student.push_back(temp);
+        }
+        if (!encontrado)
+        {
+            cout << "Estudiante no encontrado" << endl;
+            archivo.close();
+            return;
+        }
+// Volver al inicio del archivo y truncarlo
+        archivo.clear();
+        archivo.seekp(0);
+
+        for (const auto& est : student)
+        {
+            archivo << "Identificación: " << est.id << endl;
+            archivo << "Nombre completo: " << est.fullName << endl;
+            archivo << "Provincia: " << est.province << endl;
+            archivo << "Cantón: " << est.canton << endl;
+            archivo << "Distrito: " << est.district << endl;
+            archivo << "Edad: " << est.age << endl;
+            archivo << "Género: ";
+            switch (est.gender)
+            {
+            case 1:
+                archivo << "Masculino";
+                break;
+            case 2:
+                archivo << "Femenino";
+                break;
+            case 3:
+                archivo << "Otro";
+                break;
+            default:
+                archivo << "Desconocido";
+            }
+
+            archivo.close();
+            cout << "Edad actualizada correctamente" << endl;
+
         }
 
     }
