@@ -647,6 +647,8 @@ void ModificardatosEstudiante(vector<Student>& student)
         if (!archivo)
         {
             cerr << "Error al abrir el archivo" << endl;
+            getch();
+            cout << endl;
             return;
         }
 
@@ -701,7 +703,9 @@ void ModificardatosEstudiante(vector<Student>& student)
             }
 
             archivo.close();
-            cout << "Edad actualizada correctamente" << endl;
+            cout << "Datos actualizados correctamente" << endl;
+            getch ();
+            cout << endl;
 
         }
 
