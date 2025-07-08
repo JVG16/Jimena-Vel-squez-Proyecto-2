@@ -1,8 +1,14 @@
-Identificación: 0119190417
-Nombre completo: Jimena V
-Provincia: San Jos‚
-Cantón: Santa Ana
-Distrito: Centro
-Edad: 20
-Género: Femenino
--------------------------------
+1234567890
+name
+province
+canton
+district
+18
+3
+1234567891
+nombre
+distrito
+cantones
+distrito2
+99
+2

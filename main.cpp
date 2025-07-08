@@ -283,27 +283,13 @@ void RegistrarEstudiante(vector<Student>& student)
     ofstream archivo("ESTUDIANTES.txt", ios::app);
     if (archivo.is_open())
     {
-        archivo << "Identificación: " << add.id << endl;
-        archivo << "Nombre completo: " << add.fullName << endl;
-        archivo << "Provincia: " << add.province << endl;
-        archivo << "Cantón: " << add.canton << endl;
-        archivo << "Distrito: " << add.district << endl;
-        archivo << "Edad: " << add.age << endl;
-        archivo << "Género: ";
-        switch (add.gender)
-        {
-        case 1:
-            archivo << "Masculino";
-            break;
-        case 2:
-            archivo << "Femenino";
-            break;
-        case 3:
-            archivo << "Otro";
-            break;
-        }
-        archivo << endl;
-        archivo << "-------------------------------" << endl;
+        archivo << add.id  << "\n"
+                << add.fullName << "\n"
+                << add.province << "\n"
+                << add.canton << "\n"
+                << add.district << "\n"
+                << add.age<< "\n"
+                <<add.gender << "\n";
         archivo.close();
 
         cout << "Estudiante registrado con éxito en 'ESTUDIANTES.txt'" << endl;
@@ -542,7 +528,7 @@ void IngresarCalificaciones(vector<Califications>& califications)
 
         if (archivoNotas.is_open())
         {
-            archivoNotas << "Identificación: " << reg.id << endl;
+            archivoNotas << "id: " << reg.id << endl;
             archivoNotas << "Materia: " << reg.subject << endl;
             archivoNotas << "Proyecto 1: " << reg.firstProject << endl;
             archivoNotas << "Proyecto 2: " << reg.secondProject << endl;
@@ -566,7 +552,10 @@ void ModificardatosEstudiante(vector<Student>& student)
 {
     string id;
     char respuesta = 'S';
-    bool encontrado = false;
+    bool hh = false;
+    string newProvince;
+    string newCanton;
+    string newDistrict;
 
     cout << "-------------------------------------------------------------------"<<endl;
     cout << "|                       MODIFICAR ESTUDIANTE                       |"<< endl;
@@ -610,15 +599,12 @@ void ModificardatosEstudiante(vector<Student>& student)
         // Modificar lugar de residencia.
 
         cout << "Ingrese la nueva provincia: ";
-        string newProvince;
         getline(cin, newProvince);
 
         cout << "Ingrese el nuevo cantón: ";
-        string newCanton;
         getline(cin, newCanton);
 
         cout << "Ingrese el nuevo distrito: ";
-        string newDistrict;
         getline(cin, newDistrict);
 
         // Modificar edad.
@@ -643,7 +629,7 @@ void ModificardatosEstudiante(vector<Student>& student)
         while (!newAgeValida);
         cin.ignore();
 
-        fstream archivo("ESTUDIANTE.txt", ios::in | ios::out);
+        fstream archivo("ESTUDIANTES.txt", ios::in | ios::out);
         if (!archivo)
         {
             cerr << "Error al abrir el archivo" << endl;
@@ -652,9 +638,9 @@ void ModificardatosEstudiante(vector<Student>& student)
             return;
         }
 
-        vector <Student>student;
+        vector <Student>students;
         Student temp;
-        bool hh = false;
+        bool registrado = false;
 
         while (archivo >> temp.id >> temp.fullName >> temp.province >> temp.canton >> temp.district >> temp.age >> temp.gender)
         {
@@ -664,13 +650,13 @@ void ModificardatosEstudiante(vector<Student>& student)
                 temp.canton = newCanton;
                 temp.district = newDistrict;
                 temp.age = newAge;
-                encontrado = true;
+                registrado = true;
             }
-            student.push_back(temp);
+            students.push_back(temp);
         }
-        if (!encontrado)
+        if (!registrado)
         {
-            cout << "Estudiante no encontrado" << endl;
+            cout << "Estudiante no registrado." << endl;
             archivo.close();
             return;
         }
@@ -678,39 +664,40 @@ void ModificardatosEstudiante(vector<Student>& student)
         archivo.clear();
         archivo.seekp(0);
 
-        for (const auto& est : student)
-        {
-            archivo << "Identificación: " << est.id << endl;
-            archivo << "Nombre completo: " << est.fullName << endl;
-            archivo << "Provincia: " << est.province << endl;
-            archivo << "Cantón: " << est.canton << endl;
-            archivo << "Distrito: " << est.district << endl;
-            archivo << "Edad: " << est.age << endl;
-            archivo << "Género: ";
-            switch (est.gender)
-            {
-            case 1:
-                archivo << "Masculino";
-                break;
-            case 2:
-                archivo << "Femenino";
-                break;
-            case 3:
-                archivo << "Otro";
-                break;
-            default:
-                archivo << "Desconocido";
-            }
 
-            archivo.close();
-            cout << "Datos actualizados correctamente" << endl;
-            getch ();
-            cout << endl;
+        for (const auto& est : students)
+        {
+            cout << est.id  << "\n";
+                 cout << est.fullName << "\n";
+                 cout << est.province << "\n";
+                 cout << est.canton << "\n";
+                 cout  << est.district << "\n";
+                 cout  << est.age<< "\n";
+                 cout << est.gender << "\n";
+
+            cout << "==============================" << endl;
+
 
         }
 
+        for (const auto& est : students)
+        {
+            archivo << est.id  << "\n"
+                    << est.fullName << "\n"
+                    << est.province << "\n"
+                    << est.canton << "\n"
+                    << est.district << "\n"
+                    << est.age<< "\n"
+                    << est.gender << "\n";
+        }
+
+        archivo.close();
+        cout << "Datos actualizados correctamente" << endl;
+        getch ();
+        cout << endl;
+
     }
-    while (!encontrado && respuesta == 'S');
+    while (!hh && respuesta == 'S');
 
     getch();
     cout << endl;
