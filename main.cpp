@@ -629,8 +629,7 @@ void ModificardatosEstudiante(vector<Student>& student)
         while (!newAgeValida);
         cin.ignore();
 
-        ifstream archivo("ESTUDIANTES.txt");
-
+        fstream archivo("ESTUDIANTES.txt", ios::in | ios::out);
         if (!archivo)
         {
             cerr << "Error al abrir el archivo" << endl;
@@ -661,22 +660,11 @@ void ModificardatosEstudiante(vector<Student>& student)
             archivo.close();
             return;
         }
-        // TODO: cerrar archivo
-        archivo.close();
-        return;
+// Volver al inicio del archivo y truncarlo
+        archivo.clear();
+        archivo.seekp(0);
 
 
-
-// Volver al inicio del archivo y truncarl0
-
-        // TODO: borrar las 2 lineas de arriba
-        // TODO: Abrir el archivo en modeo ESCRITURA
-
-        ofstream archivoOut("ESTUDIANTES.txt");
-        // TODO: si no se borro el archivo anterior..., investigas como borrarlo antes de grabar un archivo con el mismo nombre
-
-
-        // debug para mostrar lo qeu hay en el vestor
         for (const auto& est : students)
         {
             cout << est.id  << "\n";
@@ -686,12 +674,15 @@ void ModificardatosEstudiante(vector<Student>& student)
                  cout  << est.district << "\n";
                  cout  << est.age<< "\n";
                  cout << est.gender << "\n";
+
             cout << "==============================" << endl;
+
+
         }
 
         for (const auto& est : students)
         {
-            archivoOut << est.id  << "\n"
+            archivo << est.id  << "\n"
                     << est.fullName << "\n"
                     << est.province << "\n"
                     << est.canton << "\n"
@@ -700,7 +691,7 @@ void ModificardatosEstudiante(vector<Student>& student)
                     << est.gender << "\n";
         }
 
-        archivoOut.close();
+        archivo.close();
         cout << "Datos actualizados correctamente" << endl;
         getch ();
         cout << endl;
