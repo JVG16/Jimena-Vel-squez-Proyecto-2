@@ -28,20 +28,20 @@ struct Califications
     float ensayo;
     float foro;
     float defense;
+    float prom;
 };
 
 // Función de estudiantes.
 
 void RegistrarEstudiante (vector<Student>&student);
-void ModificardatosEstudiante (vector<Student>&student);
-void modificarregistroEstudiante (vector<Student>&student);
+void ModificarDatosEstudiante (vector<Student>&student);
 void EliminarRegistroEstudiante (vector<Student>&student);
 void ReporteEstudiante (vector<Student>&student);
 
 // Función para las calificaciones.
 
 void IngresarCalificaciones (vector<Califications>&califications);
-
+void ModificarRegistroEstudiante (vector<Califications>&califications);
 
 
 int main()
@@ -83,13 +83,12 @@ int main()
         }
         case 3:
         {
-            ModificardatosEstudiante(student);
+            ModificarDatosEstudiante(student);
             break;
         }
         case 4:
         {
-            cout << "Modificar registo de notas por estudiante." << endl;
-            getch();
+            ModificarRegistroEstudiante(califications);
             cout << endl;
             break;
         }
@@ -283,13 +282,14 @@ void RegistrarEstudiante(vector<Student>& student)
     ofstream archivo("ESTUDIANTES.txt", ios::app);
     if (archivo.is_open())
     {
-        archivo << add.id  << "\n"
-                << add.fullName << "\n"
-                << add.province << "\n"
-                << add.canton << "\n"
-                << add.district << "\n"
-                << add.age<< "\n"
-                <<add.gender << "\n";
+        archivo << "Identificación: " << add.id  << "\n"
+                << "Nombre completo: " << add.fullName << "\n"
+                << "Provincia; " << add.province << "\n"
+                << "Cantón: " << add.canton << "\n"
+                << "Distrito: " << add.district << "\n"
+                << "Edad: " << add.age<< "\n"
+                << "Género: " <<add.gender << "\n";
+
         archivo.close();
 
         cout << "Estudiante registrado con éxito en 'ESTUDIANTES.txt'" << endl;
@@ -528,7 +528,7 @@ void IngresarCalificaciones(vector<Califications>& califications)
 
         if (archivoNotas.is_open())
         {
-            archivoNotas << "id: " << reg.id << endl;
+            archivoNotas << "Identificación: " << reg.id << endl;
             archivoNotas << "Materia: " << reg.subject << endl;
             archivoNotas << "Proyecto 1: " << reg.firstProject << endl;
             archivoNotas << "Proyecto 2: " << reg.secondProject << endl;
@@ -548,7 +548,7 @@ void IngresarCalificaciones(vector<Califications>& califications)
 
     }
 }
-void ModificardatosEstudiante(vector<Student>& student)
+void ModificarDatosEstudiante(vector<Student>& student)
 {
     string id;
     char respuesta = 'S';
@@ -660,7 +660,9 @@ void ModificardatosEstudiante(vector<Student>& student)
             archivo.close();
             return;
         }
+
 // Volver al inicio del archivo y truncarlo
+
         archivo.clear();
         archivo.seekp(0);
 
@@ -668,12 +670,12 @@ void ModificardatosEstudiante(vector<Student>& student)
         for (const auto& est : students)
         {
             cout << est.id  << "\n";
-                 cout << est.fullName << "\n";
-                 cout << est.province << "\n";
-                 cout << est.canton << "\n";
-                 cout  << est.district << "\n";
-                 cout  << est.age<< "\n";
-                 cout << est.gender << "\n";
+            cout << est.fullName << "\n";
+            cout << est.province << "\n";
+            cout << est.canton << "\n";
+            cout  << est.district << "\n";
+            cout  << est.age<< "\n";
+            cout << est.gender << "\n";
 
             cout << "==============================" << endl;
 
@@ -704,3 +706,173 @@ void ModificardatosEstudiante(vector<Student>& student)
 }
 
 // Función case 4.
+
+void ModificarRegistroEstudiante (vector<Califications>&califications)
+{
+
+    cout << "-------------------------------------------------------------------"<<endl;
+    cout << "|                    MODIFICAR NOTAS ESTUDIANTE                    |"<< endl;
+    cout << "-------------------------------------------------------------------"<<endl;
+
+    char respuesta = 'S';
+    bool hh = false;
+    string id;
+    string subject;
+    float newFirstProject;
+    float newSecondProject;
+    float newEnsayo;
+    float newForo;
+    float newDefense;
+    float newProm;
+
+    do
+    {
+
+        cout << "Digite la identificación de la persona (10 dígitos): ";
+        cin >> id;
+        cin.ignore();
+
+        bool verificationID = true;
+        if (id.length() != 10)
+        {
+            verificationID = false;
+        }
+        else
+        {
+            for (int i = 0; i < id.length(); i++)
+            {
+                if (id[i] < '0' || id[i] > '9')
+                {
+                    verificationID = false;
+                    break;
+                }
+            }
+        }
+
+        if (!verificationID)
+        {
+            cout << "Error: la identificación debe tener 10 dígitos numéricos." << endl;
+            getch();
+            cout << endl;
+            continue;
+        }
+        getch();
+        cout << endl;
+
+        // Modificar las notas.
+
+        cout << "Ingrese la nueva nota para el primer proyecto: ";
+        cin >> newFirstProject;
+
+        cout << "Ingrese la nueva nota para el segundo proyecto: ";
+        cin >> newSecondProject;
+
+        cout << "Ingrese la nueva nota para el ensayo: ";
+        cin >> newEnsayo;
+
+        cout << "Ingrese la nueva nota para el foro: ";
+        cin >> newForo;
+
+        cout << "Ingrese la nueva nota para la defensa: ";
+        cin >> newDefense;
+
+        // Promedio
+
+        newProm= (newFirstProject * 0.1 + newSecondProject * 0.2 + newEnsayo * 0.3 + newDefense * 0.1+ newForo * 0.3);
+        cout << "Nuevo promedio calculado:" << newProm << endl;
+
+        if (newProm >= 70 && newProm <= 100)
+        {
+            cout << "Estado: Aprobó" << endl;
+        }
+        else if (newProm >= 50 && newProm <= 69)
+        {
+            cout << "Estado: Reposición" << endl;
+        }
+        else if (newProm < 50)
+        {
+            cout << "Estado: Reprobó" << endl;
+        }
+        getch();
+        cout << endl;
+
+        fstream archivoNotas("CALIFICACIONES.txt", ios::in | ios::out);
+        if (!archivoNotas)
+        {
+            cerr << "Error al abrir el archivo" << endl;
+            getch();
+            cout << endl;
+            return;
+        }
+
+        vector <Califications>califications;
+        Califications temp;
+        bool registrado = false;
+
+        while (archivoNotas >> temp.id >> temp.subject >> temp.firstProject >> temp.secondProject >> temp.ensayo >> temp.foro >> temp.defense >> temp.prom)
+
+        {
+            if (temp.id == id && temp.subject == subject)
+            {
+                temp.firstProject = newFirstProject;
+                temp.secondProject = newSecondProject;
+                temp.ensayo = newEnsayo;
+                temp.foro = newForo;
+                temp.defense = newDefense;
+                temp.prom = newProm;
+
+                registrado = true;
+            }
+            califications.push_back(temp);
+        }
+        if (!registrado)
+        {
+            cout << "Estudiante no registrado." << endl;
+            archivoNotas.close();
+            return;
+        }
+
+        // Volver al inicio del archivo y truncarlo
+
+        archivoNotas.clear();
+        archivoNotas.seekp(0);
+
+
+        for (const auto& est : califications)
+        {
+            cout << est.id  << "\n";
+            cout << est.subject << "\n";
+            cout << est.firstProject << "\n";
+            cout << est.secondProject << "\n";
+            cout << est.ensayo << "\n";
+            cout  << est.foro << "\n";
+            cout  << est.defense<< "\n";
+            cout << est.prom << "\n";
+
+            cout << "==============================" << endl;
+
+
+        }
+
+        for (const auto& est : califications)
+        {
+            archivoNotas << est.id  << "\n"
+                         << est.subject << "\n"
+                    << est.firstProject << "\n"
+                    << est.secondProject << "\n"
+                    << est.ensayo << "\n"
+                    << est.foro << "\n"
+                    << est.defense<< "\n"
+                    << est.prom << "\n";
+        }
+
+        archivoNotas.close();
+        cout << "Datos actualizados correctamente" << endl;
+        getch ();
+        cout << endl;
+
+    }
+    while (!hh && respuesta == 'S');
+
+}
+
