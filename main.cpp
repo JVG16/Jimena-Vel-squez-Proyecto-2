@@ -702,3 +702,5 @@ void ModificardatosEstudiante(vector<Student>& student)
     getch();
     cout << endl;
 }
+
+// Función case 4.
