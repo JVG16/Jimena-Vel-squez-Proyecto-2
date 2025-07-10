@@ -38,6 +38,8 @@ void ModificardatosEstudiante (vector<Student>&students);
 void modificarregistroEstudiante (vector<Student>&students);
 void EliminarRegistroEstudiante (vector<Student>&students);
 void ReporteEstudiante (vector<Student>&students);
+void saveStudentsToFile(const vector<Student>& students, const string& filename);
+vector<Student> loadStudentsFromFile(const string& filename);
 
 // Funci�n para las calificaciones.
 
@@ -76,6 +78,7 @@ int main()
             // Registrar funci�n.
 
             RegistrarEstudiante(students);
+            saveStudentsToFile(students, "ESTUDIANTES.txt");
             break;
 
             case 2:
@@ -278,30 +281,30 @@ void RegistrarEstudiante(vector<Student>& students)
     }
 
     students.push_back(add);
-
-    // Guardar el estudiante sin etiquetas en el archivo (agregando al final)
-
-ofstream archivo("ESTUDIANTES.txt", ios::app);
-if (archivo.is_open())
-{
-    archivo << add.id << endl;
-    archivo << add.fullName << endl;
-    archivo << add.province << endl;
-    archivo << add.canton << endl;
-    archivo << add.district << endl;
-    archivo << add.age << endl;
-    archivo << add.gender << endl;  // Guardamos el n�mero (1,2,3)
-    archivo.close();
-
-    cout << "Estudiante registrado con �xito en 'ESTUDIANTES.txt'" << endl;
 }
-else
-{
-    cout << "Error al abrir el archivo para guardar el estudiante." << endl;
-}
-getch();
-cout << endl;
 
+void saveStudentsToFile(const vector<Student>& students, const string& filename)
+{
+    ofstream outFile(filename);
+
+    if (!outFile.is_open())
+    {
+        cerr << "Error al abrir el archivo para escritura: " << filename << endl;
+        return;
+    }
+
+    for (const auto& student : students)
+    {
+        outFile << student.id << ","
+                << student.fullName << ","
+                << student.province << ","
+                << student.canton << ","
+                << student.district << ","
+                << student.age << ","
+                << student.gender << "\n";
+    }
+
+    outFile.close();
 }
 
 // Funci�n para las calificaciones.
@@ -351,7 +354,8 @@ void IngresarCalificaciones(vector<Califications>& califications)
             respuesta = toupper(respuesta);
         }
 
-    } while (!encontrado && respuesta == 'S');
+    }
+    while (!encontrado && respuesta == 'S');
 
     if (!encontrado)
     {
@@ -377,7 +381,8 @@ void IngresarCalificaciones(vector<Califications>& califications)
         {
             cout << "Error: debe ingresar m�nimo una o como m�ximo tres tareas." << endl;
         }
-    } while (cantSubject < 1 || cantSubject > 3);
+    }
+    while (cantSubject < 1 || cantSubject > 3);
     getch();
     cout << endl;
 
@@ -395,7 +400,8 @@ void IngresarCalificaciones(vector<Califications>& califications)
             {
                 cout << "Error: no debe dejar el espacio vac�o." << endl;
             }
-        } while (reg.subject.empty());
+        }
+        while (reg.subject.empty());
         getch();
         cout << endl;
 
@@ -405,7 +411,8 @@ void IngresarCalificaciones(vector<Califications>& califications)
             cin >> reg.firstProject;
             if (reg.firstProject < 0 || reg.firstProject > 10)
                 cout << "Nota inv�lida, vuelva a ingresar." << endl;
-        } while (reg.firstProject < 0 || reg.firstProject > 10);
+        }
+        while (reg.firstProject < 0 || reg.firstProject > 10);
 
         do
         {
@@ -413,7 +420,8 @@ void IngresarCalificaciones(vector<Califications>& califications)
             cin >> reg.secondProject;
             if (reg.secondProject < 0 || reg.secondProject > 10)
                 cout << "Nota inv�lida, vuelva a ingresar." << endl;
-        } while (reg.secondProject < 0 || reg.secondProject > 10);
+        }
+        while (reg.secondProject < 0 || reg.secondProject > 10);
 
         do
         {
@@ -421,7 +429,8 @@ void IngresarCalificaciones(vector<Califications>& califications)
             cin >> reg.ensayo;
             if (reg.ensayo < 0 || reg.ensayo > 10)
                 cout << "Nota inv�lida, vuelva a ingresar." << endl;
-        } while (reg.ensayo < 0 || reg.ensayo > 10);
+        }
+        while (reg.ensayo < 0 || reg.ensayo > 10);
 
         do
         {
@@ -429,7 +438,8 @@ void IngresarCalificaciones(vector<Califications>& califications)
             cin >> reg.defense;
             if (reg.defense < 0 || reg.defense > 10)
                 cout << "Nota inv�lida, vuelva a ingresar." << endl;
-        } while (reg.defense < 0 || reg.defense > 10);
+        }
+        while (reg.defense < 0 || reg.defense > 10);
 
         do
         {
@@ -437,7 +447,8 @@ void IngresarCalificaciones(vector<Califications>& califications)
             cin >> reg.foro;
             if (reg.foro < 0 || reg.foro > 10)
                 cout << "Nota inv�lida, vuelva a ingresar." << endl;
-        } while (reg.foro < 0 || reg.foro > 10);
+        }
+        while (reg.foro < 0 || reg.foro > 10);
 
         getch();
         cout << endl;
