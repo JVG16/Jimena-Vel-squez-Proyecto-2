@@ -22,13 +22,14 @@ struct Student
 struct Califications
 {
     string id;
-    int cantSubject;
     string subject;
     float firstProject;
     float secondProject;
     float ensayo;
     float foro;
     float defense;
+    float average;
+    string status;
 };
 
 // Funci�n de estudiantes.
@@ -43,7 +44,8 @@ vector<Student> loadStudentsFromFile(const string& filename);
 
 // Funci�n para las calificaciones.
 
-void IngresarCalificaciones (vector<Califications>&califications);
+void IngresarCalificaciones (vector<Student>& students, vector<Califications>&califications);
+void saveCalificationsToFile(const vector<Califications>& califications, const string& filename);
 
 
 int main()
@@ -80,56 +82,172 @@ int main()
             RegistrarEstudiante(students);
             saveStudentsToFile(students, "ESTUDIANTES.txt");
             break;
-
-            case 2:
-            {
-                IngresarCalificaciones(califications);
-                break;
-            }
-            case 3:
-            {
-                cout << "Modificar datos estudiantes." << endl;
-                getch();
-                cout << endl;
-                break;
-            }
-            case 4:
-            {
-                cout << "Modificar registo de notas por estudiante." << endl;
-                getch();
-                cout << endl;
-                break;
-            }
-            case 5:
-            {
-                cout << "Eliminar registro de estudiante." << endl;
-                getch();
-                cout << endl;
-                break;
-            }
-            case 6:
-            {
-                cout << "Reporte de estudiantes, promedios y estado." << endl;
-                getch();
-                cout << endl;
-                break;
-            }
-            case 7:
-            {
-                cout << "Salir del programa." << endl;
-                getch();
-                cout << endl;
-                break;
-                default:
-                    cout << "Opci�n no v�lida" << endl;
+        }
+        case 2:
+        {
+            students = loadStudentsFromFile("ESTUDIANTES.txt");
+            IngresarCalificaciones(students, califications);
+            saveCalificationsToFile(califications, "CALIFICACIONES.txt");
+            break;
+        }
+        case 3:
+        {
+            students = loadStudentsFromFile("ESTUDIANTES.txt");
+            /*
+            // Aqui modificar los datos del estudiante en el vector
+            if (modifyStudentById(students, idToModify))
+                {
+                    saveStudentsToFile(students, filename);
+                    cout << "Estudiante modificado y cambios guardados exitosamente.\n";
                 }
-
+                    */
+            break;
+        }
+        case 4:
+        {
+            cout << "Modificar registo de notas por estudiante." << endl;
+            getch();
+            cout << endl;
+            break;
+        }
+        case 5:
+        {
+            cout << "Eliminar registro de estudiante." << endl;
+            getch();
+            cout << endl;
+            break;
+        }
+        case 6:
+        {
+            cout << "Reporte de estudiantes, promedios y estado." << endl;
+            getch();
+            cout << endl;
+            break;
+        }
+        case 7:
+        {
+            cout << "Salir del programa." << endl;
+            getch();
+            cout << endl;
+            break;
+            default:
+                cout << "Opci�n no v�lida" << endl;
             }
+
         }
     }
     while(option != 7);
     return 0;
 
+}
+
+
+vector<Student> loadStudentsFromFile(const string& filename)
+{
+    vector<Student> students;
+    ifstream inFile(filename);
+
+    if (!inFile.is_open())
+    {
+        cerr << "Error al abrir el archivo para lectura: " << filename << endl;
+        return students;
+    }
+
+    string line;
+    while (getline(inFile, line))
+    {
+        Student student;
+        size_t pos = 0;
+        string token;
+        int field = 0;
+
+        while ((pos = line.find(',')) != string::npos)
+        {
+            token = line.substr(0, pos);
+
+            switch (field)
+            {
+            case 0:
+                student.id = token;
+                break;
+            case 1:
+                student.fullName = token;
+                break;
+            case 2:
+                student.province = token;
+                break;
+            case 3:
+                student.canton = token;
+                break;
+            case 4:
+                student.district = token;
+                break;
+            case 5:
+                student.age = stoi(token);
+                break;
+            }
+
+            line.erase(0, pos + 1);
+            field++;
+        }
+
+        // El último campo (gender) no tiene coma después
+        student.gender = stoi(line);
+        students.push_back(student);
+    }
+
+    inFile.close();
+    return students;
+}
+
+void saveStudentsToFile(const vector<Student>& students, const string& filename)
+{
+    ofstream outFile(filename);
+
+    if (!outFile.is_open())
+    {
+        cerr << "Error al abrir el archivo para escritura: " << filename << endl;
+        return;
+    }
+
+    for (const auto& student : students)
+    {
+        outFile << student.id << ","
+                << student.fullName << ","
+                << student.province << ","
+                << student.canton << ","
+                << student.district << ","
+                << student.age << ","
+                << student.gender << "\n";
+    }
+    outFile.close();
+}
+
+
+void saveCalificationsToFile(const vector<Califications>& califications, const string& filename)
+{
+    ofstream outFile(filename);
+
+    if (!outFile.is_open())
+    {
+        cerr << "Error al abrir el archivo para escritura: " << filename << endl;
+        return;
+    }
+
+    for (const auto& calification : califications)
+    {
+        outFile << calification.id << ","
+                << calification.subject << ","
+                << calification.firstProject << ","
+                << calification.secondProject << ","
+                << calification.ensayo << ","
+                << calification.defense << ","
+                << calification.foro << ","
+                << calification.average << ","
+                << calification.status << "\n";
+    }
+
+    outFile.close();
 }
 
 // Funci�n Registrar Estudiante.
@@ -283,33 +401,9 @@ void RegistrarEstudiante(vector<Student>& students)
     students.push_back(add);
 }
 
-void saveStudentsToFile(const vector<Student>& students, const string& filename)
-{
-    ofstream outFile(filename);
-
-    if (!outFile.is_open())
-    {
-        cerr << "Error al abrir el archivo para escritura: " << filename << endl;
-        return;
-    }
-
-    for (const auto& student : students)
-    {
-        outFile << student.id << ","
-                << student.fullName << ","
-                << student.province << ","
-                << student.canton << ","
-                << student.district << ","
-                << student.age << ","
-                << student.gender << "\n";
-    }
-
-    outFile.close();
-}
-
 // Funci�n para las calificaciones.
 
-void IngresarCalificaciones(vector<Califications>& califications)
+void IngresarCalificaciones(vector<Student>& students, vector<Califications>& califications)
 {
     string cedula;
     char respuesta;
@@ -327,24 +421,15 @@ void IngresarCalificaciones(vector<Califications>& califications)
         cin >> cedula;
         cin.ignore();
 
-        ifstream archivo("ESTUDIANTES.txt");
-        if (!archivo.is_open())
-        {
-            cout << "Error al abrir el archivo de estudiantes." << endl;
-            return;
-        }
-
         encontrado = false;
-        string linea;
-        while (getline(archivo, linea))
+        for (const auto& student : students)
         {
-            if (linea == cedula)
+            if (student.id == cedula)
             {
                 encontrado = true;
                 break;
             }
         }
-        archivo.close();
 
         if (!encontrado)
         {
@@ -453,31 +538,14 @@ void IngresarCalificaciones(vector<Califications>& califications)
         getch();
         cout << endl;
 
-        float prom = (reg.firstProject * 0.1 + reg.secondProject * 0.2 + reg.ensayo * 0.3 + reg.defense * 0.1 + reg.foro * 0.3) / 5.0;
-        cout << "Promedio calculado: " << prom << endl;
-        cout << "Estado: " << (prom >= 7 ? "Aprobado" : "Reprobado") << endl;
+        reg.average = (reg.firstProject * 0.1 + reg.secondProject * 0.2 + reg.ensayo * 0.3 + reg.defense * 0.1 + reg.foro * 0.3) / 5.0;
+        reg.status = reg.average >= 7 ? "Aprobado" : "Reprobado";
+        cout << "Promedio calculado: " << reg.average << endl;
+        cout << "Estado: " << reg.status << endl;
         getch();
         cout << endl;
 
-        ofstream archivoNotas("CALIFICACIONES.txt", ios::app);
-        if (archivoNotas.is_open())
-        {
-            archivoNotas << reg.id << endl;
-            archivoNotas << reg.subject << endl;
-            archivoNotas << reg.firstProject << endl;
-            archivoNotas << reg.secondProject << endl;
-            archivoNotas << reg.ensayo << endl;
-            archivoNotas << reg.defense << endl;
-            archivoNotas << reg.foro << endl;
-            archivoNotas << prom << endl;
-            archivoNotas << (prom >= 7 ? "Aprobado" : "Reprobado") << endl;
-            archivoNotas << "-----" << endl;
-            archivoNotas.close();
-        }
-        else
-        {
-            cout << "Error al abrir el archivo para guardar las calificaciones." << endl;
-        }
+        califications.push_back(reg);
     } // FIN del for
-} // FI
+}
 
