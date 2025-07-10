@@ -1,7 +1,14 @@
-Identificación: 0119190417
-Nombre completo: Jimena V
-Provincia; San Jos‚
-Cantón: Santa Ana
-Distrito: San Rafael
-Edad: 20
-Género: 2
+Identificación:0101010101
+Nombre completo:Jime V 
+Provincia:SJ
+Cantón:SA
+Distrito:CC
+Edad:20
+Género:2
+Identificación:1919191919
+Nombre completo:DSW
+Provincia:DSFCSF
+Cantón:FERF
+Distrito:ERF
+Edad:21
+Género:2

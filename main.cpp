@@ -282,13 +282,13 @@ void RegistrarEstudiante(vector<Student>& student)
     ofstream archivo("ESTUDIANTES.txt", ios::app);
     if (archivo.is_open())
     {
-        archivo << "Identificación: " << add.id  << "\n"
-                << "Nombre completo: " << add.fullName << "\n"
-                << "Provincia; " << add.province << "\n"
-                << "Cantón: " << add.canton << "\n"
-                << "Distrito: " << add.district << "\n"
-                << "Edad: " << add.age<< "\n"
-                << "Género: " <<add.gender << "\n";
+        archivo << "Identificación:" << add.id  << "\n"
+                << "Nombre completo:" << add.fullName << "\n"
+                << "Provincia:" << add.province << "\n"
+                << "Cantón:" << add.canton << "\n"
+                << "Distrito:" << add.district << "\n"
+                << "Edad:" << add.age<< "\n"
+                << "Género:" <<add.gender << "\n";
 
         archivo.close();
 
@@ -528,14 +528,14 @@ void IngresarCalificaciones(vector<Califications>& califications)
 
         if (archivoNotas.is_open())
         {
-            archivoNotas << "Identificación: " << reg.id << endl;
-            archivoNotas << "Materia: " << reg.subject << endl;
-            archivoNotas << "Proyecto 1: " << reg.firstProject << endl;
-            archivoNotas << "Proyecto 2: " << reg.secondProject << endl;
-            archivoNotas << "Ensayo: " << reg.ensayo << endl;
-            archivoNotas << "Defensa: " << reg.defense << endl;
-            archivoNotas << "Foro: " << reg.foro << endl;
-            archivoNotas << "Promedio: " << prom << endl;
+            archivoNotas << reg.id << endl;
+            archivoNotas << reg.subject << endl;
+            archivoNotas << reg.firstProject << endl;
+            archivoNotas << reg.secondProject << endl;
+            archivoNotas << reg.ensayo << endl;
+            archivoNotas << reg.defense << endl;
+            archivoNotas << reg.foro << endl;
+            archivoNotas << prom << endl;
             archivoNotas << "Estado: " << (prom >= 7.0 ? "Aprobado" : "Reprobado") << endl;
             archivoNotas << "------------------------------------" << endl;
 
