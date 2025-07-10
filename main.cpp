@@ -279,57 +279,42 @@ void RegistrarEstudiante(vector<Student>& student)
 
     student.push_back(add);
 
-    // Almacenar el archivo.
+    // Guardar el estudiante sin etiquetas en el archivo (agregando al final)
 
-    ofstream archivo("ESTUDIANTES.txt", ios::app);
-    if (archivo.is_open())
-    {
-        archivo << "Identificación: " << add.id << endl;
-        archivo << "Nombre completo: " << add.fullName << endl;
-        archivo << "Provincia: " << add.province << endl;
-        archivo << "Cantón: " << add.canton << endl;
-        archivo << "Distrito: " << add.district << endl;
-        archivo << "Edad: " << add.age << endl;
-        archivo << "Género: ";
-        switch (add.gender)
-        {
-        case 1:
-            archivo << "Masculino";
-            break;
-        case 2:
-            archivo << "Femenino";
-            break;
-        case 3:
-            archivo << "Otro";
-            break;
-        }
-        archivo << endl;
-        archivo << "-------------------------------" << endl;
-        archivo.close();
+ofstream archivo("ESTUDIANTES.txt", ios::app);
+if (archivo.is_open())
+{
+    archivo << add.id << endl;
+    archivo << add.fullName << endl;
+    archivo << add.province << endl;
+    archivo << add.canton << endl;
+    archivo << add.district << endl;
+    archivo << add.age << endl;
+    archivo << add.gender << endl;  // Guardamos el número (1,2,3)
+    archivo.close();
 
-        cout << "Estudiante registrado con éxito en 'ESTUDIANTES.txt'" << endl;
-    }
-    else
-    {
-        cout << "Error al abrir el archivo para guardar el estudiante." << endl;
-    }
-    getch();
-    cout << endl;
+    cout << "Estudiante registrado con éxito en 'ESTUDIANTES.txt'" << endl;
+}
+else
+{
+    cout << "Error al abrir el archivo para guardar el estudiante." << endl;
+}
+getch();
+cout << endl;
+
 }
 
 // Función para las calificaciones.
-
-// Verificar identificación del estudiante.
 
 void IngresarCalificaciones(vector<Califications>& califications)
 {
     string cedula;
     char respuesta;
-    bool VoF = false;
+    bool encontrado = false;
 
-    cout << "-------------------------------------------------------------------"<<endl;
-    cout << "|                 REGISTRO DE NOTAS POR MATERIA                   |"<<endl;
-    cout << "------------------------------------------------------------------ "<<endl;
+    cout << "-------------------------------------------------------------------" << endl;
+    cout << "|                 REGISTRO DE NOTAS POR MATERIA                   |" << endl;
+    cout << "-------------------------------------------------------------------" << endl;
     getch();
     cout << endl;
 
@@ -339,224 +324,149 @@ void IngresarCalificaciones(vector<Califications>& califications)
         cin >> cedula;
         cin.ignore();
 
-        // Buscar en el archivo ESTUDIANTES.txt
-
         ifstream archivo("ESTUDIANTES.txt");
-        string palabra;
-
-        VoF = false;
-        while (archivo >> palabra)
+        if (!archivo.is_open())
         {
-            if (palabra == "Identificación:")
-            {
-                archivo >> palabra; // Leer la cédula
-                if (palabra == cedula)
-                {
-                    VoF = true;
-
-                    // Leer y mostrar el nombre
-                    string etiqueta, nombre;
-                    archivo >> etiqueta; // Lee "Nombre"
-                    archivo >> etiqueta; // Lee "completo:"
-                    getline(archivo, nombre); // El resto es el nombre
-                    cout << "Nombre del estudiante:" << nombre << endl;
-                    getch();
-                    cout << endl;
-                    break;
-                }
-            }
+            cout << "Error al abrir el archivo de estudiantes." << endl;
+            return;
         }
 
+        encontrado = false;
+        string linea;
+        while (getline(archivo, linea))
+        {
+            if (linea == cedula)
+            {
+                encontrado = true;
+                break;
+            }
+        }
         archivo.close();
 
-        if (!VoF)
+        if (!encontrado)
         {
-            cout << " Estudiante no registrado";
+            cout << "Estudiante no registrado." << endl;
             cout << "¿Desea ingresar otra identificación? (S/N): ";
             cin >> respuesta;
             respuesta = toupper(respuesta);
         }
 
-    }
-    while (!VoF && respuesta == 'S');
+    } while (!encontrado && respuesta == 'S');
 
-    if (!VoF)
+    if (!encontrado)
     {
-        cout << "Volver al menú principal"<< endl;
+        cout << "Volver al menú principal." << endl;
         getch();
         cout << endl;
         return;
     }
 
-
-    // Registro de materias.
-
     int cantSubject;
 
-    cout << "-------------------------------------------------------------------"<<endl;
-    cout << "|                            MATERIA                              |"<< endl;
-    cout << "-------------------------------------------------------------------"<<endl;
+    cout << "-------------------------------------------------------------------" << endl;
+    cout << "|                            MATERIAS                             |" << endl;
+    cout << "-------------------------------------------------------------------" << endl;
     getch();
     cout << endl;
 
     do
     {
-
-        cout << "Ingrese la cantidad de tareas a registrar (máximo 3):";
+        cout << "Ingrese la cantidad de tareas a registrar (máximo 3): ";
         cin >> cantSubject;
-
         if (cantSubject < 1 || cantSubject > 3)
         {
-            cout << "Error: debe ingresar mínimo una o como máximo tres tareas.";
+            cout << "Error: debe ingresar mínimo una o como máximo tres tareas." << endl;
         }
-
-    }
-    while(cantSubject < 1 || cantSubject > 3);
+    } while (cantSubject < 1 || cantSubject > 3);
     getch();
     cout << endl;
 
-    for (int i=0; i < cantSubject; i++)
-
+    for (int i = 0; i < cantSubject; i++)
     {
-
         Califications reg;
         reg.id = cedula;
+        cin.ignore();
+
         do
         {
-            cout << "Ingrese el nombre de la materia:";
-            cin.ignore();
-            getline (cin,reg.subject);
-
+            cout << "Ingrese el nombre de la materia: ";
+            getline(cin, reg.subject);
             if (reg.subject.empty())
             {
                 cout << "Error: no debe dejar el espacio vacío." << endl;
             }
-
-        }
-        while (reg.subject.empty());
+        } while (reg.subject.empty());
         getch();
         cout << endl;
 
-        // Calificaciones.
-
-        float firstProject;
-        float secondProject;
-        float ensayo;
-        float foro;
-        float defense;
-
         do
         {
-            cout << "Ingrese las notas en base 10:" << endl;
-            getch();
-            cout << endl;
-
-            cout << "Proyecto 1:";
+            cout << "Ingrese Proyecto 1 (0-10): ";
             cin >> reg.firstProject;
-
-            if (reg.firstProject < 0 || reg.firstProject > 10 )
-            {
-                cout << "Vuelva a ingresar las notas" << endl;
-            }
-        }
-        while (reg.firstProject < 0 || reg.firstProject > 10);
+            if (reg.firstProject < 0 || reg.firstProject > 10)
+                cout << "Nota inválida, vuelva a ingresar." << endl;
+        } while (reg.firstProject < 0 || reg.firstProject > 10);
 
         do
         {
-
-            cout << "Proyecto 2:";
+            cout << "Ingrese Proyecto 2 (0-10): ";
             cin >> reg.secondProject;
-
-            if (reg.secondProject < 0 || reg.secondProject > 10 )
-            {
-                cout << "Vuelva a ingresar la nota." << endl;
-            }
-        }
-        while (reg.secondProject < 0 || reg.secondProject > 10);
+            if (reg.secondProject < 0 || reg.secondProject > 10)
+                cout << "Nota inválida, vuelva a ingresar." << endl;
+        } while (reg.secondProject < 0 || reg.secondProject > 10);
 
         do
         {
-
-            cout << "Ensayo:";
+            cout << "Ingrese Ensayo (0-10): ";
             cin >> reg.ensayo;
-
-            if (reg.ensayo < 0 || reg.ensayo > 10 )
-            {
-                cout << "Vuelva a ingresar la nota." << endl;
-            }
-        }
-        while (reg.ensayo < 0 || reg.ensayo > 10);
+            if (reg.ensayo < 0 || reg.ensayo > 10)
+                cout << "Nota inválida, vuelva a ingresar." << endl;
+        } while (reg.ensayo < 0 || reg.ensayo > 10);
 
         do
         {
-
-            cout << "Defensa:";
+            cout << "Ingrese Defensa (0-10): ";
             cin >> reg.defense;
-
-            if (reg.defense < 0 || reg.defense > 10 )
-            {
-                cout << "Vuelva a ingresar la nota." << endl;
-            }
-        }
-        while (reg.defense < 0 || reg.defense > 10);
+            if (reg.defense < 0 || reg.defense > 10)
+                cout << "Nota inválida, vuelva a ingresar." << endl;
+        } while (reg.defense < 0 || reg.defense > 10);
 
         do
         {
-
-            cout << "Foro:";
+            cout << "Ingrese Foro (0-10): ";
             cin >> reg.foro;
+            if (reg.foro < 0 || reg.foro > 10)
+                cout << "Nota inválida, vuelva a ingresar." << endl;
+        } while (reg.foro < 0 || reg.foro > 10);
 
-            if (reg.foro < 0 || reg.foro > 10 )
-            {
-                cout << "Vuelva a ingresar la nota." << endl;
-            }
-        }
-        while (reg.foro < 0 || reg.foro > 10);
         getch();
         cout << endl;
 
-        // Calcular el promedio y su estado.
-
-        float prom;
-
-        prom= (reg.firstProject * 0.1 + reg.secondProject * 0.2 + reg.ensayo * 0.3 + reg.defense * 0.1+ reg.foro * 0.3)/ 5.0 ;
-        cout << "Promedio calculado:" << prom << endl;
-
-        if (prom>=7)
-        {
-            cout << "Estado: Aprobado" << endl;
-        }
-        else
-        {
-            cout << "Estado: Reprobado" << endl;
-        }
+        float prom = (reg.firstProject * 0.1 + reg.secondProject * 0.2 + reg.ensayo * 0.3 + reg.defense * 0.1 + reg.foro * 0.3) / 5.0;
+        cout << "Promedio calculado: " << prom << endl;
+        cout << "Estado: " << (prom >= 7 ? "Aprobado" : "Reprobado") << endl;
         getch();
         cout << endl;
-
-        // Archivo.
 
         ofstream archivoNotas("CALIFICACIONES.txt", ios::app);
-
         if (archivoNotas.is_open())
         {
-            archivoNotas << "Identificación: " << reg.id << endl;
-            archivoNotas << "Materia: " << reg.subject << endl;
-            archivoNotas << "Proyecto 1: " << reg.firstProject << endl;
-            archivoNotas << "Proyecto 2: " << reg.secondProject << endl;
-            archivoNotas << "Ensayo: " << reg.ensayo << endl;
-            archivoNotas << "Defensa: " << reg.defense << endl;
-            archivoNotas << "Foro: " << reg.foro << endl;
-            archivoNotas << "Promedio: " << prom << endl;
-            archivoNotas << "Estado: " << (prom >= 7.0 ? "Aprobado" : "Reprobado") << endl;
-            archivoNotas << "------------------------------------" << endl;
-
+            archivoNotas << reg.id << endl;
+            archivoNotas << reg.subject << endl;
+            archivoNotas << reg.firstProject << endl;
+            archivoNotas << reg.secondProject << endl;
+            archivoNotas << reg.ensayo << endl;
+            archivoNotas << reg.defense << endl;
+            archivoNotas << reg.foro << endl;
+            archivoNotas << prom << endl;
+            archivoNotas << (prom >= 7 ? "Aprobado" : "Reprobado") << endl;
+            archivoNotas << "-----" << endl;
             archivoNotas.close();
         }
         else
         {
             cout << "Error al abrir el archivo para guardar las calificaciones." << endl;
         }
-
-    }
-}
+    } // FIN del for
+} // FI
 

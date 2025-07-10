@@ -1,40 +1,20 @@
-Identificación: 0119190417
-Materia: Mate
-Proyecto 1: 1
-Proyecto 2: 0
-Ensayo: 1.4013e-45
-Defensa: 0
-Foro: 0
-Promedio: 4.70201e-39
-Estado: Reprobado
-------------------------------------
-Identificación: 0119190417
-Materia:  Jaidd
-Proyecto 1: 1
-Proyecto 2: 1.5
-Ensayo: 2.5
-Defensa: 2
-Foro: 0.5
-Promedio: 3.36312e-44
-Estado: Reprobado
-------------------------------------
-Identificación: 0119190417
-Materia: Matem ticas
-Proyecto 1: 8
-Proyecto 2: 8
-Ensayo: 8.5
-Defensa: 7.9
-Foro: 9.5
-Promedio: 8.38
-Estado: Aprobado
-------------------------------------
-Identificación: 0119190417
-Materia:  Ingl‚s
-Proyecto 1: 2
-Proyecto 2: 5
-Ensayo: 4.3
-Defensa: 2.2
-Foro: 1
-Promedio: 2.9
-Estado: Reprobado
-------------------------------------
+0119190417
+DFERG
+1
+1.4
+4.5
+5.6
+7.8
+0.926
+Reprobado
+-----
+0119190417
+111
+1
+2
+3
+4
+5
+0.66
+Reprobado
+-----
