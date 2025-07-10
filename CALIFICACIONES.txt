@@ -1,1 +1,1 @@
-1234567890,matematica,7,6,9.5,8,7,1.53,Reprobado
+1234567891,Matem ticas,1,2,3,4,5,0.66,Reprobado

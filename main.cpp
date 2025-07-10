@@ -3,10 +3,11 @@
 #include <string>
 #include <fstream> // Archivos.
 #include <conio.h>
+#include <locale.h>
 
 using namespace std;
 
-// Funci�n
+// Función
 
 struct Student
 {
@@ -32,17 +33,17 @@ struct Califications
     string status;
 };
 
-// Funci�n de estudiantes.
+// Función de estudiantes.
 
 void RegistrarEstudiante (vector<Student>&students);
 void ModificardatosEstudiante (vector<Student>&students);
-void modificarregistroEstudiante (vector<Student>&students);
+void modificarRegistroEstudiante (vector<Student>&students);
 void EliminarRegistroEstudiante (vector<Student>&students);
 void ReporteEstudiante (vector<Student>&students);
 void saveStudentsToFile(const vector<Student>& students, const string& filename);
 vector<Student> loadStudentsFromFile(const string& filename);
 
-// Funci�n para las calificaciones.
+// Función para las calificaciones.
 
 void IngresarCalificaciones (vector<Student>& students, vector<Califications>&califications);
 void saveCalificationsToFile(const vector<Califications>& califications, const string& filename);
@@ -50,7 +51,7 @@ void saveCalificationsToFile(const vector<Califications>& califications, const s
 
 int main()
 {
-    setlocale(LC_CTYPE,"Spanish"); //Idioma y car�cteres especiales.
+    setlocale(LC_CTYPE,"Spanish"); //Idioma y carácteres especiales.
     vector <Student>students;
     vector <Califications>califications;
     int option;
@@ -64,7 +65,7 @@ int main()
         cout << "5.Eliminar registro de estudiante." << endl;
         cout << "6.Reporte de estudiantes, promedios y estado." << endl;
         cout << "7.Salir del programa." << endl;
-        cout << "Digite por favor un n�mero del 1-7" << endl;
+        cout << "Digite por favor un número del 1-7." << endl;
         cin >> option;
         if (cin.fail())
         {
@@ -77,8 +78,6 @@ int main()
         {
         case 1:
         {
-            // Registrar funci�n.
-
             RegistrarEstudiante(students);
             saveStudentsToFile(students, "ESTUDIANTES.txt");
             break;
@@ -94,8 +93,11 @@ int main()
         {
             students = loadStudentsFromFile("ESTUDIANTES.txt");
             /*
+            ModificarEstudiante(students);
+            saveStudentsToFile(students, "ESTUDIANTES.txt");
+            ----------------------------------------------------------------
             // Aqui modificar los datos del estudiante en el vector
-            if (modifyStudentById(students, idToModify))
+            if (ModificarEstudiante(students))
                 {
                     saveStudentsToFile(students, filename);
                     cout << "Estudiante modificado y cambios guardados exitosamente.\n";
@@ -131,7 +133,7 @@ int main()
             cout << endl;
             break;
             default:
-                cout << "Opci�n no v�lida" << endl;
+                cout << "Opción no válida" << endl;
             }
 
         }
@@ -250,20 +252,26 @@ void saveCalificationsToFile(const vector<Califications>& califications, const s
     outFile.close();
 }
 
-// Funci�n Registrar Estudiante.
+// Función Registrar Estudiante.
 
 void RegistrarEstudiante(vector<Student>& students)
 {
-    cout << "Registrar estudiante." << endl;
+
+    cout << "--------------------------------------------------" << endl;
+    cout << "|             REGISTRAR UN ESTUDIANTE             |" << endl;
+    cout << "--------------------------------------------------" << endl;
+    getch();
+    cout << endl;
 
     Student add;
 
-    // Identificaci�n
+    // Identificación.
+
     bool verification;
     do
     {
         verification = true;
-        cout << "Ingrese la identificaci�n del estudiante (10 d�gitos): ";
+        cout << "Ingrese la identificación del estudiante (10 dígitos): ";
         cin >> add.id;
 
         if (add.id.length() != 10)
@@ -298,7 +306,7 @@ void RegistrarEstudiante(vector<Student>& students)
 
         if (!verification)
         {
-            cout << "Error: debe ingresar 10 n�meros y que no se repitan." << endl;
+            cout << "Error: debe ingresar 10 números y que no se repitan." << endl;
         }
 
     }
@@ -312,7 +320,7 @@ void RegistrarEstudiante(vector<Student>& students)
     do
     {
         verification = true;
-        cout << "Ingrese el nombre completo (nombre y apellidos): ";
+        cout << "Ingrese el nombre completo (Nombre y dos apellidos): ";
         getline(cin, add.fullName);
 
         for (int i = 0; i < add.fullName.length(); i++)
@@ -335,19 +343,21 @@ void RegistrarEstudiante(vector<Student>& students)
     getch();
     cout << endl;
 
-    // Residencia
-    cout << "Ingrese el lugar de residencia:" << endl;
-    cout << "- Provincia: ";
+    // Residencia.
+
+    cout << "Ingrese el lugar de residencia: " << endl;
+    cout << "Provincia: ";
     getline(cin, add.province);
-    cout << "- Cant�n: ";
+    cout << "Cantón: ";
     getline(cin, add.canton);
-    cout << "- Distrito: ";
+    cout << "Distrito: ";
     getline(cin, add.district);
 
     getch();
     cout << endl;
 
-    // Edad
+    // Edad.
+
     do
     {
         verification = true;
@@ -358,7 +368,7 @@ void RegistrarEstudiante(vector<Student>& students)
         {
             cin.clear();
             cin.ignore();
-            cout << "Error: debe ingresar un n�mero v�lido." << endl;
+            cout << "Error: debe ingresar un número válido." << endl;
             verification = false;
         }
 
@@ -374,14 +384,14 @@ void RegistrarEstudiante(vector<Student>& students)
     getch();
     cout << endl;
 
-    // G�nero
-    cout << "Seleccione un g�nero:" << endl;
+    // Género
+    cout << "Seleccione un género:" << endl;
     cout << "1. Masculino" << endl;
     cout << "2. Femenino" << endl;
     cout << "3. Otro" << endl;
     cin >> add.gender;
 
-    cout << "G�nero seleccionado: ";
+    cout << "Género seleccionado: ";
     switch (add.gender)
     {
     case 1:
@@ -394,14 +404,15 @@ void RegistrarEstudiante(vector<Student>& students)
         cout << "Otro" << endl;
         break;
     default:
-        cout << "Opci�n inv�lida" << endl;
+        cout << "Opción inválida" << endl;
         break;
     }
-
+    getch();
+    cout << endl;
     students.push_back(add);
 }
 
-// Funci�n para las calificaciones.
+// Función para las calificaciones.
 
 void IngresarCalificaciones(vector<Student>& students, vector<Califications>& califications)
 {
@@ -417,7 +428,7 @@ void IngresarCalificaciones(vector<Student>& students, vector<Califications>& ca
 
     do
     {
-        cout << "Ingrese la identificaci�n del estudiante (10 d�gitos): ";
+        cout << "Ingrese la identificación del estudiante (10 dígitos): ";
         cin >> cedula;
         cin.ignore();
 
@@ -434,7 +445,7 @@ void IngresarCalificaciones(vector<Student>& students, vector<Califications>& ca
         if (!encontrado)
         {
             cout << "Estudiante no registrado." << endl;
-            cout << "�Desea ingresar otra identificaci�n? (S/N): ";
+            cout << "Desea ingresar otra identificacón? (S/N): ";
             cin >> respuesta;
             respuesta = toupper(respuesta);
         }
@@ -444,11 +455,13 @@ void IngresarCalificaciones(vector<Student>& students, vector<Califications>& ca
 
     if (!encontrado)
     {
-        cout << "Volver al men� principal." << endl;
+        cout << "Volver al menú principal." << endl;
         getch();
         cout << endl;
         return;
     }
+getch();
+        cout << endl;
 
     int cantSubject;
 
@@ -460,11 +473,11 @@ void IngresarCalificaciones(vector<Student>& students, vector<Califications>& ca
 
     do
     {
-        cout << "Ingrese la cantidad de tareas a registrar (m�ximo 3): ";
+        cout << "Ingrese la cantidad de tareas a registrar (Máximo 3): ";
         cin >> cantSubject;
         if (cantSubject < 1 || cantSubject > 3)
         {
-            cout << "Error: debe ingresar m�nimo una o como m�ximo tres tareas." << endl;
+            cout << "Error: debe ingresar mínimo una o como máximo tres tareas." << endl;
         }
     }
     while (cantSubject < 1 || cantSubject > 3);
@@ -483,55 +496,57 @@ void IngresarCalificaciones(vector<Student>& students, vector<Califications>& ca
             getline(cin, reg.subject);
             if (reg.subject.empty())
             {
-                cout << "Error: no debe dejar el espacio vac�o." << endl;
+                cout << "Error: no debe dejar el espacio vacío." << endl;
             }
         }
         while (reg.subject.empty());
         getch();
         cout << endl;
 
+        cout << "Ingrese las notas en base 10:" << endl;
+
         do
         {
-            cout << "Ingrese Proyecto 1 (0-10): ";
+            cout << "Proyecto 1:";
             cin >> reg.firstProject;
             if (reg.firstProject < 0 || reg.firstProject > 10)
-                cout << "Nota inv�lida, vuelva a ingresar." << endl;
+                cout << "Nota inválida, vuelva a ingresar." << endl;
         }
         while (reg.firstProject < 0 || reg.firstProject > 10);
 
         do
         {
-            cout << "Ingrese Proyecto 2 (0-10): ";
+            cout << "Proyecto 2:";
             cin >> reg.secondProject;
             if (reg.secondProject < 0 || reg.secondProject > 10)
-                cout << "Nota inv�lida, vuelva a ingresar." << endl;
+                cout << "Nota inválida, vuelva a ingresar." << endl;
         }
         while (reg.secondProject < 0 || reg.secondProject > 10);
 
         do
         {
-            cout << "Ingrese Ensayo (0-10): ";
+            cout << "Ensayo:";
             cin >> reg.ensayo;
             if (reg.ensayo < 0 || reg.ensayo > 10)
-                cout << "Nota inv�lida, vuelva a ingresar." << endl;
+                cout << "Nota inválida, vuelva a ingresar." << endl;
         }
         while (reg.ensayo < 0 || reg.ensayo > 10);
 
         do
         {
-            cout << "Ingrese Defensa (0-10): ";
+            cout << "Defensa:";
             cin >> reg.defense;
             if (reg.defense < 0 || reg.defense > 10)
-                cout << "Nota inv�lida, vuelva a ingresar." << endl;
+                cout << "Nota inválida, vuelva a ingresar." << endl;
         }
         while (reg.defense < 0 || reg.defense > 10);
 
         do
         {
-            cout << "Ingrese Foro (0-10): ";
+            cout << "Foro:";
             cin >> reg.foro;
             if (reg.foro < 0 || reg.foro > 10)
-                cout << "Nota inv�lida, vuelva a ingresar." << endl;
+                cout << "Nota inválida, vuelva a ingresar." << endl;
         }
         while (reg.foro < 0 || reg.foro > 10);
 
@@ -546,6 +561,6 @@ void IngresarCalificaciones(vector<Student>& students, vector<Califications>& ca
         cout << endl;
 
         califications.push_back(reg);
-    } // FIN del for
+    } // FIN del for.
 }
 
