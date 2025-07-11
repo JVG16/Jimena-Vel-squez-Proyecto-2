@@ -748,5 +748,5 @@ void ModificarRegistroNotasEstudiantes(vector<Student>&students,vector<Calificat
 
 void EliminarRegistroEstudiante (vector<Student>&students,vector<Califications>&califications)
 {
-
+// Se procede a elaborar el case 5.
 }
