@@ -37,7 +37,6 @@ struct Califications
 
 void RegistrarEstudiante (vector<Student>&students);
 void ModificarDatosEstudiante (vector<Student>&students);
-void modificarRegistroEstudiante (vector<Student>&students);
 void EliminarRegistroEstudiante (vector<Student>&students);
 void ReporteEstudiante (vector<Student>&students);
 void saveStudentsToFile(const vector<Student>& students, const string& filename);
@@ -48,7 +47,8 @@ vector<Student> loadStudentsFromFile(const string& filename);
 
 void IngresarCalificaciones (vector<Student>& students, vector<Califications>&califications);
 void saveCalificationsToFile(const vector<Califications>& califications, const string& filename);
-
+void ModificarRegistroNotasEstudiantes(vector<Student>&students,vector<Califications>&califications);
+void saveRegistroNotasToFile (const vector<Califications>& califications, const string& filename);
 
 int main()
 {
@@ -93,15 +93,15 @@ int main()
         case 3:
         {
             students = loadStudentsFromFile("ESTUDIANTES.txt");
-    ModificarDatosEstudiante(students);
-    saveStudentsModificationsToFile(students, "ESTUDIANTES.txt");
+            ModificarDatosEstudiante(students);
+            saveStudentsModificationsToFile(students, "ESTUDIANTES.txt");
             break;
         }
         case 4:
         {
-            cout << "Modificar registo de notas por estudiante." << endl;
-            getch();
-            cout << endl;
+            students = loadStudentsFromFile("ESTUDIANTES.txt");
+            ModificarRegistroNotasEstudiantes(students, califications);
+            saveRegistroNotasToFile(califications, "CALIFICACIONES.txt");
             break;
         }
         case 5:
@@ -184,7 +184,8 @@ vector<Student> loadStudentsFromFile(const string& filename)
             field++;
         }
 
-        // El último campo (gender) no tiene coma después
+        // El último campo (gender) no tiene coma después.
+
         student.gender = stoi(line);
         students.push_back(student);
     }
@@ -375,7 +376,8 @@ void RegistrarEstudiante(vector<Student>& students)
     getch();
     cout << endl;
 
-    // Género
+    // Género.
+
     cout << "Seleccione un género:" << endl;
     cout << "1. Masculino" << endl;
     cout << "2. Femenino" << endl;
@@ -451,8 +453,8 @@ void IngresarCalificaciones(vector<Student>& students, vector<Califications>& ca
         cout << endl;
         return;
     }
-getch();
-        cout << endl;
+    getch();
+    cout << endl;
 
     int cantSubject;
 
@@ -630,7 +632,8 @@ void ModificarDatosEstudiante(vector<Student>& students)
                     cin.ignore();
                     validaEdad = false;
                 }
-            } while (!validaEdad);
+            }
+            while (!validaEdad);
 
             student.age = nuevaEdad;
 
@@ -645,4 +648,38 @@ void ModificarDatosEstudiante(vector<Student>& students)
         cout << "Estudiante no registrado." << endl;
         getch();
     }
+}
+
+void saveRegistroNotasToFile (const vector<Califications>& califications, const string& filename)
+{
+ ofstream outFile(filename);
+
+    if (!outFile.is_open())
+    {
+        cerr << "Error al abrir el archivo para escritura: " << filename << endl;
+        return;
+    }
+
+    for (const auto& calification : califications)
+    {
+        outFile << calification.id << ","
+                << calification.subject << ","
+                << calification.firstProject << ","
+                << calification.secondProject << ","
+                << calification.ensayo << ","
+                << calification.defense << ","
+                << calification.foro << ","
+                << calification.average << ","
+                << calification.status << "\n";
+    }
+
+    outFile.close();
+}
+
+
+// Función 4.
+
+void ModificarRegistroNotasEstudiantes(vector<Student>&students,vector<Califications>&califications)
+{
+
 }
