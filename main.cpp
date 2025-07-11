@@ -36,11 +36,12 @@ struct Califications
 // Función de estudiantes.
 
 void RegistrarEstudiante (vector<Student>&students);
-void ModificardatosEstudiante (vector<Student>&students);
+void ModificarDatosEstudiante (vector<Student>&students);
 void modificarRegistroEstudiante (vector<Student>&students);
 void EliminarRegistroEstudiante (vector<Student>&students);
 void ReporteEstudiante (vector<Student>&students);
 void saveStudentsToFile(const vector<Student>& students, const string& filename);
+void saveStudentsModificationsToFile(const vector<Student>& students, const string& filename);
 vector<Student> loadStudentsFromFile(const string& filename);
 
 // Función para las calificaciones.
@@ -92,17 +93,8 @@ int main()
         case 3:
         {
             students = loadStudentsFromFile("ESTUDIANTES.txt");
-            /*
-            ModificarEstudiante(students);
-            saveStudentsToFile(students, "ESTUDIANTES.txt");
-            ----------------------------------------------------------------
-            // Aqui modificar los datos del estudiante en el vector
-            if (ModificarEstudiante(students))
-                {
-                    saveStudentsToFile(students, filename);
-                    cout << "Estudiante modificado y cambios guardados exitosamente.\n";
-                }
-                    */
+    ModificarDatosEstudiante(students);
+    saveStudentsModificationsToFile(students, "ESTUDIANTES.txt");
             break;
         }
         case 4:
@@ -142,7 +134,6 @@ int main()
     return 0;
 
 }
-
 
 vector<Student> loadStudentsFromFile(const string& filename)
 {
@@ -564,3 +555,94 @@ getch();
     } // FIN del for.
 }
 
+
+void saveStudentsModificationsToFile(const vector<Student>& students, const string& filename)
+{
+    ofstream outFile(filename);
+
+    if (!outFile.is_open())
+    {
+        cerr << "Error al abrir el archivo para escritura: " << filename << endl;
+        return;
+    }
+
+    for (const auto& student : students)
+    {
+        outFile << student.id << ","
+                << student.fullName << ","
+                << student.province << ","
+                << student.canton << ","
+                << student.district << ","
+                << student.age << ","
+                << student.gender << "\n";
+    }
+    outFile.close();
+}
+
+// Función case 3.
+
+void ModificarDatosEstudiante(vector<Student>& students)
+{
+    string cedula;
+    bool encontrado = false;
+
+    cout << "--------------------------------------------------" << endl;
+    cout << "|           MODIFICAR DATOS DE ESTUDIANTE        |" << endl;
+    cout << "--------------------------------------------------" << endl;
+
+    cout << "Ingrese la cédula del estudiante a modificar: ";
+    cin >> cedula;
+
+    for (auto& student : students)
+    {
+        if (student.id == cedula)
+        {
+            encontrado = true;
+
+            cout << "Estudiante encontrado: " << student.fullName << endl;
+
+            // Modificar residencia
+
+            cout << "Ingrese nueva provincia: ";
+            cin.ignore();
+            getline(cin, student.province);
+
+            cout << "Ingrese nuevo cantón: ";
+            getline(cin, student.canton);
+
+            cout << "Ingrese nuevo distrito: ";
+            getline(cin, student.district);
+
+            // Modificar edad
+
+            int nuevaEdad;
+            bool validaEdad;
+            do
+            {
+                validaEdad = true;
+                cout << "Ingrese nueva edad (18-100): ";
+                cin >> nuevaEdad;
+
+                if (cin.fail() || nuevaEdad < 18 || nuevaEdad > 100)
+                {
+                    cout << "Edad inválida. Intente de nuevo." << endl;
+                    cin.clear();
+                    cin.ignore();
+                    validaEdad = false;
+                }
+            } while (!validaEdad);
+
+            student.age = nuevaEdad;
+
+            cout << "Datos actualizados correctamente." << endl;
+            getch();
+            break;
+        }
+    }
+
+    if (!encontrado)
+    {
+        cout << "Estudiante no registrado." << endl;
+        getch();
+    }
+}
