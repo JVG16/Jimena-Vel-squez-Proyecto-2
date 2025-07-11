@@ -1,14 +1,1 @@
-Identificación:0101010101
-Nombre completo:Jime V 
-Provincia:SJ
-Cantón:SA
-Distrito:CC
-Edad:20
-Género:2
-Identificación:1919191919
-Nombre completo:DSW
-Provincia:DSFCSF
-Cantón:FERF
-Distrito:ERF
-Edad:21
-Género:2
+1212121212,Jimena V,San Jos‚,Santa Ana,Centro,22,2
