@@ -37,7 +37,6 @@ struct Califications
 
 void RegistrarEstudiante (vector<Student>&students);
 void ModificarDatosEstudiante (vector<Student>&students);
-void EliminarRegistroEstudiante (vector<Student>&students);
 void ReporteEstudiante (vector<Student>&students);
 void saveStudentsToFile(const vector<Student>& students, const string& filename);
 void saveStudentsModificationsToFile(const vector<Student>& students, const string& filename);
@@ -49,6 +48,7 @@ void IngresarCalificaciones (vector<Student>& students, vector<Califications>&ca
 void saveCalificationsToFile(const vector<Califications>& califications, const string& filename);
 void ModificarRegistroNotasEstudiantes(vector<Student>&students,vector<Califications>&califications);
 void saveRegistroNotasToFile (const vector<Califications>& califications, const string& filename);
+void EliminarRegistroEstudiante (vector<Student>&students,vector<Califications>&califications);
 
 int main()
 {
@@ -107,7 +107,8 @@ int main()
         }
         case 5:
         {
-            cout << "Eliminar registro de estudiante." << endl;
+            students = loadStudentsFromFile("ESTUDIANTES.txt");
+            EliminarRegistroEstudiante(students, califications);
             getch();
             cout << endl;
             break;
@@ -244,6 +245,56 @@ void saveCalificationsToFile(const vector<Califications>& califications, const s
 
     outFile.close();
 }
+
+void saveStudentsModificationsToFile(const vector<Student>& students, const string& filename)
+{
+    ofstream outFile(filename);
+
+    if (!outFile.is_open())
+    {
+        cerr << "Error al abrir el archivo para escritura: " << filename << endl;
+        return;
+    }
+
+    for (const auto& student : students)
+    {
+        outFile << student.id << ","
+                << student.fullName << ","
+                << student.province << ","
+                << student.canton << ","
+                << student.district << ","
+                << student.age << ","
+                << student.gender << "\n";
+    }
+    outFile.close();
+}
+
+void saveRegistroNotasToFile (const vector<Califications>& califications, const string& filename)
+{
+    ofstream outFile(filename);
+
+    if (!outFile.is_open())
+    {
+        cerr << "Error al abrir el archivo para escritura: " << filename << endl;
+        return;
+    }
+
+    for (const auto& calification : califications)
+    {
+        outFile << calification.id << ","
+                << calification.subject << ","
+                << calification.firstProject << ","
+                << calification.secondProject << ","
+                << calification.ensayo << ","
+                << calification.defense << ","
+                << calification.foro << ","
+                << calification.average << ","
+                << calification.status << "\n";
+    }
+
+    outFile.close();
+}
+
 
 // Función Registrar Estudiante.
 
@@ -555,32 +606,9 @@ void IngresarCalificaciones(vector<Student>& students, vector<Califications>& ca
         cout << endl;
 
         califications.push_back(reg);
-    } // FIN del for.
+    }
 }
 
-
-void saveStudentsModificationsToFile(const vector<Student>& students, const string& filename)
-{
-    ofstream outFile(filename);
-
-    if (!outFile.is_open())
-    {
-        cerr << "Error al abrir el archivo para escritura: " << filename << endl;
-        return;
-    }
-
-    for (const auto& student : students)
-    {
-        outFile << student.id << ","
-                << student.fullName << ","
-                << student.province << ","
-                << student.canton << ","
-                << student.district << ","
-                << student.age << ","
-                << student.gender << "\n";
-    }
-    outFile.close();
-}
 
 // Función case 3.
 
@@ -651,32 +679,6 @@ void ModificarDatosEstudiante(vector<Student>& students)
     }
 }
 
-void saveRegistroNotasToFile (const vector<Califications>& califications, const string& filename)
-{
-    ofstream outFile(filename);
-
-    if (!outFile.is_open())
-    {
-        cerr << "Error al abrir el archivo para escritura: " << filename << endl;
-        return;
-    }
-
-    for (const auto& calification : califications)
-    {
-        outFile << calification.id << ","
-                << calification.subject << ","
-                << calification.firstProject << ","
-                << calification.secondProject << ","
-                << calification.ensayo << ","
-                << calification.defense << ","
-                << calification.foro << ","
-                << calification.average << ","
-                << calification.status << "\n";
-    }
-
-    outFile.close();
-}
-
 
 // Función 4.
 
@@ -740,4 +742,11 @@ void ModificarRegistroNotasEstudiantes(vector<Student>&students,vector<Calificat
     {
         cout << "Registro no encontrado.\n";
     }
+}
+
+// Función 5.
+
+void EliminarRegistroEstudiante (vector<Student>&students,vector<Califications>&califications)
+{
+
 }
