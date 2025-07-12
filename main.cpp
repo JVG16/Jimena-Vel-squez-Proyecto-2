@@ -48,6 +48,8 @@ vector<Student> loadStudentsFromFile(const string& filename);
 
 void IngresarCalificaciones (vector<Student>& students, vector<Califications>&califications);
 void saveCalificationsToFile(const vector<Califications>& califications, const string& filename);
+void ModificarRegistroNotasEstudiantes(vector<Student>&students,vector<Califications>&califications);
+void saveRegistroNotasToFile (const vector<Califications>& califications, const string& filename);
 
 
 int main()
@@ -93,15 +95,15 @@ int main()
         case 3:
         {
             students = loadStudentsFromFile("ESTUDIANTES.txt");
-    ModificarDatosEstudiante(students);
-    saveStudentsModificationsToFile(students, "ESTUDIANTES.txt");
+            ModificarDatosEstudiante(students);
+            saveStudentsModificationsToFile(students, "ESTUDIANTES.txt");
             break;
         }
         case 4:
         {
-            cout << "Modificar registo de notas por estudiante." << endl;
-            getch();
-            cout << endl;
+            students = loadStudentsFromFile("ESTUDIANTES.txt");
+            ModificarRegistroNotasEstudiantes(students, califications);
+            saveRegistroNotasToFile(califications, "CALIFICACIONES.txt");
             break;
         }
         case 5:
@@ -218,6 +220,55 @@ void saveStudentsToFile(const vector<Student>& students, const string& filename)
 
 
 void saveCalificationsToFile(const vector<Califications>& califications, const string& filename)
+{
+    ofstream outFile(filename);
+
+    if (!outFile.is_open())
+    {
+        cerr << "Error al abrir el archivo para escritura: " << filename << endl;
+        return;
+    }
+
+    for (const auto& calification : califications)
+    {
+        outFile << calification.id << ","
+                << calification.subject << ","
+                << calification.firstProject << ","
+                << calification.secondProject << ","
+                << calification.ensayo << ","
+                << calification.defense << ","
+                << calification.foro << ","
+                << calification.average << ","
+                << calification.status << "\n";
+    }
+
+    outFile.close();
+}
+
+void saveStudentsModificationsToFile(const vector<Student>& students, const string& filename)
+{
+    ofstream outFile(filename);
+
+    if (!outFile.is_open())
+    {
+        cerr << "Error al abrir el archivo para escritura: " << filename << endl;
+        return;
+    }
+
+    for (const auto& student : students)
+    {
+        outFile << student.id << ","
+                << student.fullName << ","
+                << student.province << ","
+                << student.canton << ","
+                << student.district << ","
+                << student.age << ","
+                << student.gender << "\n";
+    }
+    outFile.close();
+}
+
+void saveRegistroNotasToFile (const vector<Califications>& califications, const string& filename)
 {
     ofstream outFile(filename);
 
@@ -451,8 +502,8 @@ void IngresarCalificaciones(vector<Student>& students, vector<Califications>& ca
         cout << endl;
         return;
     }
-getch();
-        cout << endl;
+    getch();
+    cout << endl;
 
     int cantSubject;
 
@@ -555,30 +606,6 @@ getch();
     } // FIN del for.
 }
 
-
-void saveStudentsModificationsToFile(const vector<Student>& students, const string& filename)
-{
-    ofstream outFile(filename);
-
-    if (!outFile.is_open())
-    {
-        cerr << "Error al abrir el archivo para escritura: " << filename << endl;
-        return;
-    }
-
-    for (const auto& student : students)
-    {
-        outFile << student.id << ","
-                << student.fullName << ","
-                << student.province << ","
-                << student.canton << ","
-                << student.district << ","
-                << student.age << ","
-                << student.gender << "\n";
-    }
-    outFile.close();
-}
-
 // Función case 3.
 
 void ModificarDatosEstudiante(vector<Student>& students)
@@ -630,7 +657,8 @@ void ModificarDatosEstudiante(vector<Student>& students)
                     cin.ignore();
                     validaEdad = false;
                 }
-            } while (!validaEdad);
+            }
+            while (!validaEdad);
 
             student.age = nuevaEdad;
 
@@ -644,5 +672,70 @@ void ModificarDatosEstudiante(vector<Student>& students)
     {
         cout << "Estudiante no registrado." << endl;
         getch();
+    }
+}
+
+
+// Case 4.
+
+void ModificarRegistroNotasEstudiantes(vector<Student>&students,vector<Califications>&califications)
+{
+
+    cout << "-------------------------------------------------------------------" << endl;
+    cout << "|             MODIFICAR REGISTRO DE NOTAS DEL ESTUDIANTE            |" << endl;
+    cout << "-------------------------------------------------------------------" << endl;
+    getch();
+    cout << endl;
+
+    string cedula, materia;
+    cout << "Digite el número de cédula (10 dígitos): ";
+    cin >> cedula;
+    cin.ignore();
+    getch();
+    cout << endl;
+
+    cout << "Materia a modificar: ";
+    getline(cin, materia);
+    getch();
+    cout << endl;
+
+    // 3) Busco ese registro.
+
+    bool encontrado = false;
+    for (auto& reg : califications)
+    {
+        if (reg.id == cedula && reg.subject == materia)
+        {
+            encontrado = true;
+
+            // 4) Pido nuevas notas.
+
+            cout << "Digite la nueva nota para el proyecto 1: ";
+            cin >> reg.firstProject;
+            cout << "Digite la nueva nota para el proyecto 2: ";
+            cin >> reg.secondProject;
+            cout << "Digite la nueva nota para el ensayo: ";
+            cin >> reg.ensayo;
+            cout << "Digite la nueva nota para la defensa: ";
+            cin >> reg.defense;
+            cout << "Digite la nueva nota para el foro: ";
+            cin >> reg.foro;
+
+            // 5) Recalculo promedio y estado.
+
+            reg.average = (reg.firstProject*0.1 + reg.secondProject*0.2 + reg.ensayo*0.3 + reg.defense*0.1 + reg.foro*0.3) / 5.0;
+            reg.status = (reg.average >= 7.0? "Aprobado" : "Reprobado");
+
+            cout << "Promedio: " << reg.average
+                 << "   Estado: " << reg.status << "\n";
+            getch();
+            cout << endl;
+            break;
+        }
+    }
+
+    if (!encontrado)
+    {
+        cout << "Registro no encontrado.\n";
     }
 }
