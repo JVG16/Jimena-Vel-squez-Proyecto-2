@@ -109,6 +109,8 @@ int main()
         {
             students = loadStudentsFromFile("ESTUDIANTES.txt");
             EliminarRegistroEstudiante(students, califications);
+            saveStudentsToFile(students, "ESTUDIANTES.txt");
+            saveCalificationsToFile(califications, "CALIFICACIONES.txt");
             getch();
             cout << endl;
             break;
@@ -748,5 +750,83 @@ void ModificarRegistroNotasEstudiantes(vector<Student>&students,vector<Calificat
 
 void EliminarRegistroEstudiante (vector<Student>&students,vector<Califications>&califications)
 {
+
+    char respuesta = 'S';
+
+    while (respuesta == 'S')
+    {
+        string cedula;
+        cout << "---------------------------------------------------------" << endl;
+        cout << "|               ELIMINAR REGISTRO DE ESTUDIANTE         |" << endl;
+        cout << "---------------------------------------------------------" << endl;
+
+        cout << "Ingrese la cédula del estudiante a eliminar: ";
+        cin >> cedula;
+
+        bool encontrado = false;
+
+        // Buscar si la cédula existe
+        for (const auto& student : students)
+        {
+            if (student.id == cedula)
+            {
+                encontrado = true;
+
+                cout << "Estudiante encontrado: " << student.fullName << endl;
+
+                char confirmacion;
+                cout << "¿Está seguro que desea eliminar este registro? (S/N): ";
+                cin >> confirmacion;
+                confirmacion = toupper(confirmacion);
+
+                if (confirmacion == 'S')
+                {
+                    // Nuevo vector SIN el estudiante a eliminar
+                    vector<Student> tempStudents;
+                    for (const auto& s : students)
+                    {
+                        if (s.id != cedula)
+                        {
+                            tempStudents.push_back(s);
+                        }
+                    }
+                    students = tempStudents;
+
+                    // Nuevo vector SIN calificaciones del estudiante
+                    vector<Califications> tempCalifications;
+                    for (const auto& c : califications)
+                    {
+                        if (c.id != cedula)
+                        {
+                            tempCalifications.push_back(c);
+                        }
+                    }
+                    califications = tempCalifications;
+
+                    cout << "Registro eliminado correctamente." << endl;
+                    getch();
+                }
+                else
+                {
+                    cout << "No se eliminó el registro." << endl;
+                    getch();
+                }
+                break;
+            }
+        }
+
+        if (!encontrado)
+        {
+            cout << "Estudiante no encontrado." << endl;
+        }
+
+        cout << "¿Desea eliminar otro estudiante? (S/N): ";
+        cin >> respuesta;
+        respuesta = toupper(respuesta);
+    }
+
+    cout << "Regresar al menú principal" << endl;
+    getch();
+
 
 }
