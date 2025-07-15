@@ -38,7 +38,7 @@ struct Califications
 void RegistrarEstudiante (vector<Student>&students);
 void ModificarDatosEstudiante (vector<Student>&students);
 void modificarRegistroEstudiante (vector<Student>&students);
-void EliminarRegistroEstudiante (vector<Student>&students);
+void EliminarRegistroEstudiante(vector<Student>& students, vector<Califications>& califications);
 void ReporteEstudiante (vector<Student>&students);
 void saveStudentsToFile(const vector<Student>& students, const string& filename);
 void saveStudentsModificationsToFile(const vector<Student>& students, const string& filename);
@@ -108,7 +108,10 @@ int main()
         }
         case 5:
         {
-            cout << "Eliminar registro de estudiante." << endl;
+            students = loadStudentsFromFile("ESTUDIANTES.txt");
+            EliminarRegistroEstudiante(students, califications);
+            saveStudentsToFile(students, "ESTUDIANTES.txt");
+            saveCalificationsToFile(califications, "CALIFICACIONES.txt");
             getch();
             cout << endl;
             break;
