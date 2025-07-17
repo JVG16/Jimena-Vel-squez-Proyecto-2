@@ -50,6 +50,7 @@ void IngresarCalificaciones (vector<Student>& students, vector<Califications>&ca
 void saveCalificationsToFile(const vector<Califications>& califications, const string& filename);
 void ModificarRegistroNotasEstudiantes(vector<Student>&students,vector<Califications>&califications);
 void saveRegistroNotasToFile (const vector<Califications>& califications, const string& filename);
+void saveEliminarRegistroEstudiante (const vector<Califications>& califications, const string& filename);
 
 
 int main()
@@ -110,8 +111,7 @@ int main()
         {
             students = loadStudentsFromFile("ESTUDIANTES.txt");
             EliminarRegistroEstudiante(students, califications);
-            saveStudentsToFile(students, "ESTUDIANTES.txt");
-            saveCalificationsToFile(califications, "CALIFICACIONES.txt");
+            saveEliminarRegistroEstudiante(califications, "CALIFICACIONES.txt");
             getch();
             cout << endl;
             break;
@@ -742,11 +742,11 @@ void ModificarRegistroNotasEstudiantes(vector<Student>&students,vector<Calificat
         cout << "Registro no encontrado.\n";
     }
 }
+
 // Función 5.
 
-void EliminarRegistroEstudiante (vector<Student>&students,vector<Califications>&califications)
+void EliminarRegistroEstudiante(vector<Student>& students, vector<Califications>& califications)
 {
-
     char respuesta = 'S';
 
     while (respuesta == 'S')
@@ -761,7 +761,6 @@ void EliminarRegistroEstudiante (vector<Student>&students,vector<Califications>&
 
         bool encontrado = false;
 
-        // Buscar si la cédula existe
         for (const auto& student : students)
         {
             if (student.id == cedula)
@@ -777,27 +776,26 @@ void EliminarRegistroEstudiante (vector<Student>&students,vector<Califications>&
 
                 if (confirmacion == 'S')
                 {
-                    // Nuevo vector SIN el estudiante a eliminar
+                    // Crear nuevos vectores sin el estudiante
                     vector<Student> tempStudents;
                     for (const auto& s : students)
                     {
                         if (s.id != cedula)
-                        {
                             tempStudents.push_back(s);
-                        }
                     }
                     students = tempStudents;
 
-                    // Nuevo vector SIN calificaciones del estudiante
                     vector<Califications> tempCalifications;
                     for (const auto& c : califications)
                     {
                         if (c.id != cedula)
-                        {
                             tempCalifications.push_back(c);
-                        }
                     }
                     califications = tempCalifications;
+
+                    // Guardar los nuevos datos en los archivos
+                    saveStudentsToFile(students, "ESTUDIANTES.txt");
+                    saveRegistroNotasToFile(califications, "CALIFICACIONES.txt");
 
                     cout << "Registro eliminado correctamente." << endl;
                     getch();
@@ -814,6 +812,7 @@ void EliminarRegistroEstudiante (vector<Student>&students,vector<Califications>&
         if (!encontrado)
         {
             cout << "Estudiante no encontrado." << endl;
+            getch();
         }
 
         cout << "¿Desea eliminar otro estudiante? (S/N): ";
@@ -821,8 +820,33 @@ void EliminarRegistroEstudiante (vector<Student>&students,vector<Califications>&
         respuesta = toupper(respuesta);
     }
 
-    cout << "Regresar al menú principal" << endl;
+    cout << "Regresando al menú principal..." << endl;
     getch();
+}
 
+void saveEliminarRegistroEstudiante (const vector<Califications>& califications, const string& filename)
+{
+    ofstream outFile(filename);
+
+    if (!outFile.is_open())
+    {
+        cerr << "Error al abrir el archivo para escritura: " << filename << endl;
+        return;
+    }
+
+    for (const auto& calification : califications)
+    {
+        outFile << calification.id << ","
+                << calification.subject << ","
+                << calification.firstProject << ","
+                << calification.secondProject << ","
+                << calification.ensayo << ","
+                << calification.defense << ","
+                << calification.foro << ","
+                << calification.average << ","
+                << calification.status << "\n";
+    }
+
+    outFile.close();
 
 }
