@@ -53,7 +53,7 @@ void saveCalificationsToFile(const vector<Califications>& califications, const s
 void ModificarRegistroNotasEstudiantes(vector<Student>&students,vector<Califications>&califications);
 void saveRegistroNotasToFile (const vector<Califications>& califications, const string& filename);
 void saveEliminarRegistroEstudiante (const vector<Califications>& califications, const string& filename);
-
+// vector<Califications> loadCalificationsFromFile(const string& filename);
 
 int main()
 {
@@ -99,6 +99,15 @@ int main()
         {
             students = loadStudentsFromFile("ESTUDIANTES.txt");
             ModificarDatosEstudiante(students);
+            // optional:
+            // functione returns a boolean
+            // if student is found return true, else return false
+            /*
+            boolean found = ModificarDatosEstudiante(students);
+            if (foumd) {
+                saveStudentsModificationsToFile(students, "ESTUDIANTES.txt");
+            }
+            */
             saveStudentsModificationsToFile(students, "ESTUDIANTES.txt");
             break;
         }
@@ -114,17 +123,15 @@ int main()
             students = loadStudentsFromFile("ESTUDIANTES.txt");
             EliminarRegistroEstudiante(students, califications);
             saveEliminarRegistroEstudiante(califications, "CALIFICACIONES.txt");
-            getch();
-            cout << endl;
+            saveStudentsModificationsToFile(students, "ESTUDIANTES.txt");
+            saveRegistroNotasToFile(califications, "CALIFICACIONES.txt");
             break;
         }
         case 6:
         {
             students = loadStudentsFromFile("ESTUDIANTES.txt");
+            // califications = loadCalificationsFromFile("CALIFICACIONES.txt");
             ReporteEstudiante (students,califications);
-            saveReporteEstudiante(students, califications, "CALIFICACIONES.txt");
-            getch();
-            cout << endl;
             break;
         }
         case 7:
@@ -602,8 +609,9 @@ void IngresarCalificaciones(vector<Student>& students, vector<Califications>& ca
         getch();
         cout << endl;
 
-        reg.average = (reg.firstProject * 0.1 + reg.secondProject * 0.2 + reg.ensayo * 0.3 + reg.defense * 0.1 + reg.foro * 0.3) / 5.0;
-        reg.status = reg.average >= 7 ? "Aprobado" : "Reprobado";
+        reg.average = (reg.firstProject * 0.10 + reg.secondProject * 0.20 + reg.ensayo * 0.30 + reg.defense * 0.10 + reg.foro * 0.30);
+//reg.status = reg.average >= 7  "Aprobado" : "Reprobado";
+
         cout << "Promedio calculado: " << reg.average << endl;
         cout << "Estado: " << reg.status << endl;
         getch();
@@ -888,7 +896,7 @@ void ReporteEstudiante(vector<Student>& students, vector<Califications>& calific
 
 void saveReporteEstudiante(const vector<Student>& students, const vector<Califications>& califications, const string& filename)
 {
-ofstream outFile(filename);
+    ofstream outFile(filename);
 
     if (!outFile.is_open())
     {
