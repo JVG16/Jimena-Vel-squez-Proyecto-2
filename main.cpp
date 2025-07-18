@@ -39,9 +39,10 @@ void RegistrarEstudiante (vector<Student>&students);
 void ModificarDatosEstudiante (vector<Student>&students);
 void modificarRegistroEstudiante (vector<Student>&students);
 void EliminarRegistroEstudiante(vector<Student>& students, vector<Califications>& califications);
-void ReporteEstudiante (vector<Student>&students);
+void ReporteEstudiante(vector<Student>& students, vector<Califications>& califications);
 void saveStudentsToFile(const vector<Student>& students, const string& filename);
 void saveStudentsModificationsToFile(const vector<Student>& students, const string& filename);
+void saveReporteEstudiante (const vector<Califications>& califications, const string& filename);
 vector<Student> loadStudentsFromFile(const string& filename);
 
 // Función para las calificaciones.
@@ -118,7 +119,9 @@ int main()
         }
         case 6:
         {
-            cout << "Reporte de estudiantes, promedios y estado." << endl;
+            students = loadStudentsFromFile("ESTUDIANTES.txt");
+            ReporteEstudiante (students,califications);
+            saveReporteEstudiante(califications, "CALIFICACIONES.txt");
             getch();
             cout << endl;
             break;
@@ -850,3 +853,6 @@ void saveEliminarRegistroEstudiante (const vector<Califications>& califications,
     outFile.close();
 
 }
+
+// Función 6
+
