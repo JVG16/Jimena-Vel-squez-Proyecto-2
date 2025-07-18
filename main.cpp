@@ -3,6 +3,7 @@
 #include <string>
 #include <fstream> // Archivos.
 #include <conio.h>
+#include <iomanip>
 #include <locale.h>
 
 using namespace std;
@@ -42,7 +43,7 @@ void EliminarRegistroEstudiante(vector<Student>& students, vector<Califications>
 void ReporteEstudiante(vector<Student>& students, vector<Califications>& califications);
 void saveStudentsToFile(const vector<Student>& students, const string& filename);
 void saveStudentsModificationsToFile(const vector<Student>& students, const string& filename);
-void saveReporteEstudiante (const vector<Califications>& califications, const string& filename);
+void saveReporteEstudiante(const vector<Student>& students, const vector<Califications>& califications, const string& filename);
 vector<Student> loadStudentsFromFile(const string& filename);
 
 // Función para las calificaciones.
@@ -121,7 +122,7 @@ int main()
         {
             students = loadStudentsFromFile("ESTUDIANTES.txt");
             ReporteEstudiante (students,califications);
-            saveReporteEstudiante(califications, "CALIFICACIONES.txt");
+            saveReporteEstudiante(students, califications, "CALIFICACIONES.txt");
             getch();
             cout << endl;
             break;
@@ -856,3 +857,66 @@ void saveEliminarRegistroEstudiante (const vector<Califications>& califications,
 
 // Función 6
 
+void ReporteEstudiante(vector<Student>& students, vector<Califications>& califications)
+{
+
+    cout << "---------------------------------------------------------" << endl;
+    cout << "|        REPORTE DE ESTUDIANTES - NOTAS FINALES         |" << endl;
+    cout << "---------------------------------------------------------" << endl;
+    cout << "----------------------------------------------------------" << endl;
+    cout << "| ID          | Nombre                | Materia    | Promedio | Estado     |" << endl;
+    cout << "----------------------------------------------------------" << endl;
+
+    for (const auto& student : students)
+    {
+        for (const auto& nota : califications)
+        {
+            if (nota.id == student.id)
+            {
+                cout << "| " << setw(11) << left << student.id
+                     << "| " << setw(22) << left << student.fullName
+                     << "| " << setw(11) << left << nota.subject
+                     << "| " << setw(8) << fixed << setprecision(2) << nota.average
+                     << "| " << setw(10) << left << nota.status << "|" << endl;
+            }
+        }
+    }
+
+    cout << "----------------------------------------------------------" << endl;
+    getch();
+}
+
+void saveReporteEstudiante(const vector<Student>& students, const vector<Califications>& califications, const string& filename)
+{
+ofstream outFile(filename);
+
+    if (!outFile.is_open())
+    {
+        cerr << "Error al abrir el archivo para escritura: " << filename << endl;
+        return;
+    }
+
+    outFile << "---------------------------------------------------------" << endl;
+    outFile << "|        REPORTE DE ESTUDIANTES - NOTAS FINALES         |" << endl;
+    outFile << "---------------------------------------------------------" << endl;
+    outFile << "| ID          | Nombre                | Materia    | Promedio | Estado     |" << endl;
+    outFile << "---------------------------------------------------------" << endl;
+
+    for (const auto& student : students)
+    {
+        for (const auto& nota : califications)
+        {
+            if (nota.id == student.id)
+            {
+                outFile << "| " << setw(11) << left << student.id
+                        << "| " << setw(22) << left << student.fullName
+                        << "| " << setw(11) << left << nota.subject
+                        << "| " << setw(8) << fixed << setprecision(2) << nota.average
+                        << "| " << setw(10) << left << nota.status << "|" << endl;
+            }
+        }
+    }
+
+    outFile << "---------------------------------------------------------" << endl;
+    outFile.close();
+}
