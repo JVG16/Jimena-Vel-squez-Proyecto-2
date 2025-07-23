@@ -1,3 +1,23 @@
+/*
+Universidad Estatal a Distancia.
+Estudiante: Jimena Velásquez Gómez.
+Cédula: 11919-0417.
+Docente: Jose AAlonso Solís Benavides.
+Proyecto #2
+Segundo cuatrimestre, 2025.
+
+Descripción del proyecto:
+Este programa permitirá que el usuario realice un registro con su información personal(identificación,
+nombre completo, lugar de residencia, edad y género) Además, tendrá que registrar las asigntaturas (máximo tres)
+con sus respectivas notas y el estado (aprobado, reposición u reprobado).
+
+
+Referencias:
+
+
+
+*/
+
 #include <iostream>
 #include <vector> // Funciones.
 #include <string>
@@ -36,34 +56,39 @@ struct Califications
 
 // Función de estudiantes.
 
-void RegistrarEstudiante (vector<Student>&students);
-void ModificarDatosEstudiante (vector<Student>&students);
-void modificarRegistroEstudiante (vector<Student>&students);
-void EliminarRegistroEstudiante(vector<Student>& students, vector<Califications>& califications);
-void ReporteEstudiante(vector<Student>& students, vector<Califications>& califications);
+void RegisterStudent (vector<Student>&students);
+void ModifyStudentData (vector<Student>&students);
+void ModifyStudentRecord (vector<Student>&students);
+void DeleteStudentRegistration(vector<Student>& students, vector<Califications>& califications);
+void StudentReport(vector<Student>& students, vector<Califications>& califications);
 void saveStudentsToFile(const vector<Student>& students, const string& filename);
 void saveStudentsModificationsToFile(const vector<Student>& students, const string& filename);
-void saveReporteEstudiante(const vector<Student>& students, const vector<Califications>& califications, const string& filename);
+void saveStudentReport(const vector<Student>& students, const vector<Califications>& califications, const string& filename);
 vector<Student> loadStudentsFromFile(const string& filename);
 
 // Función para las calificaciones.
 
-void IngresarCalificaciones (vector<Student>& students, vector<Califications>&califications);
+void EnterGrades (vector<Student>& students, vector<Califications>&califications);
 void saveCalificationsToFile(const vector<Califications>& califications, const string& filename);
-void ModificarRegistroNotasEstudiantes(vector<Student>&students,vector<Califications>&califications);
-void saveRegistroNotasToFile (const vector<Califications>& califications, const string& filename);
-void saveEliminarRegistroEstudiante (const vector<Califications>& califications, const string& filename);
-// vector<Califications> loadCalificationsFromFile(const string& filename);
+void ModifyRecordStudentNotes(vector<Student>&students,vector<Califications>&califications);
+void SaveRegistrationNotesToFile (const vector<Califications>& califications, const string& filename);
+void saveDeleteStudentRegistration (const vector<Califications>& califications, const string& filename);
+vector<Califications> loadCalificationsFromFile(const string& filename);
 
 int main()
 {
     setlocale(LC_CTYPE,"Spanish"); //Idioma y carácteres especiales.
     vector <Student>students;
-    vector <Califications>califications;
+    vector <Califications> califications;
     int option;
     do
     {
-        cout << "Menu Principal"<< endl;
+
+        cout << "--------------------------------------------------" << endl;
+        cout << "|                 MENÚ PRINCIPAL                 |" << endl;
+        cout << "--------------------------------------------------" << endl;
+        getch();
+        cout << endl;
         cout << "1.Registrar estudiante."<< endl;
         cout << "2.Ingresar calificaciones en distintas materias." << endl;
         cout << "3.Modificar datos estudiantes." << endl;
@@ -84,54 +109,45 @@ int main()
         {
         case 1:
         {
-            RegistrarEstudiante(students);
+            RegisterStudent(students);
             saveStudentsToFile(students, "ESTUDIANTES.txt");
             break;
         }
         case 2:
         {
             students = loadStudentsFromFile("ESTUDIANTES.txt");
-            IngresarCalificaciones(students, califications);
+            EnterGrades(students, califications);
             saveCalificationsToFile(califications, "CALIFICACIONES.txt");
             break;
         }
         case 3:
         {
             students = loadStudentsFromFile("ESTUDIANTES.txt");
-            ModificarDatosEstudiante(students);
-            // optional:
-            // functione returns a boolean
-            // if student is found return true, else return false
-            /*
-            boolean found = ModificarDatosEstudiante(students);
-            if (foumd) {
-                saveStudentsModificationsToFile(students, "ESTUDIANTES.txt");
-            }
-            */
+            ModifyStudentData(students);
             saveStudentsModificationsToFile(students, "ESTUDIANTES.txt");
             break;
         }
         case 4:
         {
             students = loadStudentsFromFile("ESTUDIANTES.txt");
-            ModificarRegistroNotasEstudiantes(students, califications);
-            saveRegistroNotasToFile(califications, "CALIFICACIONES.txt");
+            ModifyRecordStudentNotes(students, califications);
+            SaveRegistrationNotesToFile(califications, "CALIFICACIONES.txt");
             break;
         }
         case 5:
         {
             students = loadStudentsFromFile("ESTUDIANTES.txt");
-            EliminarRegistroEstudiante(students, califications);
-            saveEliminarRegistroEstudiante(califications, "CALIFICACIONES.txt");
+            DeleteStudentRegistration(students, califications);
+            saveDeleteStudentRegistration(califications, "CALIFICACIONES.txt");
             saveStudentsModificationsToFile(students, "ESTUDIANTES.txt");
-            saveRegistroNotasToFile(califications, "CALIFICACIONES.txt");
+            SaveRegistrationNotesToFile(califications, "CALIFICACIONES.txt");
             break;
         }
         case 6:
         {
             students = loadStudentsFromFile("ESTUDIANTES.txt");
-            // califications = loadCalificationsFromFile("CALIFICACIONES.txt");
-            ReporteEstudiante (students,califications);
+            califications = loadCalificationsFromFile("CALIFICACIONES.txt");
+            StudentReport (students,califications);
             break;
         }
         case 7:
@@ -209,6 +225,66 @@ vector<Student> loadStudentsFromFile(const string& filename)
     return students;
 }
 
+vector<Califications> loadCalificationsFromFile(const string& filename)
+{
+    vector<Califications> califications;
+    ifstream inFile(filename);
+
+    if (!inFile.is_open())
+    {
+        cerr << "Error al abrir el archivo para lectura: " << filename << endl;
+        return califications;
+    }
+    string line;
+    while (getline(inFile, line))
+    {
+        Califications reg;
+        size_t pos = 0;
+        string token;
+        int field = 0;
+
+        while ((pos = line.find(',')) != string::npos)
+        {
+            token = line.substr(0, pos);
+
+            switch (field)
+            {
+            case 0:
+                reg.id = token;
+                break;
+            case 1:
+                reg.subject = token;
+                break;
+            case 2:
+                reg.firstProject = stof(token);
+                break;
+            case 3:
+                reg.secondProject = stof(token);
+                break;
+            case 4:
+                reg.ensayo = stof(token);
+                break;
+            case 5:
+                reg.foro = stof(token);
+                break;
+                case 6:
+                reg.defense = stof(token);
+                break;
+                case 7:
+                reg.average = stof(token);
+                break;
+            }
+            line.erase(0, pos + 1);
+            field++;
+        }
+        reg.status = line;
+        califications.push_back(reg);
+    }
+    inFile.close();
+    return califications;
+
+}
+
 void saveStudentsToFile(const vector<Student>& students, const string& filename)
 {
     ofstream outFile(filename);
@@ -282,7 +358,7 @@ void saveStudentsModificationsToFile(const vector<Student>& students, const stri
     outFile.close();
 }
 
-void saveRegistroNotasToFile (const vector<Califications>& califications, const string& filename)
+void SaveRegistrationNotesToFile (const vector<Califications>& califications, const string& filename)
 {
     ofstream outFile(filename);
 
@@ -310,7 +386,7 @@ void saveRegistroNotasToFile (const vector<Califications>& califications, const 
 
 // Función Registrar Estudiante.
 
-void RegistrarEstudiante(vector<Student>& students)
+void RegisterStudent(vector<Student>& students)
 {
 
     cout << "--------------------------------------------------" << endl;
@@ -470,7 +546,7 @@ void RegistrarEstudiante(vector<Student>& students)
 
 // Función para las calificaciones.
 
-void IngresarCalificaciones(vector<Student>& students, vector<Califications>& califications)
+void EnterGrades(vector<Student>& students, vector<Califications>& califications)
 {
     string cedula;
     char respuesta;
@@ -610,7 +686,19 @@ void IngresarCalificaciones(vector<Student>& students, vector<Califications>& ca
         cout << endl;
 
         reg.average = (reg.firstProject * 0.10 + reg.secondProject * 0.20 + reg.ensayo * 0.30 + reg.defense * 0.10 + reg.foro * 0.30);
-//reg.status = reg.average >= 7  "Aprobado" : "Reprobado";
+
+        if (reg.average >= 70 && reg.average <= 100)
+        {
+            reg.status = "Aprobado";
+        }
+        else if (reg.average >= 50 && reg.average < 70)
+        {
+            reg.status = "Reposición";
+        }
+        else
+        {
+            reg.status = "Reprobado";
+        }
 
         cout << "Promedio calculado: " << reg.average << endl;
         cout << "Estado: " << reg.status << endl;
@@ -623,7 +711,7 @@ void IngresarCalificaciones(vector<Student>& students, vector<Califications>& ca
 
 // Función case 3.
 
-void ModificarDatosEstudiante(vector<Student>& students)
+void ModifyStudentData(vector<Student>& students)
 {
     string cedula;
     bool encontrado = false;
@@ -693,7 +781,7 @@ void ModificarDatosEstudiante(vector<Student>& students)
 
 // Case 4.
 
-void ModificarRegistroNotasEstudiantes(vector<Student>&students,vector<Califications>&califications)
+void ModifyRecordStudentNotes(vector<Student>&students,vector<Califications>&califications)
 {
 
     cout << "-------------------------------------------------------------------" << endl;
@@ -738,8 +826,20 @@ void ModificarRegistroNotasEstudiantes(vector<Student>&students,vector<Calificat
 
             // 5) Recalculo promedio y estado.
 
-            reg.average = (reg.firstProject*0.1 + reg.secondProject*0.2 + reg.ensayo*0.3 + reg.defense*0.1 + reg.foro*0.3) / 5.0;
-            reg.status = (reg.average >= 7.0? "Aprobado" : "Reprobado");
+            reg.average = (reg.firstProject*0.10 + reg.secondProject*0.20 + reg.ensayo*0.30 + reg.defense*0.10 + reg.foro*0.30);
+
+            if (reg.average >= 70 && reg.average <= 100)
+            {
+                reg.status = "Aprobado";
+            }
+            else if (reg.average >= 50 && reg.average < 70)
+            {
+                reg.status = "Reposición";
+            }
+            else
+            {
+                reg.status = "Reprobado";
+            }
 
             cout << "Promedio: " << reg.average
                  << "   Estado: " << reg.status << "\n";
@@ -757,7 +857,7 @@ void ModificarRegistroNotasEstudiantes(vector<Student>&students,vector<Calificat
 
 // Función 5.
 
-void EliminarRegistroEstudiante(vector<Student>& students, vector<Califications>& califications)
+void DeleteStudentRegistration(vector<Student>& students, vector<Califications>& califications)
 {
     char respuesta = 'S';
 
@@ -806,8 +906,9 @@ void EliminarRegistroEstudiante(vector<Student>& students, vector<Califications>
                     califications = tempCalifications;
 
                     // Guardar los nuevos datos en los archivos
+
                     saveStudentsToFile(students, "ESTUDIANTES.txt");
-                    saveRegistroNotasToFile(califications, "CALIFICACIONES.txt");
+                    SaveRegistrationNotesToFile(califications, "CALIFICACIONES.txt");
 
                     cout << "Registro eliminado correctamente." << endl;
                     getch();
@@ -836,7 +937,7 @@ void EliminarRegistroEstudiante(vector<Student>& students, vector<Califications>
     getch();
 }
 
-void saveEliminarRegistroEstudiante (const vector<Califications>& califications, const string& filename)
+void saveDeleteStudentRegistration (const vector<Califications>& califications, const string& filename)
 {
     ofstream outFile(filename);
 
@@ -865,7 +966,7 @@ void saveEliminarRegistroEstudiante (const vector<Califications>& califications,
 
 // Función 6
 
-void ReporteEstudiante(vector<Student>& students, vector<Califications>& califications)
+void StudentReport(vector<Student>& students, vector<Califications>& califications)
 {
 
     cout << "---------------------------------------------------------" << endl;
@@ -894,7 +995,7 @@ void ReporteEstudiante(vector<Student>& students, vector<Califications>& calific
     getch();
 }
 
-void saveReporteEstudiante(const vector<Student>& students, const vector<Califications>& califications, const string& filename)
+void saveStudentReport(const vector<Student>& students, const vector<Califications>& califications, const string& filename)
 {
     ofstream outFile(filename);
 
