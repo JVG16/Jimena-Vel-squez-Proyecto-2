@@ -81,6 +81,8 @@ int main()
     vector <Student>students;
     vector <Califications> califications;
 
+    SetConsoleOutputCR(CP_UTF8);
+    SetConsoleCP(CP_UTF8);
     setlocale(LC_ALL,"es_ES.UTF-8"); //Idioma y carácteres especiales.
 
     int option;
