@@ -1036,3 +1036,6 @@ void StudentReport(vector<Student>& students, vector<Califications>& calificatio
 //Detalles
 
 
+// cORREGIR LA TILDE Y Ñ
+
+
