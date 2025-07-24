@@ -185,38 +185,38 @@ vector<Student> loadStudentsFromFile(const string& filename)
     while (getline(inFile, line))
     {
         Student student;
-        size_t pos = 0;
-        string token;
-        int field = 0;
+        size_t PComa = 0;
+        string Info;
+        int Op = 0;
 
-        while ((pos = line.find(',')) != string::npos)
+        while ((PComa = line.find(',')) != string::npos)
         {
-            token = line.substr(0, pos);
+            Info = line.substr(0, PComa);
 
-            switch (field)
+            switch (Op)
             {
             case 0:
-                student.id = token;
+                student.id = Info;
                 break;
             case 1:
-                student.fullName = token;
+                student.fullName = Info;
                 break;
             case 2:
-                student.province = token;
+                student.province = Info;
                 break;
             case 3:
-                student.canton = token;
+                student.canton = Info;
                 break;
             case 4:
-                student.district = token;
+                student.district = Info;
                 break;
             case 5:
-                student.age = stoi(token);
+                student.age = stoi(Info);
                 break;
             }
 
-            line.erase(0, pos + 1);
-            field++;
+            line.erase(0, PComa + 1);
+            Op++;
         }
 
         student.gender = stoi(line);
@@ -241,43 +241,43 @@ vector<Califications> loadCalificationsFromFile(const string& filename)
     while (getline(inFile, line))
     {
         Califications reg;
-        size_t pos = 0;
-        string token;
-        int field = 0;
+        size_t PComa = 0;
+        string Info;
+        int Op = 0;
 
-        while ((pos = line.find(',')) != string::npos)
+        while ((PComa = line.find(',')) != string::npos)
         {
-            token = line.substr(0, pos);
+            Info = line.substr(0, PComa);
 
-            switch (field)
+            switch (Op)
             {
             case 0:
-                reg.id = token;
+                reg.id = Info;
                 break;
             case 1:
-                reg.subject = token;
+                reg.subject = Info;
                 break;
             case 2:
-                reg.firstProject = stof(token);
+                reg.firstProject = stof(Info);
                 break;
             case 3:
-                reg.secondProject = stof(token);
+                reg.secondProject = stof(Info);
                 break;
             case 4:
-                reg.ensayo = stof(token);
+                reg.ensayo = stof(Info);
                 break;
             case 5:
-                reg.foro = stof(token);
+                reg.foro = stof(Info);
                 break;
             case 6:
-                reg.defense = stof(token);
+                reg.defense = stof(Info);
                 break;
             case 7:
-                reg.average = stof(token);
+                reg.average = stof(Info);
                 break;
             }
-            line.erase(0, pos + 1);
-            field++;
+            line.erase(0, PComa + 1);
+            Op++;
         }
         reg.status = line;
         califications.push_back(reg);
@@ -970,7 +970,7 @@ void DeleteStudentRegistration(vector<Student>& students, vector<Califications>&
         respuesta = toupper(respuesta);
     }
 
-    cout << "Regresando al menú principal..." << endl;
+    cout << "Regresar al menú principal" << endl;
     getch();
 }
 
@@ -1006,12 +1006,12 @@ void saveDeleteStudentRegistration (const vector<Califications>& califications, 
 void StudentReport(vector<Student>& students, vector<Califications>& califications)
 {
 
-    cout << "----------------------------------------------------------------------------" << endl;
-    cout << "|                    REPORTE DE ESTUDIANTES - NOTAS FINALES                |" << endl;
-    cout << "----------------------------------------------------------------------------" << endl;
-    cout << "----------------------------------------------------------------------------" << endl;
-    cout << "|    ID     |     Nombre     |    Materia    |   Promedio   |   Estado     |" << endl;
-    cout << "----------------------------------------------------------------------------" << endl;
+    cout << "---------------------------------------------------------------------------------------" << endl;
+    cout << "|                    REPORTE DE ESTUDIANTES - NOTAS FINALES                           |" << endl;
+    cout << "---------------------------------------------------------------------------------------" << endl;
+    cout << "---------------------------------------------------------------------------------------" << endl;
+    cout << "|    ID     | Nombre               | Materia            | Promedio     |   Estado     |" << endl;
+    cout << "---------------------------------------------------------------------------------------" << endl;
 
     for (const auto& student : students)
     {
@@ -1021,13 +1021,13 @@ void StudentReport(vector<Student>& students, vector<Califications>& calificatio
             {
                 cout << "| " << setw(11) << left << student.id
                      << "| " << setw(22) << left << student.fullName
-                     << "| " << setw(8) << left << nota.subject
+                     << "| " << setw(22) << left << nota.subject
                      << "| " << setw(8) << fixed << setprecision(2) << nota.average
                      << "| " << setw(10) << left << nota.status << "|" << endl;
             }
         }
     }
 
-    cout << "----------------------------------------------------------------------------" << endl;
+    cout << "--------------------------------------------------------------------------------------" << endl;
     getch();
 }
