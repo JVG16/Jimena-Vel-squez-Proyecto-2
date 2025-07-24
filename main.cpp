@@ -698,7 +698,7 @@ void EnterGrades(vector<Student>& students, vector<Califications>& califications
         }
         else if (reg.average >= 5.0 && reg.average < 7.0)
         {
-            reg.status = "Reposición";
+            reg.status = "Reposicion";
         }
         else
         {
@@ -953,7 +953,7 @@ void DeleteStudentRegistration(vector<Student>& students, vector<Califications>&
                 }
                 else
                 {
-                    cout << "No se eliminó el registro." << endl;
+                    cout << "No se elimino el registro." << endl;
                     getch();
                 }
                 break;
