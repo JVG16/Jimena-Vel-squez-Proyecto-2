@@ -1,20 +1,21 @@
 /*
 Universidad Estatal a Distancia.
 Estudiante: Jimena Velásquez Gómez.
-Cédula: 11919-0417.
-Docente: Jose AAlonso Solís Benavides.
+Cédula: 1-1919-0417.
+Docente: Jose Alonso Solís Benavides.
 Proyecto #2
 Segundo cuatrimestre, 2025.
 
 Descripción del proyecto:
 Este programa permitirá que el usuario realice un registro con su información personal(identificación,
-nombre completo, lugar de residencia, edad y género) Además, tendrá que registrar las asigntaturas (máximo tres)
-con sus respectivas notas y el estado (aprobado, reposición u reprobado).
-
+nombre completo, lugar de residencia, edad y género). Además, tendrá que registrar las asigntaturas (máximo tres)
+con sus respectivas notas. El usuario tendrá la oportunidad de modificar algunos de sus datos personales y también podrá modificar
+las notas de la asignatura.
 
 Referencias:
-
-
+- Página Web: http://www.casdreams.com/auladeinformatica/cet/comandos_de_c.htm.
+- Vídeo YouTube Writing and calling functions:https://www.youtube.com/watch?v=RWZi2nnxJow&t=264s
+- Canal YouTube Programación ATS https://youtu.be/GaqgqQL3wnQ?si=x4UhR0lDGrMB9vFW
 
 */
 
@@ -80,15 +81,15 @@ int main()
     vector <Student>students;
     vector <Califications> califications;
 
-    setlocale(LC_CTYPE,"Spanish"); //Idioma y carácteres especiales.
+    setlocale(LC_ALL,"Spanish"); //Idioma y carácteres especiales.
 
     int option;
     do
     {
 
-        cout << "--------------------------------------------------" << endl;
-        cout << "|                 MENÚ PRINCIPAL                 |" << endl;
-        cout << "--------------------------------------------------" << endl;
+        cout <<  "--------------------------------------------------" << endl;
+        cout <<  "|                  MENÚ PRINCIPAL                |" << endl;
+        cout <<  "--------------------------------------------------" << endl;
         getch();
         cout << endl;
         cout << "1.Registrar estudiante."<< endl;
@@ -268,10 +269,10 @@ vector<Califications> loadCalificationsFromFile(const string& filename)
             case 5:
                 reg.foro = stof(token);
                 break;
-                case 6:
+            case 6:
                 reg.defense = stof(token);
                 break;
-                case 7:
+            case 7:
                 reg.average = stof(token);
                 break;
             }
@@ -625,7 +626,7 @@ void EnterGrades(vector<Student>& students, vector<Califications>& califications
 
         do
         {
-            cout << "Ingrese el nombre de la materia: ";
+            cout << "Ingrese el nombre de la materia:";
             getline(cin, reg.subject);
             if (reg.subject.empty())
             {
@@ -643,7 +644,7 @@ void EnterGrades(vector<Student>& students, vector<Califications>& califications
             cout << "Proyecto 1:";
             cin >> reg.firstProject;
             if (reg.firstProject < 0 || reg.firstProject > 10)
-                cout << "Nota inválida, vuelva a ingresar." << endl;
+                cout << "Nota inválida." << endl;
         }
         while (reg.firstProject < 0 || reg.firstProject > 10);
 
@@ -652,7 +653,7 @@ void EnterGrades(vector<Student>& students, vector<Califications>& califications
             cout << "Proyecto 2:";
             cin >> reg.secondProject;
             if (reg.secondProject < 0 || reg.secondProject > 10)
-                cout << "Nota inválida, vuelva a ingresar." << endl;
+                cout << "Nota inválida." << endl;
         }
         while (reg.secondProject < 0 || reg.secondProject > 10);
 
@@ -661,38 +662,40 @@ void EnterGrades(vector<Student>& students, vector<Califications>& califications
             cout << "Ensayo:";
             cin >> reg.ensayo;
             if (reg.ensayo < 0 || reg.ensayo > 10)
-                cout << "Nota inválida, vuelva a ingresar." << endl;
+                cout << "Nota inválida." << endl;
         }
         while (reg.ensayo < 0 || reg.ensayo > 10);
-
-        do
-        {
-            cout << "Defensa:";
-            cin >> reg.defense;
-            if (reg.defense < 0 || reg.defense > 10)
-                cout << "Nota inválida, vuelva a ingresar." << endl;
-        }
-        while (reg.defense < 0 || reg.defense > 10);
 
         do
         {
             cout << "Foro:";
             cin >> reg.foro;
             if (reg.foro < 0 || reg.foro > 10)
-                cout << "Nota inválida, vuelva a ingresar." << endl;
+                cout << "Nota inválida." << endl;
         }
         while (reg.foro < 0 || reg.foro > 10);
+
+        do
+        {
+            cout << "Defensa:";
+            cin >> reg.defense;
+            if (reg.defense < 0 || reg.defense > 10)
+                cout << "Nota inválida." << endl;
+        }
+        while (reg.defense < 0 || reg.defense > 10);
+
+
 
         getch();
         cout << endl;
 
-        reg.average = (reg.firstProject * 0.10 + reg.secondProject * 0.20 + reg.ensayo * 0.30 + reg.defense * 0.10 + reg.foro * 0.30);
+        reg.average = (reg.firstProject * 0.10 + reg.secondProject * 0.20 + reg.ensayo * 0.30 + reg.foro * 0.10 + reg.defense * 0.30 );
 
-        if (reg.average >= 70 && reg.average <= 100)
+        if (reg.average >= 7.0 && reg.average <= 10)
         {
             reg.status = "Aprobado";
         }
-        else if (reg.average >= 50 && reg.average < 70)
+        else if (reg.average >= 5.0 && reg.average < 7.0)
         {
             reg.status = "Reposición";
         }
@@ -710,7 +713,7 @@ void EnterGrades(vector<Student>& students, vector<Califications>& califications
     }
 }
 
-// Función case 3.
+// Case 3.
 
 void ModifyStudentData(vector<Student>& students)
 {
@@ -779,7 +782,6 @@ void ModifyStudentData(vector<Student>& students)
     }
 }
 
-
 // Case 4.
 
 void ModifyRecordStudentNotes(vector<Student>&students,vector<Califications>&califications)
@@ -803,8 +805,6 @@ void ModifyRecordStudentNotes(vector<Student>&students,vector<Califications>&cal
     getch();
     cout << endl;
 
-    // 3) Busco ese registro.
-
     bool encontrado = false;
     for (auto& reg : califications)
     {
@@ -814,26 +814,61 @@ void ModifyRecordStudentNotes(vector<Student>&students,vector<Califications>&cal
 
             // 4) Pido nuevas notas.
 
-            cout << "Digite la nueva nota para el proyecto 1: ";
-            cin >> reg.firstProject;
-            cout << "Digite la nueva nota para el proyecto 2: ";
-            cin >> reg.secondProject;
-            cout << "Digite la nueva nota para el ensayo: ";
-            cin >> reg.ensayo;
-            cout << "Digite la nueva nota para la defensa: ";
-            cin >> reg.defense;
-            cout << "Digite la nueva nota para el foro: ";
-            cin >> reg.foro;
+            cout << "Ingrese las nuevas base 10:" << endl;
 
-            // 5) Recalculo promedio y estado.
+            do
+            {
+                cout << "Digite la nueva nota para el proyecto 1:";
+                cin >> reg.firstProject;
+                if (reg.firstProject < 0 || reg.firstProject > 10)
+                    cout << "Nota inválida" << endl;
+            }
+            while (reg.firstProject < 0 || reg.firstProject > 10);
 
-            reg.average = (reg.firstProject*0.10 + reg.secondProject*0.20 + reg.ensayo*0.30 + reg.defense*0.10 + reg.foro*0.30);
+            do
+            {
+                cout << "Digite la nueva nota para el proyecto 2:";
+                cin >> reg.secondProject;
+                if (reg.secondProject < 0 || reg.secondProject > 10)
+                    cout << "Nota inválida." << endl;
+            }
+            while (reg.secondProject < 0 || reg.secondProject > 10);
 
-            if (reg.average >= 70 && reg.average <= 100)
+            do
+            {
+                cout << "Digite la nueva nota para el ensayo:";
+                cin >> reg.ensayo;
+                if (reg.ensayo < 0 || reg.ensayo > 10)
+                    cout << "Nota inválida" << endl;
+            }
+            while (reg.ensayo < 0 || reg.ensayo > 10);
+
+            do
+            {
+                cout << "Digite la nueva nota para el foro:";
+                cin >> reg.foro;
+                if (reg.foro < 0 || reg.foro > 10)
+                    cout << "Nota inválida" << endl;
+            }
+            while (reg.foro < 0 || reg.foro > 10);
+
+            do
+            {
+                cout << "Digite la nueva nota para la defensa:";
+                cin >> reg.defense;
+                if (reg.defense < 0 || reg.defense > 10)
+                    cout << "Nota inválida." << endl;
+            }
+            while (reg.defense < 0 || reg.defense > 10);
+
+
+            reg.average = (reg.firstProject*0.10 + reg.secondProject*0.20 + reg.ensayo*0.30 + reg.foro*0.10 + reg.defense*0.30);
+
+            if (reg.average >= 7.0 && reg.average <= 10)
             {
                 reg.status = "Aprobado";
             }
-            else if (reg.average >= 50 && reg.average < 70)
+            else if (reg.average >= 5.0 && reg.average < 7.0)
             {
                 reg.status = "Reposición";
             }
@@ -856,7 +891,7 @@ void ModifyRecordStudentNotes(vector<Student>&students,vector<Califications>&cal
     }
 }
 
-// Función 5.
+// Case 5.
 
 void DeleteStudentRegistration(vector<Student>& students, vector<Califications>& califications)
 {
@@ -880,16 +915,17 @@ void DeleteStudentRegistration(vector<Student>& students, vector<Califications>&
             {
                 encontrado = true;
 
-                cout << "Estudiante encontrado: " << student.fullName << endl;
+                cout << "Estudiante encontrado:" << student.fullName << endl;
 
                 char confirmacion;
-                cout << "¿Está seguro que desea eliminar este registro? (S/N): ";
+                cout << "¿Está seguro que desea eliminar este registro? (S/N):";
                 cin >> confirmacion;
                 confirmacion = toupper(confirmacion);
 
                 if (confirmacion == 'S')
                 {
                     // Crear nuevos vectores sin el estudiante
+
                     vector<Student> tempStudents;
                     for (const auto& s : students)
                     {
@@ -929,7 +965,7 @@ void DeleteStudentRegistration(vector<Student>& students, vector<Califications>&
             getch();
         }
 
-        cout << "¿Desea eliminar otro estudiante? (S/N): ";
+        cout << "¿Desea eliminar otro estudiante? (S/N):";
         cin >> respuesta;
         respuesta = toupper(respuesta);
     }
@@ -965,7 +1001,7 @@ void saveDeleteStudentRegistration (const vector<Califications>& califications, 
 
 }
 
-// Función 6
+// Case 6
 
 void StudentReport(vector<Student>& students, vector<Califications>& califications)
 {
@@ -985,50 +1021,13 @@ void StudentReport(vector<Student>& students, vector<Califications>& calificatio
             {
                 cout << "| " << setw(11) << left << student.id
                      << "| " << setw(22) << left << student.fullName
-                     << "| " << setw(11) << left << nota.subject
+                     << "| " << setw(8) << left << nota.subject
                      << "| " << setw(8) << fixed << setprecision(2) << nota.average
                      << "| " << setw(10) << left << nota.status << "|" << endl;
             }
         }
     }
 
-    cout << "----------------------------------------------------------" << endl;
+    cout << "----------------------------------------------------------------------------" << endl;
     getch();
 }
-
-/*
-void saveStudentReport(const vector<Student>& students, const vector<Califications>& califications, const string& filename)
-{
-    ofstream outFile(filename);
-
-    if (!outFile.is_open())
-    {
-        cerr << "Error al abrir el archivo para escritura: " << filename << endl;
-        return;
-    }
-
-    outFile << "-------------------------------------------------------------------------------------" << endl;
-    outFile << "|                     REPORTE DE ESTUDIANTES - NOTAS FINALES                        |" << endl;
-    outFile << "-------------------------------------------------------------------------------------" << endl;
-    outFile << "|      ID    |           Nombre     | Materia    | Promedio | Estado     |" << endl;
-    outFile << "-------------------------------------------------------------------------------------" << endl;
-
-    for (const auto& student : students)
-    {
-        for (const auto& nota : califications)
-        {
-            if (nota.id == student.id)
-            {
-                outFile << "| " << setw(11) << left << student.id
-                        << "| " << setw(22) << left << student.fullName
-                        << "| " << setw(11) << left << nota.subject
-                        << "| " << setw(8) << fixed << setprecision(2) << nota.average
-                        << "| " << setw(10) << left << nota.status << "|" << endl;
-            }
-        }
-    }
-
-    outFile << "---------------------------------------------------------" << endl;
-    outFile.close();
-}
-*/
