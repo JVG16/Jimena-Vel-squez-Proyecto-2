@@ -77,9 +77,11 @@ vector<Califications> loadCalificationsFromFile(const string& filename);
 
 int main()
 {
-    setlocale(LC_CTYPE,"Spanish"); //Idioma y carácteres especiales.
     vector <Student>students;
     vector <Califications> califications;
+
+    setlocale(LC_CTYPE,"Spanish"); //Idioma y carácteres especiales.
+
     int option;
     do
     {
@@ -216,7 +218,6 @@ vector<Student> loadStudentsFromFile(const string& filename)
             field++;
         }
 
-        // El último campo (gender) no tiene coma después
         student.gender = stoi(line);
         students.push_back(student);
     }
@@ -706,7 +707,7 @@ void EnterGrades(vector<Student>& students, vector<Califications>& califications
         cout << endl;
 
         califications.push_back(reg);
-    } // FIN del for.
+    }
 }
 
 // Función case 3.
@@ -969,12 +970,12 @@ void saveDeleteStudentRegistration (const vector<Califications>& califications, 
 void StudentReport(vector<Student>& students, vector<Califications>& califications)
 {
 
-    cout << "---------------------------------------------------------" << endl;
-    cout << "|        REPORTE DE ESTUDIANTES - NOTAS FINALES         |" << endl;
-    cout << "---------------------------------------------------------" << endl;
-    cout << "----------------------------------------------------------" << endl;
-    cout << "| ID          | Nombre                | Materia    | Promedio | Estado     |" << endl;
-    cout << "----------------------------------------------------------" << endl;
+    cout << "----------------------------------------------------------------------------" << endl;
+    cout << "|                    REPORTE DE ESTUDIANTES - NOTAS FINALES                |" << endl;
+    cout << "----------------------------------------------------------------------------" << endl;
+    cout << "----------------------------------------------------------------------------" << endl;
+    cout << "|    ID     |     Nombre     |    Materia    |   Promedio   |   Estado     |" << endl;
+    cout << "----------------------------------------------------------------------------" << endl;
 
     for (const auto& student : students)
     {
@@ -995,6 +996,7 @@ void StudentReport(vector<Student>& students, vector<Califications>& calificatio
     getch();
 }
 
+/*
 void saveStudentReport(const vector<Student>& students, const vector<Califications>& califications, const string& filename)
 {
     ofstream outFile(filename);
@@ -1005,11 +1007,11 @@ void saveStudentReport(const vector<Student>& students, const vector<Calificatio
         return;
     }
 
-    outFile << "---------------------------------------------------------" << endl;
-    outFile << "|        REPORTE DE ESTUDIANTES - NOTAS FINALES         |" << endl;
-    outFile << "---------------------------------------------------------" << endl;
-    outFile << "| ID          | Nombre                | Materia    | Promedio | Estado     |" << endl;
-    outFile << "---------------------------------------------------------" << endl;
+    outFile << "-------------------------------------------------------------------------------------" << endl;
+    outFile << "|                     REPORTE DE ESTUDIANTES - NOTAS FINALES                        |" << endl;
+    outFile << "-------------------------------------------------------------------------------------" << endl;
+    outFile << "|      ID    |           Nombre     | Materia    | Promedio | Estado     |" << endl;
+    outFile << "-------------------------------------------------------------------------------------" << endl;
 
     for (const auto& student : students)
     {
@@ -1029,3 +1031,4 @@ void saveStudentReport(const vector<Student>& students, const vector<Calificatio
     outFile << "---------------------------------------------------------" << endl;
     outFile.close();
 }
+*/
