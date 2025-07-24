@@ -29,7 +29,7 @@ Referencias:
 
 using namespace std;
 
-// Función
+
 
 struct Student
 {
