@@ -520,13 +520,13 @@ void RegisterStudent(vector<Student>& students)
     cout << endl;
 
     // Género
-    cout << "Seleccione un género:" << endl;
+    cout << "Seleccione un genero:" << endl;
     cout << "1. Masculino" << endl;
     cout << "2. Femenino" << endl;
     cout << "3. Otro" << endl;
     cin >> add.gender;
 
-    cout << "Género seleccionado: ";
+    cout << "Genero seleccionado: ";
     switch (add.gender)
     {
     case 1:
