@@ -1031,3 +1031,7 @@ void StudentReport(vector<Student>& students, vector<Califications>& calificatio
     cout << "--------------------------------------------------------------------------------------" << endl;
     getch();
 }
+
+//Detalles
+
+
