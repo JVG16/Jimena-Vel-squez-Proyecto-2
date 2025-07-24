@@ -161,7 +161,7 @@ int main()
             cout << endl;
             break;
             default:
-                cout << "Opción no válida" << endl;
+                cout << "Opción no valida" << endl;
             }
 
         }
@@ -406,7 +406,7 @@ void RegisterStudent(vector<Student>& students)
     do
     {
         verification = true;
-        cout << "Ingrese la identificación del estudiante (10 dígitos): ";
+        cout << "Ingrese la identificacion del estudiante (10 digitos): ";
         cin >> add.id;
 
         if (add.id.length() != 10)
@@ -441,7 +441,7 @@ void RegisterStudent(vector<Student>& students)
 
         if (!verification)
         {
-            cout << "Error: debe ingresar 10 números y que no se repitan." << endl;
+            cout << "Error: debe ingresar 10 numeros y que no se repitan." << endl;
         }
 
     }
@@ -483,7 +483,7 @@ void RegisterStudent(vector<Student>& students)
     cout << "Ingrese el lugar de residencia: " << endl;
     cout << "Provincia: ";
     getline(cin, add.province);
-    cout << "Cantón: ";
+    cout << "Canton: ";
     getline(cin, add.canton);
     cout << "Distrito: ";
     getline(cin, add.district);
@@ -503,7 +503,7 @@ void RegisterStudent(vector<Student>& students)
         {
             cin.clear();
             cin.ignore();
-            cout << "Error: debe ingresar un número válido." << endl;
+            cout << "Error: debe ingresar un numero valido." << endl;
             verification = false;
         }
 
@@ -539,7 +539,7 @@ void RegisterStudent(vector<Student>& students)
         cout << "Otro" << endl;
         break;
     default:
-        cout << "Opción inválida" << endl;
+        cout << "Opcion incorrecta" << endl;
         break;
     }
     getch();
@@ -563,7 +563,7 @@ void EnterGrades(vector<Student>& students, vector<Califications>& califications
 
     do
     {
-        cout << "Ingrese la identificación del estudiante (10 dígitos): ";
+        cout << "Ingrese la identificacion del estudiante (10 digitos): ";
         cin >> cedula;
         cin.ignore();
 
@@ -580,7 +580,7 @@ void EnterGrades(vector<Student>& students, vector<Califications>& califications
         if (!encontrado)
         {
             cout << "Estudiante no registrado." << endl;
-            cout << "Desea ingresar otra identificacón? (S/N): ";
+            cout << "Desea ingresar otra identificacion? (S/N): ";
             cin >> respuesta;
             respuesta = toupper(respuesta);
         }
@@ -590,7 +590,7 @@ void EnterGrades(vector<Student>& students, vector<Califications>& califications
 
     if (!encontrado)
     {
-        cout << "Volver al menú principal." << endl;
+        cout << "Volver al menu principal." << endl;
         getch();
         cout << endl;
         return;
@@ -608,11 +608,11 @@ void EnterGrades(vector<Student>& students, vector<Califications>& califications
 
     do
     {
-        cout << "Ingrese la cantidad de tareas a registrar (Máximo 3): ";
+        cout << "Ingrese la cantidad de tareas a registrar (Maximo 3): ";
         cin >> cantSubject;
         if (cantSubject < 1 || cantSubject > 3)
         {
-            cout << "Error: debe ingresar mínimo una o como máximo tres tareas." << endl;
+            cout << "Error: debe ingresar minimo una o como maximo tres tareas." << endl;
         }
     }
     while (cantSubject < 1 || cantSubject > 3);
@@ -631,7 +631,7 @@ void EnterGrades(vector<Student>& students, vector<Califications>& califications
             getline(cin, reg.subject);
             if (reg.subject.empty())
             {
-                cout << "Error: no debe dejar el espacio vacío." << endl;
+                cout << "Error: no debe dejar el espacio vacio." << endl;
             }
         }
         while (reg.subject.empty());
@@ -645,7 +645,7 @@ void EnterGrades(vector<Student>& students, vector<Califications>& califications
             cout << "Proyecto 1:";
             cin >> reg.firstProject;
             if (reg.firstProject < 0 || reg.firstProject > 10)
-                cout << "Nota inválida." << endl;
+                cout << "Nota incorrecta." << endl;
         }
         while (reg.firstProject < 0 || reg.firstProject > 10);
 
@@ -654,7 +654,7 @@ void EnterGrades(vector<Student>& students, vector<Califications>& califications
             cout << "Proyecto 2:";
             cin >> reg.secondProject;
             if (reg.secondProject < 0 || reg.secondProject > 10)
-                cout << "Nota inválida." << endl;
+                cout << "Nota incorrecta." << endl;
         }
         while (reg.secondProject < 0 || reg.secondProject > 10);
 
@@ -663,7 +663,7 @@ void EnterGrades(vector<Student>& students, vector<Califications>& califications
             cout << "Ensayo:";
             cin >> reg.ensayo;
             if (reg.ensayo < 0 || reg.ensayo > 10)
-                cout << "Nota inválida." << endl;
+                cout << "Nota incorrecta." << endl;
         }
         while (reg.ensayo < 0 || reg.ensayo > 10);
 
@@ -672,7 +672,7 @@ void EnterGrades(vector<Student>& students, vector<Califications>& califications
             cout << "Foro:";
             cin >> reg.foro;
             if (reg.foro < 0 || reg.foro > 10)
-                cout << "Nota inválida." << endl;
+                cout << "Nota incorrecta." << endl;
         }
         while (reg.foro < 0 || reg.foro > 10);
 
@@ -681,7 +681,7 @@ void EnterGrades(vector<Student>& students, vector<Califications>& califications
             cout << "Defensa:";
             cin >> reg.defense;
             if (reg.defense < 0 || reg.defense > 10)
-                cout << "Nota inválida." << endl;
+                cout << "Nota incorrecta." << endl;
         }
         while (reg.defense < 0 || reg.defense > 10);
 
@@ -725,7 +725,7 @@ void ModifyStudentData(vector<Student>& students)
     cout << "|           MODIFICAR DATOS DE ESTUDIANTE        |" << endl;
     cout << "--------------------------------------------------" << endl;
 
-    cout << "Ingrese la cédula del estudiante a modificar: ";
+    cout << "Ingrese la cedula del estudiante a modificar: ";
     cin >> cedula;
 
     for (auto& student : students)
@@ -760,7 +760,7 @@ void ModifyStudentData(vector<Student>& students)
 
                 if (cin.fail() || nuevaEdad < 18 || nuevaEdad > 100)
                 {
-                    cout << "Edad inválida. Intente de nuevo." << endl;
+                    cout << "Edad incorrecta. Intente de nuevo." << endl;
                     cin.clear();
                     cin.ignore();
                     validaEdad = false;
@@ -795,7 +795,7 @@ void ModifyRecordStudentNotes(vector<Student>&students,vector<Califications>&cal
     cout << endl;
 
     string cedula, materia;
-    cout << "Digite el número de cédula (10 dígitos): ";
+    cout << "Digite el numero de cedula (10 digitos): ";
     cin >> cedula;
     cin.ignore();
     getch();
@@ -822,7 +822,7 @@ void ModifyRecordStudentNotes(vector<Student>&students,vector<Califications>&cal
                 cout << "Digite la nueva nota para el proyecto 1:";
                 cin >> reg.firstProject;
                 if (reg.firstProject < 0 || reg.firstProject > 10)
-                    cout << "Nota inválida" << endl;
+                    cout << "Nota incorrecta" << endl;
             }
             while (reg.firstProject < 0 || reg.firstProject > 10);
 
@@ -831,7 +831,7 @@ void ModifyRecordStudentNotes(vector<Student>&students,vector<Califications>&cal
                 cout << "Digite la nueva nota para el proyecto 2:";
                 cin >> reg.secondProject;
                 if (reg.secondProject < 0 || reg.secondProject > 10)
-                    cout << "Nota inválida." << endl;
+                    cout << "Nota incorrecta." << endl;
             }
             while (reg.secondProject < 0 || reg.secondProject > 10);
 
@@ -840,7 +840,7 @@ void ModifyRecordStudentNotes(vector<Student>&students,vector<Califications>&cal
                 cout << "Digite la nueva nota para el ensayo:";
                 cin >> reg.ensayo;
                 if (reg.ensayo < 0 || reg.ensayo > 10)
-                    cout << "Nota inválida" << endl;
+                    cout << "Nota incorrecta" << endl;
             }
             while (reg.ensayo < 0 || reg.ensayo > 10);
 
@@ -849,7 +849,7 @@ void ModifyRecordStudentNotes(vector<Student>&students,vector<Califications>&cal
                 cout << "Digite la nueva nota para el foro:";
                 cin >> reg.foro;
                 if (reg.foro < 0 || reg.foro > 10)
-                    cout << "Nota inválida" << endl;
+                    cout << "Nota incorrecta" << endl;
             }
             while (reg.foro < 0 || reg.foro > 10);
 
@@ -858,7 +858,7 @@ void ModifyRecordStudentNotes(vector<Student>&students,vector<Califications>&cal
                 cout << "Digite la nueva nota para la defensa:";
                 cin >> reg.defense;
                 if (reg.defense < 0 || reg.defense > 10)
-                    cout << "Nota inválida." << endl;
+                    cout << "Nota incorrecta." << endl;
             }
             while (reg.defense < 0 || reg.defense > 10);
 
@@ -905,7 +905,7 @@ void DeleteStudentRegistration(vector<Student>& students, vector<Califications>&
         cout << "|               ELIMINAR REGISTRO DE ESTUDIANTE         |" << endl;
         cout << "---------------------------------------------------------" << endl;
 
-        cout << "Ingrese la cédula del estudiante a eliminar: ";
+        cout << "Ingrese la cedula del estudiante a eliminar: ";
         cin >> cedula;
 
         bool encontrado = false;
@@ -919,7 +919,7 @@ void DeleteStudentRegistration(vector<Student>& students, vector<Califications>&
                 cout << "Estudiante encontrado:" << student.fullName << endl;
 
                 char confirmacion;
-                cout << "¿Está seguro que desea eliminar este registro? (S/N):";
+                cout << "¿Esta seguro que desea eliminar este registro? (S/N):";
                 cin >> confirmacion;
                 confirmacion = toupper(confirmacion);
 
@@ -971,7 +971,7 @@ void DeleteStudentRegistration(vector<Student>& students, vector<Califications>&
         respuesta = toupper(respuesta);
     }
 
-    cout << "Regresar al menú principal" << endl;
+    cout << "Regresar al menu principal" << endl;
     getch();
 }
 
