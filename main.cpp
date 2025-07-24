@@ -82,16 +82,14 @@ int main()
     vector <Student>students;
     vector <Califications> califications;
 
-    SetConsoleOutputCR(CP_UTF8);
-    SetConsoleCP(CP_UTF8);
-    setlocale(LC_ALL,"es_ES.UTF-8");
+    setlocale(LC_ALL, "Spanish");
 
     int option;
     do
     {
 
         cout <<  "--------------------------------------------------" << endl;
-        cout <<  "|                  MENÚ PRINCIPAL                |" << endl;
+        cout <<  "|                  MENU PRINCIPAL                |" << endl;
         cout <<  "--------------------------------------------------" << endl;
         getch();
         cout << endl;
@@ -102,7 +100,7 @@ int main()
         cout << "5.Eliminar registro de estudiante." << endl;
         cout << "6.Reporte de estudiantes, promedios y estado." << endl;
         cout << "7.Salir del programa." << endl;
-        cout << "Digite por favor un número del 1-7." << endl;
+        cout << "Digite por favor un numero del 1-7." << endl;
         cin >> option;
         if (cin.fail())
         {
