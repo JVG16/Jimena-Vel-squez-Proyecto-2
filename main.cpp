@@ -26,6 +26,7 @@ Referencias:
 #include <conio.h>
 #include <iomanip>
 #include <locale.h>
+#include <windows.h>
 
 using namespace std;
 
@@ -83,7 +84,7 @@ int main()
 
     SetConsoleOutputCR(CP_UTF8);
     SetConsoleCP(CP_UTF8);
-    setlocale(LC_ALL,"es_ES.UTF-8"); //Idioma y carácteres especiales.
+    setlocale(LC_ALL,"es_ES.UTF-8");
 
     int option;
     do
