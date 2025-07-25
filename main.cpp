@@ -26,7 +26,7 @@ Referencias:
 #include <conio.h>
 #include <iomanip>
 #include <locale.h>
-#include <windows.h>
+
 
 using namespace std;
 
@@ -89,7 +89,7 @@ int main()
     {
 
         cout <<  "--------------------------------------------------" << endl;
-        cout <<  "|                  MENU PRINCIPAL                |" << endl;
+        cout <<  "|                  MENÚ PRINCIPAL                |" << endl;
         cout <<  "--------------------------------------------------" << endl;
         getch();
         cout << endl;
@@ -161,7 +161,7 @@ int main()
             cout << endl;
             break;
             default:
-                cout << "Opción no valida" << endl;
+                cout << "Opcion no valida" << endl;
             }
 
         }
@@ -452,6 +452,7 @@ void RegisterStudent(vector<Student>& students)
     cout << endl;
 
     // Nombre completo
+
     do
     {
         verification = true;
@@ -520,6 +521,7 @@ void RegisterStudent(vector<Student>& students)
     cout << endl;
 
     // Género
+
     cout << "Seleccione un genero:" << endl;
     cout << "1. Masculino" << endl;
     cout << "2. Femenino" << endl;
@@ -573,6 +575,7 @@ void EnterGrades(vector<Student>& students, vector<Califications>& califications
             if (student.id == cedula)
             {
                 encontrado = true;
+                cout << "Estudiante encontrado: " << student.fullName << endl;
                 break;
             }
         }
@@ -610,7 +613,15 @@ void EnterGrades(vector<Student>& students, vector<Califications>& califications
     {
         cout << "Ingrese la cantidad de tareas a registrar (Maximo 3): ";
         cin >> cantSubject;
-        if (cantSubject < 1 || cantSubject > 3)
+
+        if (cin.fail())
+        {
+            cin.clear();
+            while (cin.get() != '\n');
+            cout << "Error: solo debe ingresar numeros." << endl;
+            cantSubject = 0;
+        }
+        else if (cantSubject < 1 || cantSubject > 3)
         {
             cout << "Error: debe ingresar minimo una o como maximo tres tareas." << endl;
         }
@@ -738,14 +749,14 @@ void ModifyStudentData(vector<Student>& students)
 
             // Modificar residencia
 
-            cout << "Ingrese nueva provincia: ";
+            cout << "Ingrese la nueva provincia: ";
             cin.ignore();
             getline(cin, student.province);
 
-            cout << "Ingrese nuevo cantón: ";
+            cout << "Ingrese el nuevo canton: ";
             getline(cin, student.canton);
 
-            cout << "Ingrese nuevo distrito: ";
+            cout << "Ingrese el nuevo distrito: ";
             getline(cin, student.district);
 
             // Modificar edad
@@ -813,8 +824,6 @@ void ModifyRecordStudentNotes(vector<Student>&students,vector<Califications>&cal
         {
             encontrado = true;
 
-            // 4) Pido nuevas notas.
-
             cout << "Ingrese las nuevas base 10:" << endl;
 
             do
@@ -871,15 +880,15 @@ void ModifyRecordStudentNotes(vector<Student>&students,vector<Califications>&cal
             }
             else if (reg.average >= 5.0 && reg.average < 7.0)
             {
-                reg.status = "Reposición";
+                reg.status = "Reposicion";
             }
             else
             {
                 reg.status = "Reprobado";
             }
 
-            cout << "Promedio: " << reg.average
-                 << "   Estado: " << reg.status << "\n";
+            cout << "Promedio: " << reg.average << endl;
+             cout   << " Estado: " << reg.status << endl;
             getch();
             cout << endl;
             break;
@@ -925,7 +934,6 @@ void DeleteStudentRegistration(vector<Student>& students, vector<Califications>&
 
                 if (confirmacion == 'S')
                 {
-                    // Crear nuevos vectores sin el estudiante
 
                     vector<Student> tempStudents;
                     for (const auto& s : students)
@@ -942,8 +950,6 @@ void DeleteStudentRegistration(vector<Student>& students, vector<Califications>&
                             tempCalifications.push_back(c);
                     }
                     califications = tempCalifications;
-
-                    // Guardar los nuevos datos en los archivos
 
                     saveStudentsToFile(students, "ESTUDIANTES.txt");
                     SaveRegistrationNotesToFile(califications, "CALIFICACIONES.txt");
@@ -1031,11 +1037,5 @@ void StudentReport(vector<Student>& students, vector<Califications>& calificatio
 
     cout << "--------------------------------------------------------------------------------------" << endl;
     getch();
+    cout << endl;
 }
-
-//Detalles
-
-
-// cORREGIR LA TILDE Y Ñ
-
-
